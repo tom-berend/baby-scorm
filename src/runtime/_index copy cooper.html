@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="../favicon.ico" />
+</head>
+
+<body>
+    <!-- <script src="env.js"></script> -->
+    <script src="https://unpkg.com/url-search-params@1.1.0/build/url-search-params.js"></script>
+    <script src="https://unpkg.com/clipboard-polyfill@2.4.7/build/clipboard-polyfill.js"></script>
+    <script src="https://unpkg.com/monaco-editor@0.17.1/min/vs/loader.js"></script>
+    <script>
+
+        // URLSearchParams provides browser URL utility functions (warning: add a polyfill)
+        const params = new URLSearchParams(location.search);
+
+        // { availableTSVersions: { … },
+        // extraLibs: Array(0),
+        // baseUrl: "http://localhost/3d/dist/",
+        // getLatestVersion: ƒ, useTSVersion: ƒ, … }
+        // TSVersion: "3.3.3"
+        // availableTSVersions: { 3.3.3: { … } }
+        // baseUrl: "http://localhost/3d/dist/"
+        // extraLibs: []
+        // getAdditionalPaths: ƒ getAdditionalPaths()
+        // getLatestVersion: ƒ getLatestVersion()
+        // getMonacoVersion: ƒ getMonacoVersion()
+        // useTSVersion: ƒ useTSVersion(version)
+
+
+        // create a new object called 'window.CONFIG'
+        window.CONFIG = {
+            availableTSVersions: Object.assign(
+                {},
+                {},
+                {
+                    "3.3.3": { monaco: "0.16.1" },
+                },
+                {},
+            ),
+
+            extraLibs: params.has("lib") ? params.get("lib").split(",") : [],
+
+            baseUrl: location.protocol + "//" + location.host + location.pathname,
+
+
+            useTSVersion(version) {
+                if (this.availableTSVersions[version]) {
+                    this.TSVersion = version;
+                } else {
+                    alert(
+                        `Version '${version}' is not available, using ${this.TSVersion}`,
+                    );
+                }
+            },
+
+            getMonacoVersion() {
+                return "0.17.1"
+
+            },
+
+            getAdditionalPaths() {
+                const lib = this.availableTSVersions[this.TSVersion].lib;
+
+                return lib
+                    ? {
+                        "vs/language/typescript": `${this.baseUrl}${lib}`,
+                    }
+                    : {};
+            },
+        };
+
+
+        window.CONFIG.TSVersion = window.CONFIG.getLatestVersion();
+        console.log("window.CONFIG", window.CONFIG);
+
+        if (params.has("ts")) {
+            window.CONFIG.useTSVersion(params.get("ts"));
+        }
+
+        // here's the config for REQUIRE
+        require.config({
+            paths: Object.assign(
+                {
+                    vs: `https://unpkg.com/monaco-editor@${window.CONFIG.getMonacoVersion()}/min/vs`,
+                },
+                window.CONFIG.getAdditionalPaths(),
+            ),
+            ignoreDuplicateModules: ["vs/editor/editor.main"],
+        });
+    </script>
+    <div id="app">
+        <main id="playground">
+            <section id="input"></section>
+            <section id="output"></section>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/lz-string@1.4.4/libs/lz-string.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        require(["vs/editor/editor.main"], main);
+    </script>
+</body>
+
+</html>

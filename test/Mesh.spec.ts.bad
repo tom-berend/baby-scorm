@@ -1,0 +1,48 @@
+
+import { Material } from "../source/graphics/Material";
+import { Triangle2D } from "../source/graphics/geometries/Triangle2D";
+import { Mesh } from "../source/graphics/Mesh";
+import { Scene } from "../source/graphics/Scene";
+import { V3 } from "../source/math/v3";
+import { MockRenderer } from "../source/graphics/renderer/MockRenderer";
+
+
+beforeEach(() => {
+    // console.log('before')
+});
+
+afterEach(() => {
+    // console.log('after');
+});
+
+
+// first, check if we created the triangle as we expected
+
+test("create Triangle2D", () => {
+
+    const scene = new Scene();  // empty, gets mockRenderer
+    const geometry = new Triangle2D(100, 100, "cyan");
+    const material = new Material("'cyan");
+    let mesh = scene.addMesh(geometry, material);
+
+    console.log(mesh);
+
+
+    //   const t2D = new Triangle2D(1, 1);  // a very tiny triangle
+    //   expect(t2D.triangles.length).toBe(1);
+    //   const tri = t2D.triangles[0];
+
+    //   // console.log(tri)
+    //   expect(tri.a.xyz).toStrictEqual([0, 0, 0]);
+    //   expect(tri.b.xyz).toStrictEqual([1, 0, 0]);
+    //   expect(tri.c.xyz).toStrictEqual([0, 1, 0]);
+
+    //   // for [[0,0],[1,0],[0,1]], centroid is [.3333,.3333] // wolframalpha
+    //   // console.log("centroid", t2D.triangles[0].centroid);
+    //   expect(t2D.triangles[0].centroid.x).toBeCloseTo(0.3333);
+    //   expect(t2D.triangles[0].centroid.y).toBeCloseTo(0.3333);
+
+    //   // console.log("normal", t2D.triangles[0].normal);
+    //   expect(t2D.triangles[0].normal.xyz).toStrictEqual([0, 0, 1]);
+});
+

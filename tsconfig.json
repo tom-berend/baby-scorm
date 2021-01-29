@@ -1,11 +1,27 @@
 {
-  "compilerOptions": {
-    "outDir": "lib",
-    "target": "es5",
-    "module": "commonjs",
-    "declaration": true
-  },
-  "include": [
-    "src/*.ts"
-  ]
+    "compilerOptions": {
+        "sourceMap": true,
+        "module": "esNext",
+        "moduleResolution": "node",
+        "target": "esNext",
+        "outDir": "dist",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esNext",
+        ],
+        "types": [
+            "jest"
+        ],
+        "typeRoots": [
+            "node_modules/@types",
+            "node_modules/@types/node",
+            "./@types",
+        ],
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+    },
+    "include": [
+        "src/runtime/**/*"
+    ],
 }

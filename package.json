@@ -1,17 +1,43 @@
 {
-  "name": "@gamestdio/scorm",
-  "version": "0.1.3",
-  "description": "SCORM 1.2/2004 Wrapper for JavaScript/TypeScript",
-  "main": "lib/index.js",
-  "scripts": {
-    "docs": "typedoc --excludePrivate --excludeNotExported --out docs --mode file --entryPoint index",
-    "prepublish": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Endel Dreyer",
-  "license": "MIT",
-  "devDependencies": {
-    "typedoc": "^0.8.0",
-    "typescript": "^2.4.2"
-  }
+    "name": "3d-programming-math-course",
+    "description": "Development on a high school course for math and programming",
+    "scripts": {
+        "watch": "webpack-dev-server",
+        "build": "webpack && npm run copy",
+        "create": "ts-node src/createSCORM/SCORM.ts --skip-project",
+        "copy": "cp src/runtime/_index.* dist* && mv dist/_index.html dist/index.html  && cp src/mod_gamecode/3djoomla.php dist && npm run css",
+        "test": "jest",
+        "css": "less src/runtime/3d.less > dist/3d.css",
+        "lint": "tslint --project '.' --fix",
+        "docs": "typedoc --out ./dist/docs ./src/runtime/*.ts"
+    },
+    "dependencies": {
+        "@types/jquery": "^3.3.31",
+        "@types/node": "^14.14.22",
+        "less": "^4.1.0",
+        "node-fetch": "^2.6.1",
+        "oidc-client": "^1.9.1",
+        "path": "^0.12.7",
+        "ts-node": "^9.1.1",
+        "typedoc": "^0.20.19",
+        "webpack": "^4.46.0",
+        "webpack-cli": "^3.3.12",
+        "webpack-dev-server": "^3.11.2"
+    },
+    "devDependencies": {
+        "@types/jest": "^24.9.1",
+        "jest": "^24.9.0",
+        "jest-preset-typescript": "^1.2.0",
+        "style-loader": "^0.23.1",
+        "ts-jest": "^24.3.0",
+        "ts-loader": "^6.2.2",
+        "tslint": "^5.11.0",
+        "typescript": "^3.9.7"
+    },
+    "comments": {
+        "02": "composer require restcord/restcord",
+        "03": "x",
+        "04": "x",
+        "05": "x"
+    }
 }

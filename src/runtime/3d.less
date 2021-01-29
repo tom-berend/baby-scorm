@@ -1,0 +1,433 @@
+/*  most general rules */
+html {
+    max-width: 1366px;
+    /* design for minimum 1366 x 768 display */
+}
+
+body {
+    padding: 0px;
+    padding-left: 35px;
+}
+
+p {
+    position: relative;
+    font-family: Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook L', serif;
+    font-size: 19px;
+    line-height: 1.4;
+    color: black;
+    margin-left: 35px;
+    margin-right: 20px;
+    padding-bottom: 10px;
+    /* not margin, or there will be a gap in the background colour */
+}
+
+
+img.pimage {
+    /* an image floating right of a speaker paragraph */
+    float: right;
+    height: 250px;
+}
+
+
+
+div.background {
+    background-color: bisque;
+}
+
+div.realworld {
+    background-color: lightcyan;
+}
+
+div.mindset {
+    background-color: lavender;
+}
+
+img.background {
+    /* an anime image floating left of a speaker paragraph */
+    float: left;
+    height: 120px;
+    padding-top: 0px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+
+
+.drill {
+    /* a canvas for drills */
+    height: 500;
+    width: 1200;
+
+    margin-left: auto;
+    /* this centers the canvas */
+    margin-right: auto;
+    display: block;
+    padding: 0px;
+    /* so don't have to calculate in canvas.ts */
+
+    border-style: solid;
+    border-color: darkred;
+    border-width: 2px;
+}
+
+h1 {
+    /* title */
+    margin: 10px;
+}
+
+h2 {
+    /* subtitle */
+    margin-top: 40px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+
+/* custom tags */
+t3d_code {
+    background: lightgrey;
+    color: black;
+    font-family: monospace;
+    font-size: smaller;
+    padding: 3px 5px;
+    word-wrap: break-word;
+}
+
+t3d_bold {
+    font-weight: bold;
+    font-size: larger;
+}
+
+em {
+    font-weight: bold;
+    font-style: oblique;
+}
+
+key {
+    font-family: 'Roboto Mono', monospace;
+    font-size: small;
+    border-radius: 2px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    padding-left: 2px;
+    padding-right: 2px
+}
+
+
+t3d_codeblock {
+    /* looks like code but can't be run */
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #f36d33;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 5px 30px;
+    display: block;
+    word-wrap: break-word;
+}
+
+button {
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 2px;
+    display: inline-block;
+}
+
+
+button.greenbutton {
+    color: #fff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: green;
+    border: 1px solid #bbb;
+    border-color: #51a351 #51a351 #387038;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.greenbutton:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltiptext {
+    visibility: hidden;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    transition: .25s all ease;
+    transition-delay: 1s;
+
+}
+
+
+.tooltiptext::after {
+    top: 100%;
+    bottom: auto;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltiptext {
+    visibility: hidden;
+    opacity: 1;
+}
+
+
+/***** responsive navbar *******/
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar {
+    background-color: #F9CF00;
+    padding: 1px;
+    text-align: center;
+    padding: 10px;
+}
+
+.main-nav {
+    list-style-type: none;
+}
+
+.nav-links,
+.logo {
+    text-decoration: none;
+    color: darkblue;
+}
+
+
+@media screen and (min-width: 768px) {
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0;
+        height: 70px;
+        align-items: center;
+    }
+
+    .main-nav {
+        display: flex;
+        margin-right: 30px;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .main-nav li {
+        margin: 0;
+    }
+
+    .nav-links {
+        margin-left: 40px;
+    }
+
+    .logo {
+        margin-top: 0;
+    }
+
+    .navbar-toggle {
+        display: none;
+    }
+
+    .logo:hover,
+    .nav-links:hover {
+        color: rgba(255, 255, 255, 1);
+    }
+}
+
+/***** navbar *******/
+
+
+
+
+
+.MsgBoard {
+    display: inline-block;
+    border: 1px solid Maroon;
+    border-radius: 6px;
+    background-color: Orange;
+    box-shadow: 3px 3px #ccc;
+    font-size: 18px;
+    color: Brown;
+    padding: 20px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
+.MsgContent {
+    color: Maroon;
+    font-weight: bold;
+}
+
+
+
+/******  monaco-vt52 pair  ******/
+.SectionCode {
+    display: inline-block;
+    /* starts new line */
+}
+
+.VT52 {
+    float: right;
+    border: 1px solid Maroon;
+    border-radius: 6px;
+    background-color: Orange;
+    box-shadow: 3px 3px #ccc;
+    font-size: 18px;
+    color: Brown;
+    padding: 20px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
+.halfMonaco {
+    position: relative;
+    display: inline-block;
+    /* force to next line */
+    border: 1px solid Maroon;
+    margin: 1px;
+    width: 802px;
+    border-radius: 2px;
+    /* half-editors are always exacty 800, plus margin and radius */
+}
+
+
+/******  speaking paragraph  ******/
+
+div.prespeaker {
+    clear: left;
+    /* force to new line if we are floating left of an image */
+}
+
+img.speaker {
+    float: left;
+    height: 30px;
+    width: 20px;
+}
+
+
+
+/********************* old website ***********************/
+.modbar {
+    background-color: #F9CF00;
+    padding: 1px;
+    text-align: center;
+    padding: 10px;
+}
+
+.modelement {
+    padding: 0px 5px 0px 5px;
+}
+
+.btn {
+    font-size: 12px;
+    padding: 1px 3px 0px 3px;
+}
+
+.badge {
+    font-size: 7px;
+    padding: 1px 3px 0px 3px;
+}
+
+.td {
+    padding-right: 5px;
+}
+
+.split-screen {
+    height: 250px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.gutter {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.gutter.gutter-horizontal {
+    background-image: url('{$GLOBALS['GameCode ']}html/images/vertical.png');
+    cursor: ew-resize;
+}
+
+.gutter.gutter-vertical {
+    background-image: url('html/images/horizontal.png');
+    cursor: ns-resize;
+}
+
+.split.split-horizontal,
+.gutter.gutter-horizontal {
+    height: 100%;
+    float: left;
+}
+
+.CodeMirror {
+    border: 1px solid black;
+    border: 1px solid #dddddd;
+    margin-top: 15px;
+    height: auto;
+    font-size: smaller;
+}
+
+.CodeMirror pre {
+    padding-left: 7px;
+    line-height: 1.25;
+}
+
+.CodeMirror-scroll {
+    max-height: 200px;
+}
+
+.overlay {
+    position: absolute;
+    z-index: 1000;
+}
+
+div.lesson {
+    margin-top: 205px;
+    overflow: auto;
+    z-index: 600;
+}
+
+.CodeMirror-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    z-index: 9;
+}
+
+body {
+    font-family: Georgia, 'Nimbus Roman No9 L', 'Century Schoolbook L', serif;
+    font-size: 19px;
+    line-height: 1.4;
+    color: black;
+}
+
+p {
+    position: relative;
+    top: 10px;
+}
+
+h2 {
+    margin-top: 50px;
+}

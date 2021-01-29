@@ -1,0 +1,201 @@
+
+
+2019-12-09 18:29:05
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2019-12-09 18:29:05
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2019-12-09 18:32:28
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2019-12-09 18:32:28
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2019-12-21 17:34:48
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2019-12-21 17:34:48
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2019-12-21 17:38:09
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2019-12-21 17:38:09
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2019-12-21 17:44:32
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2019-12-21 17:44:32
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2019-12-21 17:45:22
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2019-12-21 17:45:22
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2020-09-07 15:43:42
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2020-09-07 15:43:42
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2020-09-25 12:25:57
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2020-09-25 12:25:57
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2020-12-07 01:18:58
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2020-12-07 01:18:58
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2020-12-07 01:41:03
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2020-12-07 01:41:03
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-14 19:33:13
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-14 19:33:13
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:21:49
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:21:49
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:28:42
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:28:42
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:47:28
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:47:28
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:51:32
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:51:32
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:52:42
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:52:42
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:54:27
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:54:27
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:54:41
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:54:41
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:55:40
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:55:40
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:55:43
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:55:43
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:56:40
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:56:40
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:57:41
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:57:41
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 12:58:09
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 12:58:09
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-18 13:00:31
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-18 13:00:31
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}
+
+2021-01-28 02:42:48
+IN:  "$_REQUEST:[]"
+OUT: "application\/json"
+
+2021-01-28 02:42:48
+IN:  {"cmd":"test","index":42}
+OUT: a:2:{s:3:"cmd";s:4:"test";s:5:"index";i:42;}

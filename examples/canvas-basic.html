@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <meta charset="utf-8" />
+  <title>TRI | Basic Example</title>
+  <meta name="author" content="Matthew Wagerfield" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+  <style>
+    body {
+      background: #111118;
+      margin: 0;
+    }
+
+    .container {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+</head>
+
+<body style="background-color:white;">
+
+  <div id="drawing"></div>
+  <canvas id="myCanvas"></canvas>
+
+  <script src="../build/T.js"></script>
+  <script>
+
+    //    var canvas = document.getElementById('canvas');
+
+    const scene = new T.Scene("myCanvas"); 
+
+    var light = new T.Light('#111122', '#FF0022');
+    light.setPosition(new T.V3([300 * Math.sin(now * 0.001), 200 * Math.cos(now * 0.0005), 60]));
+    console.log('light', light)
+
+    var geometry = new T.Triangle2D(100, 100);
+    var material = new T.Material('cyan', '#FFFFFF');
+    //var mesh = new T.Mesh(geometry, material);
+    let mesh = scene.addMesh(geometry,material)
+
+    // faster way
+    let mesh2 = scene.addMesh(new T.Triangle2D(50,200), new T.Material("orange"))
+
+    var now = start = Date.now();
+
+    function initialise() {
+      //scene.add(mesh);
+      //scene.add(mesh2);
+      scene.addLight(light);
+      // window.addEventListener('resize', resize);
+    }
+
+    function resize() {
+      //      renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+    }
+
+    function animate() {
+      now = Date.now() - start;
+      //      light.setPosition(new V3[300*Math.sin(now*0.001), 200*Math.cos(now*0.0005), 60]);
+
+      scene.renderer.render(scene);
+      //      requestAnimationFrame(animate);
+    }
+
+console.log('initialize')
+    initialise();
+    resize();
+    console.log('animate')
+    animate();
+
+  </script>
+
+</body>
+
+</html>
