@@ -34,9 +34,9 @@ $slackRedirect = "https://communityreading.org/3d/server/slack.php";
 
 /* discord */
 $discordGuildID = 647764633012273153;    // integer !!
-$discordSecret = "BCWyOR04Bk065uZE4rXHo6Lq34xTExM8";
+$discordSecret = "???kIUQIYZqPKKHZuBE";
 
-$discordBot = "NjQ3NzY0NjMzMDEyMjczMTUz.XdqSJg.iKKEZj6uHSooSi4CK20mqo4_LzY";
+$discordBot = "???CK20mqo4_LzY";
 $discordBotPermissions = 809502723;
 $discordBotName = "MathCourse#4998";
 

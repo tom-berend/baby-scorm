@@ -1,4 +1,7 @@
 node_modules
 docs
 dist
+SCORM
 vendor
+src/server/config.php
+src/server/config.copy.php

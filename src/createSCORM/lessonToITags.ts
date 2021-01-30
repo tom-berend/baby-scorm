@@ -1,7 +1,7 @@
-import { ITag } from './T'
+import { ITag } from '../runtime/T'
 
 const validTags = ['p', 'subtitle', 'br', 'code',
-    'title', 'module', 'lesson', 'shortdesc', 'break', 'drill']
+    'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'cm']
 
 
 export class LessonToHTML {
@@ -14,7 +14,7 @@ export class LessonToHTML {
 
     private hasTitle = false
 
-    constructor() {
+    LessonToITags() {
 
         this.unitTests()  // we ALWAYS run the unit tests
     }
@@ -291,9 +291,12 @@ export class LessonToHTML {
             switch (aTags[i].tag) {
 
                 case 'br':
+                case 'cm':
                 case 'shortdesc':
                 case 'break':
                 case 'drill':
+                case 'title':
+                case 'key':    
                     break
 
                 case 'module':
@@ -302,9 +305,9 @@ export class LessonToHTML {
                     break
 
                 case 'lesson':
-                        aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue)
-                        this.hasTitle = true
-                        break
+                    aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue)
+                    this.hasTitle = true
+                    break
 
                 case 'subtitle':
                     aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue)

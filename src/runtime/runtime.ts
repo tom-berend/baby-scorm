@@ -1,5 +1,5 @@
 import { ITag } from './T'
-import { LessonToHTML } from './lessonToHTML'
+import { LessonToHTML } from '../createSCORM/lessonToITags'
 import { LessonPage } from './lessonpage'
 import { Scorm } from './SCORM_LOCAL'
 import { loadVoicesWhenAvailable } from './onClickSay'
@@ -154,7 +154,7 @@ export default function loadLesson(lessonURI: string, assetsURI: string, lesson:
             // console.log('TEXT', data)
 
             // now convert to npms (eventually just load ITags)
-            const L2H = new LessonToHTML()
+            const L2H = new LessonToITags()
             const iTags: ITag[] = L2H.parse(assetsURI, data)
 
 
