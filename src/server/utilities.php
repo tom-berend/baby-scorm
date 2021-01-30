@@ -98,7 +98,7 @@ function assertTrue($assertion, $comment="Assert Failed")
     }
 
     $GLOBALS['assertions'] += 1;
-    if (!is_bool($assertion)) {
+    if (!is_bool($assertion)) { 
         // strip the comment of any HTML tags
         $GLOBALS['errorString'] .= "<br>Assertion Not TRUE or FALSE: )  <b>$comment</b>";
         $GLOBALS['errorString'] .=  " expected BOOL instead got type ". gettype($assertion) ." value:". serialize($assertion);

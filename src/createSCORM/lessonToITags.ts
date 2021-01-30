@@ -576,8 +576,7 @@ export class LessonToHTML {
         rslt = this.parse(assets, test)
         console.log(rslt)
 
-        throw ('stop')
-    }
+   }
 
 }
 
