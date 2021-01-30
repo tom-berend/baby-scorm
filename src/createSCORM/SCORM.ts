@@ -32,7 +32,11 @@ class CreateSCORM {
     SCORMDirectory: string
     SCOLessons: string[] = []
 
+    lessonToItags: LessonToITags
+
     constructor() {
+
+        this.lessonToItags = new LessonToITags()   // only need to instance it once
 
         this.SCORMDirectory = path.join(__dirname, '../../SCORM')
 
@@ -153,7 +157,7 @@ class CreateSCORM {
                 //  fs.copyFileSync(src, dest)
 
                 let lessonTxt = fs.readFileSync(src,'utf8')//, (err) => {if (err) console.error(colors.bold.bgRed.yellow(`Error reading lesson file  ${err}`))})
-                let lessonTags: ITag[]  = new LessonToITags().parse(path.join(this.SCORMDirectory,'..\assets'),lessonTxt)
+                let lessonTags: ITag[]  = this.lessonToItags.parse(path.join(this.SCORMDirectory,'..\assets'),lessonTxt)
                 fs.writeFile(dest, JSON.stringify(lessonTags), (error) => { if (error) console.error(colors.bold.bgRed.yellow(`error writing ${this.courseInfo} '${error}'`)) });
 
             })

@@ -221,7 +221,7 @@ class SectionMystery extends LessonSections {   // we don't know what this secti
         super(section)
 
         this.attach('lesson', '', '', '', [
-            this.node('P', `< span style = "background-color:pink" > Unknown tag - ${section.tag} with rawvalue ${section.rawvalue} </span>`),
+            this.node('P', `< span style = "background-color:pink" > Unknown tag - ${section.tag} with textrawvalue ${section.rawvalue} </span>`),
         ])
     }
 }
@@ -237,7 +237,7 @@ class SectionCode extends LessonSections {
 
         // if option 'noedit', then just display code
         if (section.params.get('noedit')) {
-            let text = section.rawvalue.replace(/(?:\r\n|\r|\n)/g, '<br>')
+            let text = section.textvalue.replace(/(?:\r\n|\r|\n)/g, '<br>')
             if (text.startsWith('<br>')) { text = text.slice(4) }  // strip leading <br>
 
             this.attach(this.sectionName, '', this.divName('nocode', this.tkt), '', [
@@ -246,7 +246,7 @@ class SectionCode extends LessonSections {
         } else {
 
             // create a monaco editor on the left side
-            let initialCode = section.rawvalue
+            let initialCode = section.textvalue
             let tag = document.getElementById(this.divName('left', this.tkt))
             let nLines = parseFloat(section.params.get('lines'))  // we know it's a string, but typescript doesn't
 

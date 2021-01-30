@@ -1,7 +1,8 @@
+import path from 'path'
 import { ITag } from '../runtime/T'
 
 const validTags = ['p', 'subtitle', 'br', 'code',
-    'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'cm']
+    'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'cm', 'key']
 
 
 export class LessonToHTML {
@@ -10,13 +11,14 @@ export class LessonToHTML {
 
     private inASpeechBlock = false
     private utteranceTag: ITag  // accumulate speech over multiple <p> into FIRST tag
-    private utterance: string   //
+    private utterance: string = '' //
 
     private hasTitle = false
 
-    LessonToITags() {
+    constructor() {
 
         this.unitTests()  // we ALWAYS run the unit tests
+
     }
 
     // convert a lesson into ready-to-insert HTML
@@ -60,7 +62,7 @@ export class LessonToHTML {
 
         //////////// show aTags for debugging
         // for (let i = 0; i < 5; i++) {
-        //     console.log('aTag', i, aTag)
+        //     console.log('aTag', i, aTags)
         // }
 
 
@@ -120,7 +122,7 @@ export class LessonToHTML {
 
         return (sTest)
     }
-    eraseMarkdown(sTest) {   // identical to processMarkdown, but erases the marks without replacement
+    eraseMarkdown(sTest: string): string {   // identical to processMarkdown, but erases the marks without replacement
         // first alternate voice / speech
         sTest = this.processAlternateMarkdown(sTest, false)  // keep second set
         // then the italics (ignore \_)
@@ -233,7 +235,7 @@ export class LessonToHTML {
 
                         let rule = element.split('=')
                         if (rule.length === 1) { // no colon
-                            bParams.set(element, 'true')
+                            bParams.set(element, '')
                         } else {
                             bParams.set(rule[0], rule[1])
                         }
@@ -296,7 +298,7 @@ export class LessonToHTML {
                 case 'break':
                 case 'drill':
                 case 'title':
-                case 'key':    
+                case 'key':
                     break
 
                 case 'module':
@@ -322,13 +324,20 @@ export class LessonToHTML {
                     break
 
                 case 'p':
+                    // processMarkdown(s)  adds <em> and <b>, and some standard voice substitutions
+                    // eraseMarkdown(s)    gets rid of markdowns, leaving text intact
+                    // processAlternateMarkdown(s, isKeepFirst)  looks for [a|b] returns first or second
+
+
                     aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue) // nice HTML
-                    this.utterance += ' ' + this.eraseMarkdown(aTags[i].rawvalue) // clean speech
-                    // only single-quotes allowed in utter
-                    this.utterance = this.utterance.replace(/"/g, '\\"') // escape out double-quotes
+                    this.utterance += ' '+ this.eraseMarkdown(aTags[i].rawvalue) // clean speech
+                    if (this.utterance.length > 0) {
+                        // only single-quotes allowed in utter
+                        this.utterance = this.utterance.replace(/"/g, '\\"') // escape out double-quotes
+
+                    }
 
                     // maybe an image to the right
-
                     if (o.params.get('img')) {
                         aTags[i].url = this.assetsURI + 'images/' + o.params.get('img')  // TODO - check that this image exists
                         break
@@ -356,6 +365,7 @@ export class LessonToHTML {
 
             }
 
+            // all done.  just close off
             if (this.inASpeechBlock) { // maybe need to close off our last speech block
                 this.utteranceTag.speechvalue = this.utterance
             }
@@ -371,7 +381,7 @@ export class LessonToHTML {
         // verify that tag is 'legal'
         let LCtag = newtag.toLowerCase()
         let x = validTags.find((element) => element === LCtag)
-        console.assert(x === LCtag, `LessonToHTML.iTagFactory not legal tag: `, newtag)
+        console.assert(x === LCtag, `LessonToHTML.iTagFactory not legal tag: `, 'illegal tag ' + newtag)
 
 
         let ret: ITag = {
@@ -411,8 +421,8 @@ export class LessonToHTML {
         for (let oT of rTests) {
             // console.log('test: ', oT)
             // console.log('result: ', oT.test.exec(oT.target))
-            console.assert(oT.test.exec(oT.target)[0] === oT.result, oT.test + ' ' +
-                oT.target + ' ' + oT.result + ' ' + oT.test.exec(oT.target))
+            console.assert(oT.test.exec(oT.target)[0] === oT.result,
+                oT.test + ' ' + oT.target + ' ' + oT.result + ' ' + oT.test.exec(oT.target))
         }
 
         // inputToParagraphs()
@@ -429,13 +439,14 @@ export class LessonToHTML {
         console.assert(aTags[0].tag === 'p', 'Expected tag to be "<p>" and got "' + aTags[0].tag + '"')
         console.assert(aTags[0].rawvalue === 'testParagraph\n and more', JSON.stringify(aTags[0].textvalue))
 
+
         aLines = ['<p(p1)>testParagraph']
         aTags = this.inputToParagraphs(aLines)
         console.assert(aTags.length === 1, 'Expected array of one object')
         console.assert(aTags[0].tag === 'p', 'Expected tag to be "<p>" and got "' + aTags[0].tag + '"')
         console.assert(typeof aTags[0].params === 'object', 'Expected the params to be a Map object')
-        console.assert(aTags[0].params.get('p1') === ''), 'Expected params to be "p1=" and got ' + JSON.stringify(aTags[0].params)
-        console.assert(aTags[0].rawvalue === 'testParagraph', JSON.stringify(aTags[0].textvalue))
+        console.assert(aTags[0].params.get('p1') === '', 'Expected params to be "p1=" and got ' + JSON.stringify(aTags[0].params))
+        console.assert(aTags[0].rawvalue === 'testParagraph', 'test paragraph fails ' + JSON.stringify(aTags[0].textvalue))
 
         aLines = ['<p(p1=4)>testParagraph']
         aTags = this.inputToParagraphs(aLines)
@@ -443,7 +454,7 @@ export class LessonToHTML {
         console.assert(aTags[0].tag === 'p', 'Expected tag to be "<p>" and got "' + aTags[0].tag + '"')
         console.assert(typeof aTags[0].params === 'object', 'Expected the params to be a Map object')
         console.assert(aTags[0].params.get('p1') === '4', 'Expected params to be ["p1=4"] and got ' + JSON.stringify(aTags[0].params.get('p1')))
-        console.assert(aTags[0].rawvalue === 'testParagraph', JSON.stringify(aTags[0].textvalue))
+        console.assert(aTags[0].rawvalue === 'testParagraph', 'test paragraph fails ' +JSON.stringify(aTags[0].textvalue))
 
         aLines = ['<p(p1=4,p2=five)>testParagraph']
         aTags = this.inputToParagraphs(aLines)
@@ -459,7 +470,7 @@ export class LessonToHTML {
         console.assert(aTags.length === 1, 'Expected array of one object')
         console.assert(aTags[0].tag === 'p', 'Expected tag to be "<p>" and got "' + aTags[0].tag + '"')
         console.assert(typeof aTags[0].params === 'object', 'Expected the params to be a Map object')
-        console.assert(aTags[0].params.get('p1') === ''), 'Expected params to be ["p1"] and got ' + JSON.stringify(aTags[0].params)
+        console.assert(aTags[0].params.get('p1') === '', 'Expected params to be ["p1"] and got ' + JSON.stringify(aTags[0].params))
         console.assert(aTags[0].rawvalue === 'testParagraph\n and more', JSON.stringify(aTags[0].textvalue))
 
 
@@ -486,6 +497,7 @@ export class LessonToHTML {
         let rTests3 = [
             { test: 'this _value_ is', result: 'this value is' },
             { test: 'this _value_ is _great_', result: 'this value is great' },
+            { test: '[tomato|tomawto]', result: 'tomawto' },
         ]
 
         rTests3.forEach((i) => {
@@ -509,15 +521,64 @@ export class LessonToHTML {
         }
 
 
-        // TODO put testing conditions on this
-        let test = `<title>Hello World\n
-<p>I'm alive\n
-`
-        let result = this.parse('', test)
-        // console.log(result)
-        // console.log('Ending unit tests...')
+        //         // TODO put testing conditions on this
+        //         let test = `<title>Hello World\n
+        // <p>I'm alive\n
 
+        // let result = this.parse('', test)
+        // // console.log(result)
+
+
+        this.unittests2()
     }
+
+    unittests2() {
+
+        let test: string
+        let rslt: ITag[]
+
+        let assets = path.join(__dirname, '../assets')
+        const validTags = [
+            'p',
+            'subtitle',
+            'br',
+            'code',
+            'title',
+            'module',
+            'lesson',
+            'shortdesc',
+            'break',
+            'drill',
+            'cm',
+            'key']
+
+        // <module>
+        // test = '<module> 01-Beginner Javascript'
+        // rslt = this.parse(assets, test)
+        // console.log(rslt)
+
+        // // <p>
+        // test = '<p(img=radius.jpg)>The image on the right'
+        // rslt = this.parse(assets, test)
+        // console.log(rslt)
+
+        // test = '<p> [<a href="https://www.google.com/chrome">https://www.google.com/chrome</a>|w w w dot google dot com]'
+        // rslt = this.parse(assets, test)
+        // console.log(rslt)
+
+        test = `<p> [tomato|tomawto]
+<p> [first|second]`
+        rslt = this.parse(assets, test)
+        console.log(rslt)
+
+
+        test = '<p(p1)>testParagraph'
+        rslt = this.parse(assets, test)
+        console.log(rslt)
+
+        throw ('stop')
+    }
+
 }
 
 
