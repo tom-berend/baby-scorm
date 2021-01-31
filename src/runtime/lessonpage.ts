@@ -7,6 +7,8 @@ import { drillByName } from './canvas'
 import { onClickSay } from './onClickSay'
 import { EditorInstance } from './editorInstance'
 import { LessonFactory, drillMathDispatch } from './drillMath'
+import *  as Prism from 'prismjs'
+import { config } from './T'
 
 export class LessonPage {
     constructor(sections: ITag[]) {
@@ -153,39 +155,54 @@ class SectionModule extends LessonSections {     // paints the menubar at the to
         // temporary until we link to Joomla
         user3d = 'http://localhost/3d'
 
-        let HTML = `<table class="modbar" style = "padding:10px;" rules = "cols" >
-            <tr><td></td><td> <h5>Current Module</h5> </td><td> <h5> Projects </h5> </td> <td> <h5>Get Help</h5> </td></tr>
-            <tr>`
+        let HTML = ''
+
+        // put up our logo    
+        HTML += `<div class='header'><b>GameCode&nbsp;&nbsp;</b><br><img style="height:70px;" src = "${config.assetURI}/images/logo.png"> </a></div>`
+
 
         // always have a home button
-        HTML += `<td class="modelement" >
-                        <a href=${user3d}> <img height="20px" width = "20px" src = "${user3d}/assets/images/home.png" data - toggle="tooltip" title = "Home" /> </a>
-                    `
-        // logout button only if logged in
-        if (userLevel > '0') {
-            HTML += `<br /> <a href=${userJoomla} /index.php ? option = com_users & task=user.logout > <img height=\"20px\" width=\"20px\" src=\"${user3d}/assets / images / shutdown.png\" data-toggle=\"tooltip\" title=\"Logout\" /></a>`
-        }
-        HTML += '</td>'
+        HTML += `<div class='header'>
+                <a href="${user3d}"> <img height="20px" width = "20px" src = "${config.assetURI}/images/home.png" data - toggle="tooltip" title = "Home" ></a> 
+                <br>
+                <a href="${user3d}"><img height=\"20px\" width=\"20px\" src=\"${config.assetURI}/images/shutdown.png\" data-toggle=\"tooltip\" title=\"Logout\" ></a>
+                <br>
+                <a href="${user3d}"><img height=\"20px\" width=\"20px\" src=\"${config.assetURI}/images/about.png\" data-toggle=\"tooltip\" title=\"About\" ></a>
+                </div>`
 
 
         // show the current lesson
-        HTML += `<td class="modelement" >
-                        <button class="greenbutton" > ${section.textvalue}</button>
-                    </td>`
+        HTML += `<div class='header'>
 
-        // add the link to projects and SLACK
-        HTML += `<td class="modelement">
-                    <img style = "height:30px;" src = "${user3d}/assets/images/files.png" onclick = "document.gameCode.directory(); document.gameCode.render();" >
-                </td>
-                <td class="modelement" >
-                     <a href = "https://communityreading.slack.com" target = "_blank" >
-                        <img style="height:25px;" src = "${user3d}/assets/images/slack.png"> </a>
-                </td>`
-
-
-        HTML += `</table>`
+                <button class="greenbutton" > ${section.textvalue} </button>
+                <br>
+                <form class = "greenbutton" action="/action_page.php">
+                        <select name="cars" id="cars">
+                            <option value="volvo">Introducion</option>
+                            <option value="opel">Basic Javascript</option>
+                            <option value="saab">Multiply Game</option>
+                        </select>
+                </form>
+        
+            </div>`
 
 
+        // add a link to SLACK or DISCORD        
+        HTML += `<div class='header'><b>.. for help</b><br>`
+        if (config.helpline == 'Slack') {
+               HTML += `<a href = "https://communityreading.slack.com" target = "_blank" >
+                        <img style="height:30px" src = "${config.assetURI}/images/slack.png"> </a>`
+        } else {    // Discord
+            HTML += `<a href = "https://communityreading.discord.com" target = "_blank" >
+                    <img style="height:30px;" src = "${config.assetURI}/images/discord.png"> </a>`
+        }
+
+        HTML += `<br><a href="https://communityreading.org/babydocs/"><b><span style="font-variant: small-caps;">baby api</span></b> </a>`
+        HTML += `</div>`
+        
+
+
+console.log('HTTML',HTML)
 
         //section.textvalue
 
@@ -236,68 +253,81 @@ class SectionCode extends LessonSections {
             this.sectionName, this.divName("monaco", this.tkt), this.divName("world", this.tkt))  // specifies the DIV styles (not the IDs)
 
         // if option 'noedit', then just display code
-        if ('noedit' in section.params) {
-            let text = section.textvalue.replace(/(?:\r\n|\r|\n)/g, '<br>')
-            if (text.startsWith('<br>')) { text = text.slice(4) }  // strip leading <br>
+        // if ('noedit' in section.params) {
+        //     let text = section.rawvalue.replace(/(?:\r\n|\r|\n)/g, '<br>')
+        //     if (text.startsWith('<br>')) { text = text.slice(4) }  // strip leading <br>
 
-            this.attach(this.sectionName, '', this.divName('nocode', this.tkt), '', [
-                this.node('P', `<t3d_codeblock>${text}</t3d_codeblock>`, '', ''),
-            ])
-        } else {
+        //     this.attach(this.sectionName, '', this.divName('nocode', this.tkt), '', [
+        //         this.node('P', `<t3d_codeblock>${text}</t3d_codeblock>`, '', ''),
+        //     ])
+        // } else {
 
-            // create a monaco editor on the left side
-            let initialCode = section.textvalue
-            let tag = document.getElementById(this.divName('left', this.tkt))
-            let nLines = parseFloat(section.params['lines'])  // we know it's a string, but typescript doesn't
+        // create a monaco editor on the left side
+        let initialCode = section.rawvalue
+        let tag = document.getElementById(this.divName('left', this.tkt))
+        let nLines = parseFloat(section.params['lines'])  // we know it's a string, but typescript doesn't
 
-            console.log('about to create the editor')
-            this.editor = new EditorInstance(initialCode, tag, halfMonacoWidth, nLines)
-
-
-
-            // // create a monaco editor on the left side
-            // let tag = document.getElementById(this.divName('left', this.tkt))
-            // const editor = monaco.editor.create(tag, {
-            //     value: section.rawvalue,
-            //     language: "typescript",
-            // })
-
-            // // set the width and height
-            // let stringOrTrue = section.params.get('lines')  // we know it's a string, but typescript doesn't
-            // if (typeof stringOrTrue === 'string') {
-            //     editor.layout({ width: halfMonacoWidth, height: 20 * parseFloat(stringOrTrue) })   // lines converted to pixels
-            // } else {
-            //     console.error('Never expect to get a TRUE for nLines', section)
-            // }
-
-
-            // ///////////////////////////////////////////////////////////////////
-            // // turn on validation (probably on by default)
-            // monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
-            //     noSemanticValidation: false,
-            //     noSyntaxValidation: false,
-            // })
-
-
-
-
-            // ///////////////////////////////////////////////////////////////////
-            // // add extra libraries
-            // monaco.languages.typescript.typescriptDefaults.addExtraLib([
-            //     'declare class Facts {',
-            //     '    /**',
-            //     '     * Returns the next fact',
-            //     '     */',
-            //     '    static next():string',
-            //     '}',
-            // ].join('\n'), 'filename/facts.d.ts');
-
-
-            // monaco.languages.typescript.typescriptDefaults.setCompilerOptions(defaultCompilerOptions)
-
-
-
+        if (initialCode.charCodeAt(0) == 10){   // leading LF?
+            initialCode = initialCode.substr(1)
         }
+  
+        console.log('initialco',initialCode,initialCode.charCodeAt(0))
+        // console.log('about to create the editor')
+        // this.editor = new EditorInstance(initialCode, tag, halfMonacoWidth, nLines)
+
+        const html = Prism.highlight(initialCode, Prism.languages.javascript, 'javascript');
+        const expandHtml = `
+        <div style='float:left;'><img style='height:32px;position:absolute;left:-20px;' src='../assets/images/copy.png' title='Copy to Editor' /></div>
+        <div class='editleft'><code>${html}</code></div>`
+
+        this.attach(this.sectionName, '', this.divName('nocode', this.tkt), '', [
+            this.node('P', expandHtml, '', ''),
+        ])
+
+
+        // // create a monaco editor on the left side
+        // let tag = document.getElementById(this.divName('left', this.tkt))
+        // const editor = monaco.editor.create(tag, {
+        //     value: section.rawvalue,
+        //     language: "typescript",
+        // })
+
+        // // set the width and height
+        // let stringOrTrue = section.params.get('lines')  // we know it's a string, but typescript doesn't
+        // if (typeof stringOrTrue === 'string') {
+        //     editor.layout({ width: halfMonacoWidth, height: 20 * parseFloat(stringOrTrue) })   // lines converted to pixels
+        // } else {
+        //     console.error('Never expect to get a TRUE for nLines', section)
+        // }
+
+
+        // ///////////////////////////////////////////////////////////////////
+        // // turn on validation (probably on by default)
+        // monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+        //     noSemanticValidation: false,
+        //     noSyntaxValidation: false,
+        // })
+
+
+
+
+        // ///////////////////////////////////////////////////////////////////
+        // // add extra libraries
+        // monaco.languages.typescript.typescriptDefaults.addExtraLib([
+        //     'declare class Facts {',
+        //     '    /**',
+        //     '     * Returns the next fact',
+        //     '     */',
+        //     '    static next():string',
+        //     '}',
+        // ].join('\n'), 'filename/facts.d.ts');
+
+
+        // monaco.languages.typescript.typescriptDefaults.setCompilerOptions(defaultCompilerOptions)
+
+
+
+        // }
     }
     onDestroy() { }
 

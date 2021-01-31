@@ -391,7 +391,7 @@ export class LessonToITags {
         let ret: ITag = {
             tag: LCtag,   // always lowercase
             params: aParams,
-            rawvalue: remainder,
+            rawvalue: remainder.trim(),
             textvalue: "",
             speechvalue: "",
             url: "",

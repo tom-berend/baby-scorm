@@ -9,12 +9,19 @@ import { Runtime } from './runtime'
 
 
 // TODO: change URI addresses to be configurations
-const lessonURI = 'http://localhost/3d/lessons/'
-const assetsURI = 'http://localhost/3d/assets/'
+const lessonURI = 'http://localhost/baby/baby-scorm/lessons/'
+const assetsURI = 'http://localhost/baby/baby-scorm/assets/'
 
 const studentID = '00001'
 const firstName = 'Tom '
 const lastName = 'Berend'
+
+export const config = {
+    helpline: 'Discord',
+    assetURI: 'http://localhost/baby/baby-scorm/assets/'
+
+} 
+
 
 export interface ITag {
     tag: string,   // always lowercase
