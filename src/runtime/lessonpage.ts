@@ -230,13 +230,13 @@ class SectionMystery extends LessonSections {   // we don't know what this secti
 class SectionCode extends LessonSections {
     constructor(section: ITag) {
         super(section)
-        console.log('config lines', section.params.get('lines'))
+        console.log('config lines', section.params['lines'])
 
         this.basicLeftRight(this.divName('code', this.tkt),
             this.sectionName, this.divName("monaco", this.tkt), this.divName("world", this.tkt))  // specifies the DIV styles (not the IDs)
 
         // if option 'noedit', then just display code
-        if (section.params.get('noedit')) {
+        if ('noedit' in section.params) {
             let text = section.textvalue.replace(/(?:\r\n|\r|\n)/g, '<br>')
             if (text.startsWith('<br>')) { text = text.slice(4) }  // strip leading <br>
 
@@ -248,7 +248,7 @@ class SectionCode extends LessonSections {
             // create a monaco editor on the left side
             let initialCode = section.textvalue
             let tag = document.getElementById(this.divName('left', this.tkt))
-            let nLines = parseFloat(section.params.get('lines'))  // we know it's a string, but typescript doesn't
+            let nLines = parseFloat(section.params['lines'])  // we know it's a string, but typescript doesn't
 
             console.log('about to create the editor')
             this.editor = new EditorInstance(initialCode, tag, halfMonacoWidth, nLines)
@@ -321,7 +321,7 @@ class SectionP extends LessonSections {   // <p> with speaker and
         let nodes: any[] = []
 
         // speech icon
-        if (section.params.get('SpeechIcon')) {    // i hate truthy and falsy values.  is the empty string true or false?
+        if ('SpeechIcon' in section.params) {    // i hate truthy and falsy values.  is the empty string true or false?
             nodes.push(this.node('DIV', '', '', 'prespeaker'))
             nodes.push(this.node('IMG', '', utterId, 'speaker', [
                 { name: 'src', value: "../assets/images/speaker.png" },
@@ -329,28 +329,29 @@ class SectionP extends LessonSections {   // <p> with speaker and
         }
 
         // right side image
-        if (section.params.get('img')) {
+        if ('img' in section.params) {
             nodes.push(this.node('IMG', '', '', 'pimage', [
                 { name: 'src', value: section.url },
             ]))
+
         }
 
         // do we need to add background betty?
-        if (section.params.get('background') && section.params.get('SpeechIcon')) {
+        if ('background' in section.params && 'SpeechIcon' in section.params) {
             nodes.push(this.node('IMG', '', '', 'background', [
                 { name: 'src', value: "../assets/images/anime1.png" },
             ]))
         }
 
         // do we need to add realworld?
-        if (section.params.get('realworld') && section.params.get('SpeechIcon')) {
+        if ('realworld' in section.params && 'SpeechIcon' in section.params) {
             nodes.push(this.node('IMG', '', '', 'background', [  // same css as background
                 { name: 'src', value: "../assets/images/anime2.png" },
             ]))
         }
 
         // do we need to add mindset?
-        if (section.params.get('mindset') && section.params.get('SpeechIcon')) {
+        if ('mindset' in section.params && 'SpeechIcon' in section.params) {
             nodes.push(this.node('IMG', '', '', 'background', [  // same css as background
                 { name: 'src', value: "../assets/images/anime3.png" },
             ]))
@@ -360,11 +361,11 @@ class SectionP extends LessonSections {   // <p> with speaker and
         nodes.push(this.node('P', text, textId, ''))
 
         // finally attach, either for background-betty or for normal
-        if (section.params.get('background')) {
+        if ('background' in section.params) {
             this.attach('lesson', '', this.sectionName, 'background', nodes)
-        } else if (section.params.get('realworld')) {
+        } else if ('realworld' in section.params) {
             this.attach('lesson', '', this.sectionName, 'realworld', nodes)
-        } else if (section.params.get('mindset')) {
+        } else if ('mindset' in section.params) {
             this.attach('lesson', '', this.sectionName, 'mindset', nodes)
         } else {
             this.attach('lesson', '', this.sectionName, '', nodes)

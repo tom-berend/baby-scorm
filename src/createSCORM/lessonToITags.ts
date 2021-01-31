@@ -5,13 +5,13 @@ const validTags = ['p', 'subtitle', 'br', 'code',
     'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'cm', 'key']
 
 
-export class LessonToHTML {
+export class LessonToITags {
 
     public assetsURI: string
 
     private inASpeechBlock = false
     private utteranceTag: ITag  // accumulate speech over multiple <p> into FIRST tag
-    private utterance: string = '' //
+    private utterance: string = '' // collect utterances, they all go into the FIRST block
 
     private hasTitle = false
 
@@ -73,20 +73,20 @@ export class LessonToHTML {
     }
 
 
-    threeDigit(n: number) {
+    threeDigit(n: number): string {
         return ('000' + n).slice(-3) // always a three-digit string-number 001, 002, etc
     }
 
-    isString(value) {
+    isString(value): boolean {
         return typeof value === 'string' || value instanceof String
     }
 
     // Returns if a value is really a number
-    isNumber(value) {
+    isNumber(value): boolean {
         return typeof value === 'number' && isFinite(value)
     }
 
-    processMarkdown(sTest: string) {
+    processMarkdown(sTest: string): string {
 
         // first alternate voice / speech
         sTest = this.processAlternateMarkdown(sTest, true)  // keep first set
@@ -122,6 +122,7 @@ export class LessonToHTML {
 
         return (sTest)
     }
+
     eraseMarkdown(sTest: string): string {   // identical to processMarkdown, but erases the marks without replacement
         // first alternate voice / speech
         sTest = this.processAlternateMarkdown(sTest, false)  // keep second set
@@ -145,7 +146,8 @@ export class LessonToHTML {
         return (sTest)
     }
 
-    processSingleMarkdown(sTest: string, openRegex: RegExp, closeRegex: RegExp, openSub: string, closeSub: string) {
+    /** don't call this directly, it is shared by processMarkdown() and eraseMarkdown() */
+    processSingleMarkdown(sTest: string, openRegex: RegExp, closeRegex: RegExp, openSub: string, closeSub: string): string {
         let aMatch: RegExpMatchArray, aMatch2: RegExpMatchArray
 
         while (true) {
@@ -171,7 +173,8 @@ export class LessonToHTML {
         return (sTest)
     }
 
-    processAlternateMarkdown(sTest, isKeepFirst) {
+    /** don't call this directly, it is shared by processMarkdown() and eraseMarkdown() */
+    processAlternateMarkdown(sTest, isKeepFirst): string {
         // console.log(`function processAlternateMarkdown (${sTest}, ${isKeepFirst})`)
         while (true) {    // may have more than one
             let n = sTest.indexOf('[')
@@ -212,7 +215,7 @@ export class LessonToHTML {
             let sTag = ''
             let sRemain = ''
             let aParams: string[]
-            let bParams: Map<any, any> = new Map()
+            let bParams: object = {}
 
             if (match) {
                 sTag = match[0].toString()
@@ -235,9 +238,9 @@ export class LessonToHTML {
 
                         let rule = element.split('=')
                         if (rule.length === 1) { // no colon
-                            bParams.set(element, '')
+                            bParams[element] = ''
                         } else {
-                            bParams.set(rule[0], rule[1])
+                            bParams[rule[0]] = rule[1]
                         }
                     })
                 }
@@ -270,7 +273,7 @@ export class LessonToHTML {
     // ///////////////////////////////////////
     // ////////// parse the tag for voice/text, markdown, implicit params, etc
 
-    preProcessTagArray(aTags: ITag[]) {
+    preProcessTagArray(aTags: ITag[]): void {
 
         // TODO move this into a separate compile step, and make it more powerful
 
@@ -280,7 +283,7 @@ export class LessonToHTML {
             if (!this.inASpeechBlock && aTags[i].tag === 'p') { // need to open our speech blocks
                 // if we aren't in a speech block, then this is the FIRST tag of a speech Icon
                 this.utteranceTag = aTags[i]
-                aTags[i].params.set('SpeechIcon', 'true')  // push out a SpeechIcon on this tag
+                aTags[i].params['SpeechIcon'] = 'true'  // push out a SpeechIcon on this tag
                 this.inASpeechBlock = true
             }
             if (this.inASpeechBlock && aTags[i].tag !== 'p') { // need to close off our speech block
@@ -317,9 +320,9 @@ export class LessonToHTML {
 
                 case 'code':
                     // make sure there is an 'lines' parameter
-                    if (o.params.get('lines') === undefined) {
+                    if ('lines' in o.params) {
                         let nLines: number = o.rawvalue.split('\n').length + 1  // default to # of lines in code, plus 1
-                        aTags[i].params.set('lines', nLines.toString())
+                        aTags[i].params['lines'] = nLines.toString()
                     }
                     break
 
@@ -330,7 +333,7 @@ export class LessonToHTML {
 
 
                     aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue) // nice HTML
-                    this.utterance += ' '+ this.eraseMarkdown(aTags[i].rawvalue) // clean speech
+                    this.utterance += ' ' + this.eraseMarkdown(aTags[i].rawvalue) // clean speech
                     if (this.utterance.length > 0) {
                         // only single-quotes allowed in utter
                         this.utterance = this.utterance.replace(/"/g, '\\"') // escape out double-quotes
@@ -338,8 +341,9 @@ export class LessonToHTML {
                     }
 
                     // maybe an image to the right
-                    if (o.params.get('img')) {
-                        aTags[i].url = this.assetsURI + 'images/' + o.params.get('img')  // TODO - check that this image exists
+                    if ('img' in o.params) {
+                        //TODO: 01 is hardcoded, need to change to lesson#
+                        aTags[i].url = 'assets/' + '01/' + o.params['img']  // TODO - check that this image exists
                         break
 
                     }
@@ -372,11 +376,11 @@ export class LessonToHTML {
         })
     }
 
-    pad(n: number) {
+    pad(n: number): string {
         return (n < 10 ? '0' : '') + n
     }
 
-    iTagFactory(newtag: string, aParams: Map<any, any>, remainder: string): ITag {
+    iTagFactory(newtag: string, aParams: object, remainder: string): ITag {
 
         // verify that tag is 'legal'
         let LCtag = newtag.toLowerCase()
@@ -445,7 +449,7 @@ export class LessonToHTML {
         console.assert(aTags.length === 1, 'Expected array of one object')
         console.assert(aTags[0].tag === 'p', 'Expected tag to be "<p>" and got "' + aTags[0].tag + '"')
         console.assert(typeof aTags[0].params === 'object', 'Expected the params to be a Map object')
-        console.assert(aTags[0].params.get('p1') === '', 'Expected params to be "p1=" and got ' + JSON.stringify(aTags[0].params))
+        console.assert(aTags[0].params['p1'] === '', 'Expected params to be "p1=" and got ' + JSON.stringify(aTags[0].params))
         console.assert(aTags[0].rawvalue === 'testParagraph', 'test paragraph fails ' + JSON.stringify(aTags[0].textvalue))
 
         aLines = ['<p(p1=4)>testParagraph']
@@ -453,16 +457,16 @@ export class LessonToHTML {
         console.assert(aTags.length === 1, 'Expected array of one object')
         console.assert(aTags[0].tag === 'p', 'Expected tag to be "<p>" and got "' + aTags[0].tag + '"')
         console.assert(typeof aTags[0].params === 'object', 'Expected the params to be a Map object')
-        console.assert(aTags[0].params.get('p1') === '4', 'Expected params to be ["p1=4"] and got ' + JSON.stringify(aTags[0].params.get('p1')))
-        console.assert(aTags[0].rawvalue === 'testParagraph', 'test paragraph fails ' +JSON.stringify(aTags[0].textvalue))
+        console.assert(aTags[0].params['p1'] === '4', 'Expected params to be ["p1=4"] and got ' + JSON.stringify(aTags[0].params['p1']))
+        console.assert(aTags[0].rawvalue === 'testParagraph', 'test paragraph fails ' + JSON.stringify(aTags[0].textvalue))
 
         aLines = ['<p(p1=4,p2=five)>testParagraph']
         aTags = this.inputToParagraphs(aLines)
         console.assert(aTags.length === 1, 'Expected array of one object')
         console.assert(aTags[0].tag === 'p', 'Expected tag to be "<p>" and got "' + aTags[0].tag + '"')
         console.assert(typeof aTags[0].params === 'object', 'Expected the params to be a Map object')
-        console.assert(aTags[0].params.get('p1') === '4', 'Expected param p1 to be ["p1=4"] and got ' + JSON.stringify(aTags[0].params.get('p1')))
-        console.assert(aTags[0].params.get('p2') === 'five', 'Expected p2 to be ["p2=five"] and got ' + JSON.stringify(aTags[0].params.get('p2')))
+        console.assert(aTags[0].params['p1'] === '4', 'Expected param p1 to be ["p1=4"] and got ' + JSON.stringify(aTags[0].params['p1']))
+        console.assert(aTags[0].params['p2'] === 'five', 'Expected p2 to be ["p2=five"] and got ' + JSON.stringify(aTags[0].params['p2']))
         console.assert(aTags[0].rawvalue === 'testParagraph', JSON.stringify(aTags[0].textvalue))
 
         aLines = ['<p(p1)>testParagraph', ' and more']
@@ -470,7 +474,7 @@ export class LessonToHTML {
         console.assert(aTags.length === 1, 'Expected array of one object')
         console.assert(aTags[0].tag === 'p', 'Expected tag to be "<p>" and got "' + aTags[0].tag + '"')
         console.assert(typeof aTags[0].params === 'object', 'Expected the params to be a Map object')
-        console.assert(aTags[0].params.get('p1') === '', 'Expected params to be ["p1"] and got ' + JSON.stringify(aTags[0].params))
+        console.assert(aTags[0].params['p1'] === '', 'Expected params to be ["p1"] and got ' + JSON.stringify(aTags[0].params))
         console.assert(aTags[0].rawvalue === 'testParagraph\n and more', JSON.stringify(aTags[0].textvalue))
 
 
@@ -566,17 +570,17 @@ export class LessonToHTML {
         // rslt = this.parse(assets, test)
         // console.log(rslt)
 
-        test = `<p> [tomato|tomawto]
-<p> [first|second]`
-        rslt = this.parse(assets, test)
-        console.log(rslt)
+        //         test = `<p> [tomato|tomawto]
+        // <p> [first|second]`
+        //         rslt = this.parse(assets, test)
+        //         console.log(rslt)
 
 
-        test = '<p(p1)>testParagraph'
-        rslt = this.parse(assets, test)
-        console.log(rslt)
+        //         test = '<p(p1)>testParagraph'
+        //         rslt = this.parse(assets, test)
+        //         console.log(rslt)
 
-   }
+    }
 
 }
 

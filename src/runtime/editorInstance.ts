@@ -90,7 +90,26 @@ const LibManager = {
 }
 
 
-export class EditorInstance {
+export class EditorInstance{
+    constructor(initialCode, tag, halfMonacoWidth, nLines){
+        console.log('in EditorInstance',initialCode, tag, halfMonacoWidth, nLines)
+    }
+
+    setLines(nLines: number) {
+        console.log('in EditorInstance - setLines')
+    }
+
+    updateOutput() {
+        console.log('in EditorInstance - update output')
+    }
+    
+    refreshOutput() {
+        console.log('in EditorInstance - refresh output')
+    }
+}
+
+
+export class EditorInstance_old {
 
     inputModel: any
     outputModel: any

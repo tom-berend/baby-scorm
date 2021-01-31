@@ -3,7 +3,7 @@ import path from 'path';
 import colors from 'colors'
 import { ITag } from '../runtime/T'
 
-import {LessonToHTML as LessonToITags} from './lessonToITags'
+import {LessonToITags} from './lessonToITags'
 
 
 /** this is the starting point to CREATE a SCORM package from our lessons 
@@ -49,8 +49,10 @@ class CreateSCORM {
         // generate each lesson within the SCO
         this.processLessons(path.join(__dirname, '../../lessons'))
 
+
+        // don't need this anymore, we are building in dist
         // copy the runtime files 
-        this.copyRunTime()
+        // this.copyRunTime()
 
         // this is the hard part.  it's not just generating the SCORM XML,
         // but we CREATE the JSON that dynamically builds the HTML, figure
@@ -130,28 +132,31 @@ class CreateSCORM {
 
     }
 
-    /** copy the runtime files from /dist into /SCORM */
-    copyRunTime() {
+    // don't need this anymore, we are building in dist
 
-        let fromDir = path.join(this.SCORMDirectory, '../dist')
-        let toDir = path.join(this.SCORMDirectory, 'dist')
+    // /** copy the runtime files from /dist into /SCORM */
+    // copyRunTime() {
 
-        fs.mkdir(toDir, (error) => { })        // create a new dist in the SCORM directory
-        let list = fs.readdirSync(fromDir);        // read the old dist directory 
+    //     let fromDir = path.join(this.SCORMDirectory, '../dist')
+    //     let toDir = path.join(this.SCORMDirectory, 'dist')
 
-        list.forEach((fromFile, i) => {
-            let src = path.join(fromDir, fromFile);
-            let dest = path.join(toDir, fromFile)
-            fs.copyFileSync(src, dest)
-        })
-    }
+    //     fs.mkdir(toDir, (error) => { })        // create a new dist in the SCORM directory
+    //     let list = fs.readdirSync(fromDir);        // read the old dist directory 
+
+    //     list.forEach((fromFile, i) => {
+    //         let src = path.join(fromDir, fromFile);
+    //         let dest = path.join(toDir, fromFile)
+    //         console.log('about to copy ',src,dest)
+    //         fs.copyFileSync(src, dest)
+    //     })
+    // }
 
     /** find every lesson in each folder, and copy it into the SCORM package */
     processSingleLesson(fromDir: string, toDir: string) {
             let list = fs.readdirSync(fromDir);        // read the directory 
             list.forEach((fromFile, i) => {
                 let src = path.join(fromDir, fromFile);
-                let dest = path.join(toDir, fromFile)
+                let dest = path.join(toDir, fromFile.replace('.txt','.JSON'))
 
                 // but we don't COPY the lesson txt, we copy it as an array of ITags in a JSON file, 
                 //  fs.copyFileSync(src, dest)
@@ -199,11 +204,12 @@ class CreateSCORM {
         // we have one hard-coded file in the root
         xml += `<file href="${this.courseInfo}" />\n`      // add to our xml file
 
-        // copy over the dist directory (our runtime)   ('dist' is hardcoded)
-        let list = fs.readdirSync(path.join(this.SCORMDirectory, 'dist'))
-        list.forEach((runtimeFile) => {
-                xml += `<file href="dist/${runtimeFile}" />\n`      // add to our xml file
-            })
+        //TODO need to build list of files in dist instead
+        // // copy over the dist directory (our runtime)   ('dist' is hardcoded)
+        // let list = fs.readdirSync(path.join(this.SCORMDirectory, 'dist'))
+        // list.forEach((runtimeFile) => {
+        //         xml += `<file href="dist/${runtimeFile}" />\n`      // add to our xml file
+        //     })
 
         // now add all the files in the other baskets
         this.SCOLessons.forEach(lesson => {
@@ -234,14 +240,15 @@ class CreateSCORM {
     createCourseInfo() {
         let ci = {
             lessons: this.mathLessons,
+            lessonFiles: ['Getting_Started/01_00_hello_world.JSON'],   //TODO, not hardcode
             version: this.version,
-            courseInfo: this.courseInfo,
             copyright: this.copyright,
             contact: this.contact,
             licencedTo: this.licencedTo,
             title: 'Writing Computer Games',
             launchPage: 'shared/launchpage.html',
-            discordInvite: 'https://discord.gg/66gd2AdZkc'       // expires afteer 100 uses
+            discordInvite: 'https://discord.gg/66gd2AdZkc',         // expires afteer 100 uses
+            created: new Date().toDateString()
         }
         fs.writeFile(path.join(this.SCORMDirectory, this.courseInfo), JSON.stringify(ci), (error) => { if (error) console.error(colors.bold.bgRed.yellow(`error writing ${this.courseInfo} '${error}'`)) });
 

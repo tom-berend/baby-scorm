@@ -3,10 +3,10 @@
 <shortdesc>Basic types, variables, statements, input and print.
 
 
-<p> this is _emp_ text.
-<p> this is ^bold^ text.
-<p> this is `code` text.
-<p> this is <key>ctrl+k</key> text
+<p> this is _emp_ text (underscore).
+<p> this is ^bold^ text. (caret)
+<p> this is `code` text. (backtick)
+<p> this is <key>ctrl+k</key> text  < key > ctrl+k < / key > 
 
 <break>
 <p(img=radius.jpg)>The image on the right is what you should see using Chrome.  It will be slightly different in Firefox and Microsoft Edge. If you are using another browser, then download Chrome from [<a href="https://www.google.com/chrome">https://www.google.com/chrome</a>|w w w dot google dot com] and try again.  If you have trouble, stop and get help.  You should not go on until you have a console open.

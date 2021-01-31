@@ -2,9 +2,9 @@
     "name": "3d-programming-math-course",
     "description": "Development on a high school course for math and programming",
     "scripts": {
-        "watch": "webpack-dev-server",
+        "watch": "webpack --watch",
         "build": "webpack && npm run copy",
-        "create": "ts-node src/createSCORM/SCORM.ts",
+        "create": "ts-node src/createSCORM/SCORM.ts && cp -R SCORM/* dist  && cp -R assets dist",
         "copy": "cp src/runtime/_index.* dist* && mv dist/_index.html dist/index.html  && cp src/mod_gamecode/3djoomla.php dist && npm run css",
         "css": "less src/runtime/3d.less > dist/3d.css",
         "lint": "tslint --project '.' --fix",

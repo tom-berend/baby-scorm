@@ -1,8 +1,8 @@
 import { ITag } from './T'
-import { LessonToHTML } from '../createSCORM/lessonToITags'
-import { LessonPage } from './lessonpage'
-import { Scorm } from './SCORM_LOCAL'
+import { LessonToITags } from '../createSCORM/lessonToITags'
 import { loadVoicesWhenAvailable } from './onClickSay'
+import { LessonPage } from '../runtime/lessonpage'
+
 
 
 
@@ -20,64 +20,133 @@ import { loadVoicesWhenAvailable } from './onClickSay'
 
 
 
+
+interface courseInfo {
+    lessons: string[]
+    lessonFiles: string[]
+    version: string
+    copyright: string
+    contact: string
+    licencedTo: string
+    title: string
+    launchPage: string
+    discordInvite: string
+    created: string
+}
+
+
 export class Runtime {
 
     scormHost: object
 
+    courseInfo: courseInfo
+    lessons = new Map<string, ITag[]>()
+
+
+
     constructor() {
         console.log('in class Runtime')
+        this.paintWelcome()
 
-
-        this.scormHost = new Scorm()
-        console.log('loaded SCORM')
         loadVoicesWhenAvailable()
-
-        // onClickSay("now is the time for all good men to come to the aid of the party")
-
-
-
-        // let serverURI = 'http://localhost/3d/src/server/AJAX.php'
-        // let sendData = {
-        //     cmd: 'test',
-        //     index: 42,
-        // }
-
-        // let responseData = serverFileSystem(serverURI, sendData)
-        // console.log('got response', responseData)
-
-        // loadLesson(lessonURI, assetsURI, '01_00_hello_world.txt')
-
     }
 
-    // let ls = new SectionVT52('Lesson')
-    // let ss = new SectionSpeaker('Lesson')
 
-    // let ls2 = new SectionVT52('Lesson')
-    // let ss2 = new SectionSpeaker('Lesson')
-    // let ls3 = new SectionVT52('Lesson')
-
-
-
-    // try {
-    //     alive()
-    // } catch (err) {
-    //     console.error(err.message) // Whoops!
-    //     console.error(err.name) // ValidationError
-    //     console.error(err.stack) // a list of nested calls with line numbers for each
-    // }
-
-
-
-    // async fetchWrapper(fileURI: string): string {
-    //     const result = await this.fetchJSON(fileURI)
-    //     return result
-    // }
+    async httpfetch<T>(fileURI: RequestInfo): Promise<T> {
+        const response = await fetch(fileURI);
+        const body = await response.json();
+        return body;
+    }
 
 
 
 
+    async loadAllFiles() {
+        console.log('in loadAllFiles')
 
+        // first step - load the course info
+        this.courseInfo = await this.httpfetch<courseInfo>("courseinfo.JSON");
+
+        console.log('new lessoninfo', this.courseInfo)
+
+        // now load ALL the course ITag files
+        let lesson: ITag[]
+        for (let i = 0; i < this.courseInfo.lessonFiles.length; i++) {
+            let name = this.courseInfo.lessonFiles[i]
+            console.log('fetching lesson ', name)
+            const lessonInfo = await this.httpfetch<ITag[]>(name);
+            this.lessons.set(name, lessonInfo)
+            console.log(this.lessons.get(name))
+        }
+
+        // arrgggg..  spent a day trying to make this work, 
+        // but all promises fire at the same time and I can't figure
+        // how to use Promise.All ...
+
+        // this.courseInfo.lessonFiles.forEach(async (name) => {
+        //     const lessonInfo = await this.httpfetch<ITag[]>(name);
+        // })
+    }
+
+
+
+    async paintWelcome() {
+        await this.loadAllFiles()
+
+        console.log('all ITag files loaded')
+
+        let firstLesson:ITag[] = this.lessons.values().next().value   // first lesson
+        let lessonpage = new LessonPage(firstLesson)
+    }
 }
+
+
+
+// onClickSay("now is the time for all good men to come to the aid of the party")
+
+
+
+// let serverURI = 'http://localhost/3d/src/server/AJAX.php'
+// let sendData = {
+//     cmd: 'test',
+//     index: 42,
+// }
+
+// let responseData = serverFileSystem(serverURI, sendData)
+// console.log('got response', responseData)
+
+// loadLesson(lessonURI, assetsURI, '01_00_hello_world.txt')
+
+
+
+// let ls = new SectionVT52('Lesson')
+// let ss = new SectionSpeaker('Lesson')
+
+// let ls2 = new SectionVT52('Lesson')
+// let ss2 = new SectionSpeaker('Lesson')
+// let ls3 = new SectionVT52('Lesson')
+
+
+
+// try {
+//     alive()
+// } catch (err) {
+//     console.error(err.message) // Whoops!
+//     console.error(err.name) // ValidationError
+//     console.error(err.stack) // a list of nested calls with line numbers for each
+// }
+
+
+
+// async fetchWrapper(fileURI: string): string {
+//     const result = await this.fetchJSON(fileURI)
+//     return result
+// }
+
+
+
+
+
 
 
 
