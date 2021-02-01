@@ -7,11 +7,21 @@
     <link rel="stylesheet" href="3d.css" />
 </head>
 
-<body>
+<body style="max-width:2000px!; width:100%">
 
 
+    <!-- lesson and editor, side by side-->
+    <div id="lesson" style="border-style: solid;  border-block-color: black;border-width: 1px; float:left; width:45%"></div>
+    <div style="border-style: solid;  border-block-color: black;border-width: 1px; float:left; width:45%; height:100%;" >
+        <div id="buttons">
+            <p style="padding-bottom:14px;">
+                <button id="download">Download</button>
+                <button id="upload">Upload</button>
+                <button id="run">Run</button>
+            </p>
 
-    <div id="container" style="border-style: solid;  border-block-color: black;border-width: 1px;">
+        <textarea rows="1000" id="editor" style="width:100%">Now is the time...</textarea>
+    </div>
 
         <!---
         <nav class="navbar">

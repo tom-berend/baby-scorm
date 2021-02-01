@@ -42,9 +42,17 @@ export class Runtime {
     courseInfo: courseInfo
     lessons = new Map<string, ITag[]>()
 
+    editor: Editor
+    // setup the writer's editor
+
 
 
     constructor() {
+        let editorDiv = document.getElementById("editor")! as HTMLTextAreaElement
+        this.editor = new Editor(editorDiv)
+
+
+
         console.log('in class Runtime')
         this.paintWelcome()
 
@@ -95,10 +103,15 @@ export class Runtime {
 
         console.log('all ITag files loaded')
 
-        let firstLesson:ITag[] = this.lessons.values().next().value   // first lesson
+        let firstLesson: ITag[] = this.lessons.values().next().value   // first lesson
         let lessonpage = new LessonPage(firstLesson)
     }
+
+
+
 }
+
+
 
 
 
@@ -260,3 +273,72 @@ export async function serverFileSystem(serverURL: string, sendData: object): Pro
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+// a simple textarea editor, Grammerly does all the work
+class Editor {
+
+    editorDiv: HTMLDivElement
+    editor: Editor
+    download: HTMLButtonElement
+    upload: HTMLButtonElement
+    run: HTMLButtonElement
+    stop: HTMLButtonElement
+    pause: HTMLButtonElement
+    fullscreen: HTMLButtonElement
+    editorTag: HTMLTextAreaElement
+
+    constructor(editorTag: HTMLTextAreaElement) {
+        this.editorTag = editorTag
+        this.download = document.getElementById('download') as HTMLButtonElement
+        this.upload = document.getElementById('upload') as HTMLButtonElement
+        this.run = document.getElementById('run') as HTMLButtonElement
+
+        this.download.onclick = () => this.doDownload("game.ts");
+        this.upload.onclick = () => this.doUpload();
+
+        this.run.onclick = async () => {
+            console.log('clicked RUN')
+            this.download.disabled = true;
+            this.upload.disabled = true;
+            this.run.disabled = false;  // was true
+            try {
+                // const fn = await this.editor.transpile(this.game.scope);
+                //this.editorDiv.hidden = true;
+                // let f = this.editor.transpile()
+
+                // this.game.run(fn);
+            } catch (e) {   // transpile error.  show it in an alert
+                alert(e);
+            }
+        };
+    }
+
+    doDownload(s: string) {
+        console.log('in doDownload ', s)
+    }
+    doUpload() {
+        console.log('in doUpload')
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
