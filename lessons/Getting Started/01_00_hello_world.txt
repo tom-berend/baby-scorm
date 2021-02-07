@@ -1,4 +1,4 @@
-﻿<module>01-Beginner Javascript
+<module>01-Beginner Javascript
 <lesson>00-First Program
 <shortdesc>Basic types, variables, statements, input and print.
 
@@ -20,15 +20,15 @@
 
 <break>
 
-<p(background)>Hi. I'm Background.  I'm going to pop up and tell you about the history of computing. The reason we do things in certain ways is often because of the path we took.
+<p(science)>Hi. I'm Science.  I'm going to pop up and tell you about the history of computing. The reason we do things in certain ways is often because of the path we took.
 
-<p(background)>Here's a fun example - did you ever wonder why your keyboard is so
+<p(science)>Here's a fun example - did you ever wonder why your keyboard is so
 confused and hard to use, why the keys aren't just A-B-C-D? It's because the earliest mechanical typewriters were very slow, and would jam if the operator went too fast.  So the designers intentionally designed the keyboard to slow down the operators. Here's more information.
 
 <break>
-<p(realworld)>Hi. I'm RealWorld.  New stuff has been added to JavaScript continuously, but none of the old stuff has ever been removed.  So much of the language is like a decrepit old amusement park.
+<p(history)>Hi. I'm History.  New stuff has been added to JavaScript continuously, but none of the old stuff has ever been removed.  So much of the language is like a decrepit old amusement park.
 
-<p(realworld)>I'm hoping you will continue programming JavaScript, but as you look at resorces on the web, you will not understand what you are seeing.
+<p(history)>I'm hoping you will continue programming JavaScript, but as you look at resorces on the web, you will not understand what you are seeing.
 
 <break>
 

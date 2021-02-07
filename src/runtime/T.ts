@@ -1,8 +1,5 @@
 
-import { VT52 } from './worlds'
-
-import { loadVoicesWhenAvailable } from './onClickSay'
-import loadLesson, { serverFileSystem } from './runtime'
+import { serverFileSystem } from './runtime'
 import { Scorm } from './SCORM_LOCAL'
 import { Runtime } from './runtime'
 

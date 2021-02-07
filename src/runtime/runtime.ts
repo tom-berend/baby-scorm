@@ -1,7 +1,6 @@
 import { ITag } from './T'
 import { LessonToITags } from '../createSCORM/lessonToITags'
-import { loadVoicesWhenAvailable } from './onClickSay'
-import { LessonPage } from '../runtime/lessonpage'
+import { LessonPage, moduleInfo } from '../runtime/lessonpage'
 
 
 
@@ -45,18 +44,16 @@ export class Runtime {
     editor: Editor
     // setup the writer's editor
 
+    lessonPage: LessonPage      // link to the lessonPage builder
 
 
     constructor() {
-        let editorDiv = document.getElementById("editor")! as HTMLTextAreaElement
+        let editorDiv = document.getElementById('tomseditor')! as HTMLTextAreaElement
         this.editor = new Editor(editorDiv)
 
-
-
         console.log('in class Runtime')
-        this.paintWelcome()
+        // this.paintWelcome()
 
-        loadVoicesWhenAvailable()
     }
 
 
@@ -104,10 +101,11 @@ export class Runtime {
         console.log('all ITag files loaded')
 
         let firstLesson: ITag[] = this.lessons.values().next().value   // first lesson
-        let lessonpage = new LessonPage(firstLesson)
+        this.lessonPage = new LessonPage(firstLesson)
     }
 
 
+    
 
 }
 
@@ -115,46 +113,153 @@ export class Runtime {
 
 
 
-// onClickSay("now is the time for all good men to come to the aid of the party")
 
 
 
-// let serverURI = 'http://localhost/3d/src/server/AJAX.php'
-// let sendData = {
-//     cmd: 'test',
-//     index: 42,
-// }
 
-// let responseData = serverFileSystem(serverURI, sendData)
-// console.log('got response', responseData)
+export async function serverFileSystem(serverURL: string, sendData: object): Promise<any> {
 
-// loadLesson(lessonURI, assetsURI, '01_00_hello_world.txt')
+    try {
+        console.log('posting in postData', JSON.stringify(sendData))
 
+        // Default options are marked with *
+        const response = await fetch(serverURL, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrer: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify(sendData), // body data type must match "Content-Type" header
+        })
+        return await response.json() // parses JSON response into native JavaScript objects
 
+    } catch (error) {
+        console.error('error in serverFileSystem')
+    }
 
-// let ls = new SectionVT52('Lesson')
-// let ss = new SectionSpeaker('Lesson')
-
-// let ls2 = new SectionVT52('Lesson')
-// let ss2 = new SectionSpeaker('Lesson')
-// let ls3 = new SectionVT52('Lesson')
-
-
-
-// try {
-//     alive()
-// } catch (err) {
-//     console.error(err.message) // Whoops!
-//     console.error(err.name) // ValidationError
-//     console.error(err.stack) // a list of nested calls with line numbers for each
-// }
+}
 
 
 
-// async fetchWrapper(fileURI: string): string {
-//     const result = await this.fetchJSON(fileURI)
-//     return result
-// }
+
+
+// a simple textarea editor, Grammerly does all the work
+class Editor {
+
+    initFile: string    // the file we are editing
+    isDebug: boolean = false
+    tagCount = 0
+    suggestName = ''
+
+    editorDiv: HTMLDivElement
+    editor: Editor
+    download: HTMLButtonElement
+    save: HTMLButtonElement
+    run: HTMLButtonElement
+    debug: HTMLButtonElement
+
+    editorTag: HTMLTextAreaElement
+
+    lessonPage:LessonPage
+
+    constructor(editorTag: HTMLTextAreaElement) {
+        this.editorTag = editorTag
+
+        this.download = document.getElementById('download') as HTMLButtonElement
+        this.save = document.getElementById('upload') as HTMLButtonElement
+        this.run = document.getElementById('run') as HTMLButtonElement
+        this.debug = document.getElementById('debug') as HTMLButtonElement
+
+        this.download.onclick = () => this.doDownload();
+        this.save.onclick = () => this.doUpload();
+        this.run.onclick = () => this.doRun();
+        this.debug.onclick = () => this.doDebug();
+
+    }
+
+
+
+
+    doDownload() {
+        console.log('in doDownload ')
+        let area = document.getElementById('tomseditor') as HTMLTextAreaElement
+        let text = area.value
+        let data = new Blob([text], { type: 'text/plain' });
+
+
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (this.initFile) {
+            window.URL.revokeObjectURL(this.initFile);
+        }
+        this.initFile = window.URL.createObjectURL(data);
+
+        const link = document.createElement("a");
+        link.download = this.initFile
+        link.href = this.initFile;
+        link.dispatchEvent(new MouseEvent("click"));
+    }
+
+
+    // use the fileReader to grab a lesson and load it into the textarea
+    doUpload() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.onchange = () => {
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                let txt = fileReader.result as string
+                let area = document.getElementById('tomseditor') as HTMLTextAreaElement
+                area.value = txt
+                document.getElementById('tomseditor').focus()  // make it the editing focus
+                this.isDebug = false
+                this.doRun()
+            }
+            fileReader.readAsText(input.files![0]);
+        };
+        input.click();
+    }
+
+    doRun() {
+        let area = document.getElementById('tomseditor') as HTMLTextAreaElement
+        let iTags = new LessonToITags().parse('../assets', area.value)
+        console.log('about to run iTags', iTags)
+        let lessonPage = new LessonPage(iTags, this.isDebug)
+
+
+    }
+
+    doDebug() {
+        this.isDebug = !this.isDebug
+        this.doRun()
+    }
+
+
+    extractItagInfo(iTags: ITag[]) {
+        this.tagCount = iTags.length
+        document.getElementById('tagcount').innerHTML = this.tagCount.toString()
+
+        // suggest a name
+        let moduleInfo = this.lessonPage.moduleInfo
+        this.suggestName = moduleInfo().module.substr(0, 3) +
+            moduleInfo().lesson.substr(0, 3) +
+            moduleInfo().module.substr(4)
+        let suggest = document.getElementById('suggestName')
+        suggest.innerHTML = this.suggestName
+
+        this.extractItagInfo(iTags)
+
+
+
+        document.getElementById('suggestName').innerHTML = 'SuggestedName'
+    }
+
+}
+
 
 
 
@@ -220,125 +325,4 @@ export class Runtime {
 
 
 ////////////////// fetch api  ///////////////////
-
-
-
-/** load the lesson in text format, compile it, and insert it into the web page */
-export default function loadLesson(lessonURI: string, assetsURI: string, lesson: string) {
-
-
-    const comboURI = lessonURI + lesson
-    console.log('comboURI', comboURI)
-
-    fetch(comboURI)
-        .then((response) => response.text())
-        .then((data) => {
-            // console.log('TEXT', data)
-
-            // now convert to npms (eventually just load ITags)
-            const L2H = new LessonToITags()
-            const iTags: ITag[] = L2H.parse(assetsURI, data)
-
-
-            // now build lesson HTML with iTags
-            const LP = new LessonPage(iTags)
-
-        })
-        .catch((error) => console.assert(error, 'error loading... ' + comboURI))
-}
-
-
-export async function serverFileSystem(serverURL: string, sendData: object): Promise<any> {
-
-    try {
-        console.log('posting in postData', JSON.stringify(sendData))
-
-        // Default options are marked with *
-        const response = await fetch(serverURL, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrer: 'no-referrer', // no-referrer, *client
-            body: JSON.stringify(sendData), // body data type must match "Content-Type" header
-        })
-        return await response.json() // parses JSON response into native JavaScript objects
-
-    } catch (error) {
-        console.error('error in serverFileSystem')
-    }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-// a simple textarea editor, Grammerly does all the work
-class Editor {
-
-    editorDiv: HTMLDivElement
-    editor: Editor
-    download: HTMLButtonElement
-    upload: HTMLButtonElement
-    run: HTMLButtonElement
-    stop: HTMLButtonElement
-    pause: HTMLButtonElement
-    fullscreen: HTMLButtonElement
-    editorTag: HTMLTextAreaElement
-
-    constructor(editorTag: HTMLTextAreaElement) {
-        this.editorTag = editorTag
-        this.download = document.getElementById('download') as HTMLButtonElement
-        this.upload = document.getElementById('upload') as HTMLButtonElement
-        this.run = document.getElementById('run') as HTMLButtonElement
-
-        this.download.onclick = () => this.doDownload("game.ts");
-        this.upload.onclick = () => this.doUpload();
-
-        this.run.onclick = async () => {
-            console.log('clicked RUN')
-            this.download.disabled = true;
-            this.upload.disabled = true;
-            this.run.disabled = false;  // was true
-            try {
-                // const fn = await this.editor.transpile(this.game.scope);
-                //this.editorDiv.hidden = true;
-                // let f = this.editor.transpile()
-
-                // this.game.run(fn);
-            } catch (e) {   // transpile error.  show it in an alert
-                alert(e);
-            }
-        };
-    }
-
-    doDownload(s: string) {
-        console.log('in doDownload ', s)
-    }
-    doUpload() {
-        console.log('in doUpload')
-
-    }
-
-}
-
-
-
-
-
-
-
-
-
 

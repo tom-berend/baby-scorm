@@ -5,7 +5,7 @@
         "watch": "webpack --watch",
         "build": "webpack && npm run copy",
         "create": "ts-node src/createSCORM/SCORM.ts && cp -R SCORM/* dist  && cp -R assets dist",
-        "copy": "cp src/runtime/_index.* dist* && mv dist/_index.html dist/index.html  && cp src/mod_gamecode/3djoomla.php dist && npm run css",
+        "copy": "cp src/runtime/_index.* dist* && mv dist/_index.html dist/index.html  && cp src/mod_gamecode/3djoomla.php dist && npm run css && cp -R assets dist/assets",
         "css": "less src/runtime/3d.less > dist/3d.css",
         "lint": "tslint --project '.' --fix",
         "docs": "typedoc --out ./dist/docs ./src/runtime/*.ts"

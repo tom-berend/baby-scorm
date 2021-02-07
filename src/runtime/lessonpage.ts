@@ -2,26 +2,52 @@
 import { ITag } from './T'
 
 // import *  as ts from 'typescript'
-import { World, VT52 } from './worlds'
 import { drillByName } from './canvas'
-import { onClickSay } from './onClickSay'
+import { OnClickSay } from './onClickSay'
 import { EditorInstance } from './editorInstance'
 import { LessonFactory, drillMathDispatch } from './drillMath'
 import *  as Prism from 'prismjs'
 import { config } from './T'
 
+
+type utterance = {
+    id: string,   // 'utter015' or similar
+    text: string,
+}
+let utterances: utterance[] = []
+
+export type moduleInfo = {
+    module:string,     // name of the module we are working on
+    lesson:string,
+    shortDesc:string
+}
+let moduleInfo:moduleInfo = {module:'',lesson:'',shortDesc:''}
+
+
+
 export class LessonPage {
-    constructor(sections: ITag[]) {
-        console.log('In LessonPage')
+
+    onClickSay: OnClickSay
+
+    constructor(sections: ITag[], debug = false) {
+        // console.log('In LessonPage')
+
+        // initialize the voices
+        this.onClickSay = new OnClickSay()
 
         // clear the existing lesson space
+        document.getElementById('lesson').innerHTML = "";
+
 
         // cycle through the ITags, creating a section for each one
         sections.forEach((section) => {
             let s
-            if (section.tag === 'code') {
-                console.log('section', section.tag, section)
+
+            if (debug) {
+                new SectionDebug(section)
             }
+
+
             switch (section.tag) {
 
                 case 'key':         // we don't process these, they are meta for the table of contents
@@ -51,9 +77,17 @@ export class LessonPage {
 
                 // console.error(section.tag)
             }
-
-
         })
+
+        // all sections loaded.  now attach the utterances
+        utterances.forEach(utterance => {
+            let element = document.getElementById(utterance.id)
+            element.onclick = () => { this.onClickSay.onClickSay(utterance.text) }
+        });
+    }
+
+    moduleInfo():moduleInfo{        //  function: type returns object 
+        return moduleInfo
     }
 }
 
@@ -65,6 +99,7 @@ let halfMonacoWidth = 800   // always.  if you change, then also change the css 
 let bakeryTicket: number = 0
 
 interface IAttribute { name: string, value: string }
+
 
 
 /** abstract class for adding lesson sections.  use concrete class like sectionVT52 */
@@ -94,6 +129,7 @@ abstract class LessonSections {
             // console.log('typeof element', typeof element)
             node.setAttribute(element.name, element.value)
         })
+        // console.log('node', node)
         return (node)
     }
 
@@ -152,6 +188,8 @@ class SectionModule extends LessonSections {     // paints the menubar at the to
         let userJoomla = sessionStorage.getItem('Joomla')
         let userCodePath = sessionStorage.getItem('3dCodePath')
 
+        moduleInfo.module = section.textvalue  // save
+
         // temporary until we link to Joomla
         user3d = 'http://localhost/3d'
 
@@ -190,7 +228,7 @@ class SectionModule extends LessonSections {     // paints the menubar at the to
         // add a link to SLACK or DISCORD        
         HTML += `<div class='header'><b>.. for help</b><br>`
         if (config.helpline == 'Slack') {
-               HTML += `<a href = "https://communityreading.slack.com" target = "_blank" >
+            HTML += `<a href = "https://communityreading.slack.com" target = "_blank" >
                         <img style="height:30px" src = "${config.assetURI}/images/slack.png"> </a>`
         } else {    // Discord
             HTML += `<a href = "https://communityreading.discord.com" target = "_blank" >
@@ -199,10 +237,8 @@ class SectionModule extends LessonSections {     // paints the menubar at the to
 
         HTML += `<br><a href="https://communityreading.org/babydocs/"><b><span style="font-variant: small-caps;">baby api</span></b> </a>`
         HTML += `</div>`
-        
 
 
-console.log('HTTML',HTML)
 
         //section.textvalue
 
@@ -232,6 +268,23 @@ console.log('HTTML',HTML)
     }
 }
 
+
+class SectionLesson extends LessonSections {
+    constructor(section: ITag) {
+        super(section)
+        moduleInfo.lesson = section.textvalue      // just same the lesson name
+    }
+}
+class SectionShortDesc extends LessonSections {
+    constructor(section: ITag) {
+        super(section)
+        moduleInfo.shortDesc = section.textvalue      // just same the lesson name
+    }
+}
+
+
+
+
 class SectionMystery extends LessonSections {   // we don't know what this section is - certainly an error
 
     constructor(section: ITag) {
@@ -247,7 +300,7 @@ class SectionMystery extends LessonSections {   // we don't know what this secti
 class SectionCode extends LessonSections {
     constructor(section: ITag) {
         super(section)
-        console.log('config lines', section.params['lines'])
+        // console.log('config lines', section.params['lines'])
 
         this.basicLeftRight(this.divName('code', this.tkt),
             this.sectionName, this.divName("monaco", this.tkt), this.divName("world", this.tkt))  // specifies the DIV styles (not the IDs)
@@ -267,11 +320,11 @@ class SectionCode extends LessonSections {
         let tag = document.getElementById(this.divName('left', this.tkt))
         let nLines = parseFloat(section.params['lines'])  // we know it's a string, but typescript doesn't
 
-        if (initialCode.charCodeAt(0) == 10){   // leading LF?
+        if (initialCode.charCodeAt(0) == 10) {   // leading LF?
             initialCode = initialCode.substr(1)
         }
-  
-        console.log('initialco',initialCode,initialCode.charCodeAt(0))
+
+        // console.log('initialco', initialCode, initialCode.charCodeAt(0))
         // console.log('about to create the editor')
         // this.editor = new EditorInstance(initialCode, tag, halfMonacoWidth, nLines)
 
@@ -351,11 +404,22 @@ class SectionP extends LessonSections {   // <p> with speaker and
         let nodes: any[] = []
 
         // speech icon
-        if ('SpeechIcon' in section.params) {    // i hate truthy and falsy values.  is the empty string true or false?
-            nodes.push(this.node('DIV', '', '', 'prespeaker'))
+        if ('SpeechIcon' in section.params) {    // first or continuation?
+            // nodes.push(this.node('DIV', '', '', 'prespeaker'))
             nodes.push(this.node('IMG', '', utterId, 'speaker', [
-                { name: 'src', value: "../assets/images/speaker.png" },
+                { name: 'src', value: "../assets/images/speaker.png" }
+                // ,
+                // { name: 'onclick', value: `console.log(globalThis);onClickSay("this is a test")` },
             ]))
+
+            // and save the speech in the utterances array
+            utterances.push({ id: utterId, text: this.utter })
+
+        } else {
+            // just add the voice text to the previous utterance
+            let previousUtterance = utterances.pop()
+            previousUtterance.text += ' ' + this.utter
+            utterances.push(previousUtterance)
         }
 
         // right side image
@@ -366,17 +430,17 @@ class SectionP extends LessonSections {   // <p> with speaker and
 
         }
 
-        // do we need to add background betty?
-        if ('background' in section.params && 'SpeechIcon' in section.params) {
-            nodes.push(this.node('IMG', '', '', 'background', [
-                { name: 'src', value: "../assets/images/anime1.png" },
+        // do we need to add background betty?  
+        if ('science' in section.params && 'SpeechIcon' in section.params) {
+            nodes.push(this.node('IMG', '', 'science', 'background', [
+                { name: 'src', value: "../assets/images/madscience.png" },
             ]))
         }
 
         // do we need to add realworld?
-        if ('realworld' in section.params && 'SpeechIcon' in section.params) {
+        if ('history' in section.params && 'SpeechIcon' in section.params) {
             nodes.push(this.node('IMG', '', '', 'background', [  // same css as background
-                { name: 'src', value: "../assets/images/anime2.png" },
+                { name: 'src', value: "../assets/images/history.png" },
             ]))
         }
 
@@ -391,10 +455,10 @@ class SectionP extends LessonSections {   // <p> with speaker and
         nodes.push(this.node('P', text, textId, ''))
 
         // finally attach, either for background-betty or for normal
-        if ('background' in section.params) {
-            this.attach('lesson', '', this.sectionName, 'background', nodes)
-        } else if ('realworld' in section.params) {
-            this.attach('lesson', '', this.sectionName, 'realworld', nodes)
+        if ('science' in section.params) {
+            this.attach('lesson', '', this.sectionName, 'science', nodes)
+        } else if ('history' in section.params) {
+            this.attach('lesson', '', this.sectionName, 'history', nodes)
         } else if ('mindset' in section.params) {
             this.attach('lesson', '', this.sectionName, 'mindset', nodes)
         } else {
@@ -455,6 +519,18 @@ class SectionDrill extends LessonSections {   // handles math drills
         //     drill.renderQuestion(question)
         // }
     }
+}
 
+class SectionDebug extends LessonSections {
+    constructor(section: ITag) {
+        super(section)
+
+        let tag = 'p'
+
+        this.attach('lesson', '', '', '', [
+            this.node(tag, JSON.stringify(section), '', '', [{ name: 'style', value: 'font-size:10px;' }])
+        ])
+    }
 
 }
+
