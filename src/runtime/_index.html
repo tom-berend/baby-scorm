@@ -7,32 +7,49 @@
     <link rel="stylesheet" href="3d.css" />
 </head>
 
-<body style="max-width:2000px!; width:100%">
+<body>
 
-
-    <!-- lesson and editor, side by side-->
-    <div id="lesson" style="border-style: solid;  border-block-color: black;border-width: 1px; float:left; width:45%">
-    </div>
-    <div style="border-style: solid;  border-block-color: black;border-width: 1px; float:left; width:45%; height:100%;">
-        <div id="buttons">
-            <p style="padding-bottom:14px;">
-                <button id="save">Save</button>
-                <button id="load">Load</button>
-                <button id="run">Run</button>
-                <button id="debug">Debug</button>
-                <button id="tagcount"></button>
-                    <button id="suggestName"></button>
-                    </p>
-
-            <textarea rows="1000" id="tomseditor" style="width:100%;margin:2px;padding:5px;"></textarea>
+    <div class="navbar">
+        <div style="float:right;padding-right:200px">
+            <button id="save">Save</button>
+        </div>
+        <div style="float:right">
+            <button id="load">Load</button>
+        </div>
+        <div style="float:right">
+            <button id="run">Run</button>
+        </div>
+        <div style="float:right">
+            <button id="debug">Debug</button>
+        </div>
+        <div style="float:right">
+            <button id="tagcount"></button>
+        </div>
+        <div style="float:right">
+            <button id="suggestName"></button>
         </div>
 
-
     </div>
 
 
+    <div class="main" style="margin-top:30px">
+        <!-- lesson and editor, side by side-->
+        <div id="lesson"
+            style="border-style: solid;  border-block-color: black;border-width: 1px; float:left; width:45%">
+        </div>
+        <div
+            style="border-style: solid;  border-block-color: black;border-width: 1px; float:left; width:45%; height:100%;">
+            <div>
 
-    <script src="index.js"></script>  <!-- some functions in global scope-->
+                <textarea rows="1000" id="tomseditor" style="width:100%;margin:2px;padding:5px;"></textarea>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <script src="index.js"></script> <!-- some functions in global scope-->
     <script src="bundle.js"></script>
 
 

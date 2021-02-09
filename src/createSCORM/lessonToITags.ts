@@ -108,8 +108,9 @@ export class LessonToITags {
         // trick, alternate is [text[]voice] and it's TWO different markdowns  [--[ and ]--]
 
         // substitution list to improve voices
-        let subs = [{ from: 'JavaScript', to: 'JavvaScript' },
-        { from: '\`console.log()\`', to: '[\`console.log()\`|console dot log]' },
+        let subs = [
+            { from: 'JavaScript', to: '[Javascript|JavvaScript]' },
+            { from: '\`console.log()\`', to: '[\`console.log()\`|console dot log]' },
         ]
 
         for (let sub of subs) {
@@ -131,18 +132,19 @@ export class LessonToITags {
         sTest = this.processSingleMarkdown(sTest, /\`*\`/, /\`/, '', '')
         sTest = this.processSingleMarkdown(sTest, /\^.*\^/, /\^/, '', '')
 
-        // substitution list to improve voices
-        let subs = [{ from: 'JavaScript', to: 'JavvaScript' },
-        { from: '\`console.log()\`', to: '[\`console.log()\`|console dot log]' },
-        ]
+        // // substitution list to improve voices
+        // let subs = [
+        //     { from: 'JavaScript', to: '[JavaScript | JavvaScript]' },
+        //     { from: '\`console.log()\`', to: '[\`console.log()\`|console dot log]' },
+        // ]
 
-        for (let sub of subs) {
-            while (true) {
-                let n = sTest.indexOf(sub.from)
-                if (n === -1) { break }
-                sTest = sTest.slice(0, n) + sub.to + sTest.slice(n + sub.from.length)
-            }
-        }
+        // for (let sub of subs) {
+        //     while (true) {
+        //         let n = sTest.indexOf(sub.from)
+        //         if (n === -1) { break }
+        //         sTest = sTest.slice(0, n) + sub.to + sTest.slice(n + sub.from.length)
+        //     }
+        // }
         return (sTest)
     }
 
@@ -218,7 +220,7 @@ export class LessonToITags {
             let bParams: object = {}
 
             if (match) {
-                console.log('match',match[0].toString)
+                console.log('match', match[0].toString)
                 sTag = match[0].toString()
                 sTag = sTag.slice(1, sTag.length - 1)  // take out the < and >
 
@@ -281,7 +283,7 @@ export class LessonToITags {
         aTags.forEach((o, i) => {   // can modify aTags[i] this way
             // there may be multiple <p> tags in a speech block
 
-            console.log('preprocess',o)
+            console.log('preprocess', o)
             if (!this.inASpeechBlock && aTags[i].tag === 'p') { // need to open our speech blocks
                 // if we aren't in a speech block, then this is the FIRST tag of a speech Icon
                 this.utteranceTag = aTags[i]
@@ -314,8 +316,8 @@ export class LessonToITags {
                     this.hasTitle = true
                     break
 
-                case 'shortdesc':    
-                case 'title':    
+                case 'shortdesc':
+                case 'title':
                 case 'subtitle':
                     aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue)
                     break

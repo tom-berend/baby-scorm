@@ -81,6 +81,9 @@ export class LessonPage {
                     s = new SectionShortDesc(section)
                     break
 
+                case 'run':
+                    break
+
                 case 'title':
                 case 'subtitle':
                     s = new SectionTitle(section)
@@ -298,6 +301,11 @@ class SectionShortDesc extends LessonSections {
     constructor(section: ITag) {
         super(section)
         moduleInfo.shortDesc = section.textvalue      // just same the lesson name
+
+        this.attach('lesson', '', '', '', [
+            this.node('h5', "tl;dr: "+section.textvalue),
+        ])
+  
     }
 }
 
