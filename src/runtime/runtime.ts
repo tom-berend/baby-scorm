@@ -95,17 +95,17 @@ export class Runtime {
 
 
 
-    async paintWelcome() {
-        await this.loadAllFiles()
+    // async paintWelcome() {
+    //     await this.loadAllFiles()
 
-        console.log('all ITag files loaded')
+    //     console.log('all ITag files loaded')
 
-        let firstLesson: ITag[] = this.lessons.values().next().value   // first lesson
-        this.lessonPage = new LessonPage(firstLesson)
-    }
+    //     let firstLesson: ITag[] = this.lessons.values().next().value   // first lesson
+    //      this.lessonPage = new LessonPage(firstLesson)
+    // }
 
 
-    
+
 
 }
 
@@ -157,56 +157,56 @@ class Editor {
 
     editorDiv: HTMLDivElement
     editor: Editor
-    download: HTMLButtonElement
     save: HTMLButtonElement
+    load: HTMLButtonElement
     run: HTMLButtonElement
     debug: HTMLButtonElement
 
     editorTag: HTMLTextAreaElement
 
-    lessonPage:LessonPage
+    lessonPage: LessonPage
 
     constructor(editorTag: HTMLTextAreaElement) {
         this.editorTag = editorTag
 
-        this.download = document.getElementById('download') as HTMLButtonElement
-        this.save = document.getElementById('upload') as HTMLButtonElement
+        this.save = document.getElementById('save') as HTMLButtonElement
+        this.load = document.getElementById('load') as HTMLButtonElement
         this.run = document.getElementById('run') as HTMLButtonElement
         this.debug = document.getElementById('debug') as HTMLButtonElement
 
-        this.download.onclick = () => this.doDownload();
-        this.save.onclick = () => this.doUpload();
+        this.save.onclick = () => this.doSave();
+        this.load.onclick = () => this.doLoad();
         this.run.onclick = () => this.doRun();
         this.debug.onclick = () => this.doDebug();
+
+        this.lessonPage = new LessonPage()
 
     }
 
 
+    doSave() {
 
-
-    doDownload() {
-        console.log('in doDownload ')
+        console.log('in doSave ')
         let area = document.getElementById('tomseditor') as HTMLTextAreaElement
         let text = area.value
         let data = new Blob([text], { type: 'text/plain' });
-
 
         // If we are replacing a previously generated file we need to
         // manually revoke the object URL to avoid memory leaks.
         if (this.initFile) {
             window.URL.revokeObjectURL(this.initFile);
         }
-        this.initFile = window.URL.createObjectURL(data);
 
-        const link = document.createElement("a");
-        link.download = this.initFile
-        link.href = this.initFile;
-        link.dispatchEvent(new MouseEvent("click"));
+        this.initFile = window.URL.createObjectURL(data);
+        const a = document.createElement("a")
+        a.download = this.suggestName
+        a.href = this.initFile
+        a.dispatchEvent(new MouseEvent("click"));
     }
 
 
     // use the fileReader to grab a lesson and load it into the textarea
-    doUpload() {
+    doLoad() {
         const input = document.createElement("input");
         input.type = "file";
         input.onchange = () => {
@@ -226,10 +226,18 @@ class Editor {
 
     doRun() {
         let area = document.getElementById('tomseditor') as HTMLTextAreaElement
+        // console.log('doRun',area.value)
         let iTags = new LessonToITags().parse('../assets', area.value)
-        console.log('about to run iTags', iTags)
-        let lessonPage = new LessonPage(iTags, this.isDebug)
+        // console.log('about to run iTags', iTags)
+        this.lessonPage.load(iTags, this.isDebug)
 
+        let moduleInfo = this.lessonPage.moduleInfo()
+        console.log('moduleInfo', moduleInfo)
+        this.suggestName =
+            moduleInfo.module.substr(0, 3) +
+            moduleInfo.lesson.substr(0, 3) +
+            moduleInfo.module.substr(3) + '.txt'
+        document.getElementById('suggestName').innerHTML = this.suggestName
 
     }
 
@@ -259,9 +267,6 @@ class Editor {
     }
 
 }
-
-
-
 
 
 

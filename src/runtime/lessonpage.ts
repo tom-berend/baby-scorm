@@ -17,11 +17,11 @@ type utterance = {
 let utterances: utterance[] = []
 
 export type moduleInfo = {
-    module:string,     // name of the module we are working on
-    lesson:string,
-    shortDesc:string
+    module: string,     // name of the module we are working on
+    lesson: string,
+    shortDesc: string
 }
-let moduleInfo:moduleInfo = {module:'',lesson:'',shortDesc:''}
+let moduleInfo: moduleInfo = { module: '', lesson: '', shortDesc: '' }
 
 
 
@@ -29,14 +29,25 @@ export class LessonPage {
 
     onClickSay: OnClickSay
 
-    constructor(sections: ITag[], debug = false) {
+    constructor() {
         // console.log('In LessonPage')
 
         // initialize the voices
         this.onClickSay = new OnClickSay()
 
+
+    }
+    /** clear out any existing stuff in the document */
+    clear(){
         // clear the existing lesson space
         document.getElementById('lesson').innerHTML = "";
+        utterances = []
+
+    }
+    load(sections: ITag[], debug = false) {
+
+        this.clear() // start by erasing
+        
 
 
         // cycle through the ITags, creating a section for each one
@@ -51,7 +62,6 @@ export class LessonPage {
             switch (section.tag) {
 
                 case 'key':         // we don't process these, they are meta for the table of contents
-                case 'shortdesc':
                 case 'break':       // or in case we want to do something later
                     break
 
@@ -65,9 +75,17 @@ export class LessonPage {
                     s = new SectionModule(section)
                     break
                 case 'lesson':
+                    s = new SectionLesson(section)
+                    break
+                case 'shortdesc':
+                    s = new SectionShortDesc(section)
+                    break
+
+                case 'title':
                 case 'subtitle':
                     s = new SectionTitle(section)
                     break
+
                 case 'drill':
                     s = new SectionDrill(section)
                     break
@@ -86,7 +104,8 @@ export class LessonPage {
         });
     }
 
-    moduleInfo():moduleInfo{        //  function: type returns object 
+
+    moduleInfo(): moduleInfo {        //  function: type returns object 
         return moduleInfo
     }
 }
@@ -291,7 +310,9 @@ class SectionMystery extends LessonSections {   // we don't know what this secti
         super(section)
 
         this.attach('lesson', '', '', '', [
-            this.node('P', `< span style = "background-color:pink" > Unknown tag - ${section.tag} with textrawvalue ${section.rawvalue} </span>`),
+
+            this.node('P', `Unknown tag - ${section.tag} with rawvalue ${section.rawvalue} </span>`,
+            '','',[{name:'style',value:'background-color:pink'}]),
         ])
     }
 }
@@ -486,6 +507,9 @@ class SectionTitle extends LessonSections {   // handles titles and subtitles
         ])
     }
 }
+
+
+
 
 class SectionDrill extends LessonSections {   // handles math drills
 

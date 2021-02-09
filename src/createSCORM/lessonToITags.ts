@@ -210,7 +210,7 @@ export class LessonToITags {
 
         for (let sLine of aLines) {   // weirdly, aLines is an Object of type Array.  JavaSscrpt types are awful.
             // console.log('sline ', sLine)
-            let match = sLine.match(new RegExp(/^<([a-z]|[A-Z]|[0-9]|\(|\.|\=|\,|\))*>/)) // matchs <p>  and <h1>, etc
+            let match = sLine.match(new RegExp(/^<([a-z]|[A-Z]|[0-9]|\_|\(|\.|\=|\,|\))*>/)) // matchs <p>  and <h1>, etc
 
             let sTag = ''
             let sRemain = ''
@@ -218,6 +218,7 @@ export class LessonToITags {
             let bParams: object = {}
 
             if (match) {
+                console.log('match',match[0].toString)
                 sTag = match[0].toString()
                 sTag = sTag.slice(1, sTag.length - 1)  // take out the < and >
 
@@ -280,6 +281,7 @@ export class LessonToITags {
         aTags.forEach((o, i) => {   // can modify aTags[i] this way
             // there may be multiple <p> tags in a speech block
 
+            console.log('preprocess',o)
             if (!this.inASpeechBlock && aTags[i].tag === 'p') { // need to open our speech blocks
                 // if we aren't in a speech block, then this is the FIRST tag of a speech Icon
                 this.utteranceTag = aTags[i]
@@ -297,10 +299,8 @@ export class LessonToITags {
 
                 case 'br':
                 case 'cm':
-                case 'shortdesc':
                 case 'break':
                 case 'drill':
-                case 'title':
                 case 'key':
                     break
 
@@ -314,6 +314,8 @@ export class LessonToITags {
                     this.hasTitle = true
                     break
 
+                case 'shortdesc':    
+                case 'title':    
                 case 'subtitle':
                     aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue)
                     break

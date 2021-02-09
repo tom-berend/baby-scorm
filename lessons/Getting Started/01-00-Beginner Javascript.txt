@@ -1,8 +1,8 @@
-﻿<module>01-Beginner Javascript
+<module>01-Beginner Javascript
 <lesson>00-First Program
 <shortdesc>Basic types, variables, statements, input and print.
 
-
+<p> first line?
 <p> this is _emp_ text (underscore).
 <p> this is ^bold^ text. (caret)
 <p> this is `code` text. (backtick)
@@ -10,10 +10,32 @@
 
 <break>
 
-<title> Welcome to GameCode
-<p>Everyone dreams of writing video games. It's great fun. But programming computer graphics needs almost all the math and physics you learn in high-school.  
-<p> So we wrote a programming course that teaches you math, physics, and programming.
+<title>Welcome to GameCode
+<p>Everyone dreams of writing video games. It's a great hobby, and maybe even a career.
+<p>There is a lot to learn.  And there are many great courses to help you learn.  This one is a bit different.  We are going to teach you high school math and physics, except you won't notice because we are teaching also you how to write video games.
 <break>
+
+<p>Games needs almost all the math you learn in high school.  Computer graphics need functions, vectors, matrices, trigonometry, and more.  Making a game's movements look realistic needs physics, and that means some calculus.
+<p>Game design adds another layer. Game design requires many of the disciplines of system engineering, such as probability, communications, and feedback.  We'll get you started on these ideas.
+<p>And of course we are going to have to teach you programming, how to use the real-world tools you need like compilers and editors. 
+<break>
+
+
+
+Or you can download Unity and start trying to figure it out. <break>
+<p>Here's the thing. Writing games need almost all the math and physics you learn in high-school. And writing a serious game takes serious programming skills.  There's no shortcut.  
+<break>
+<p> So we wrote a programming course that teaches you math, physics, and programming.  It will cover most of the math and physics you need for grade 10 and 11. It will teach serious programming. And it will how to use the 
+
+<subtitle>JavaScript
+<p>The language we will teach you is called JavaScript.  It is the most popular language in 
+
+<p(img=scratch.png)>We assume you don't know anything about programming, but we aren't going to use a beginner coding language like [<a href="https://scratch.mit.edu/projects/editor/?tutorial=getStarted">Scratch</a>|scratch] or [<a href="https://www.alice.org/resources/alice-3-how-tos/">Alice</a>|Alice].  They use drag-and-drop to make it easy and quick to cobble together things that look like games.  
+<p>But it won't be as much fun as you think. You'll get the lessons working, but you will quickly run into limits of the training wheels.
+
+ 
+<break>
+<p(img=Unity_2020_UI.png)>
 <break>
 <p(img=radius.jpg)>The image on the right is what you should see using Chrome.  It will be slightly different in Firefox and Microsoft Edge. If you are using another browser, then download Chrome from [<a href="https://www.google.com/chrome">https://www.google.com/chrome</a>|w w w dot google dot com] and try again.  If you have trouble, stop and get help.  You should not go on until you have a console open.
 
