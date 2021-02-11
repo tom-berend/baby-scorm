@@ -2,7 +2,7 @@ import path from 'path'
 import { ITag } from '../runtime/T'
 
 const validTags = ['p', 'subtitle', 'br', 'code',
-    'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'cm', 'key']
+    'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'cm', 'key','run']
 
 
 export class LessonToITags {
@@ -107,20 +107,6 @@ export class LessonToITags {
 
         // trick, alternate is [text[]voice] and it's TWO different markdowns  [--[ and ]--]
 
-        // substitution list to improve voices
-        let subs = [
-            { from: 'JavaScript', to: '[Javascript|JavvaScript]' },
-            { from: '\`console.log()\`', to: '[\`console.log()\`|console dot log]' },
-        ]
-
-        for (let sub of subs) {
-            while (true) {
-                let n = sTest.indexOf(sub.from)
-                if (n === -1) { break }
-                sTest = sTest.slice(0, n) + sub.to + sTest.slice(n + sub.from.length)
-            }
-        }
-
         return (sTest)
     }
 
@@ -175,28 +161,70 @@ export class LessonToITags {
         return (sTest)
     }
 
+
+    createWebURL(snippet:string):string{
+
+        // snippet does NOT have the open and close square brackets
+
+        // 2-element: [print|voice]  
+        // 3-element [print|voice|weburl]
+        // strategy is to convert a 3-element to a 2-element
+        //   [ seeFoo | sayFoo | http://foo.com ] becomes
+        //    [<a target="_blank" href="http://foo.com"> seeFoo</a> | sayFoo]  
+
+        let aSnippet:string[] = snippet.split('|')
+        if(aSnippet.length == 3) { // there is a URL part
+            // we don't use _blank because we probably don't want to open multiple windows
+            snippet = `<a href='${aSnippet[2]}' target='gamecode'>${aSnippet[0]}</a> | ${aSnippet[1]}`
+        }
+        return snippet
+    }
+
+
     /** don't call this directly, it is shared by processMarkdown() and eraseMarkdown() */
-    processAlternateMarkdown(sTest, isKeepFirst): string {
+    processAlternateMarkdown(sTest:string, isKeepFirst:boolean): string {
         // console.log(`function processAlternateMarkdown (${sTest}, ${isKeepFirst})`)
+
+        let oldSTest = sTest
         while (true) {    // may have more than one
             let n = sTest.indexOf('[')
             if (n === -1) { break }
+
+            let p = sTest.indexOf(']', n + 1)
+            if (p === -1) { console.error(`Missing end marker on ${sTest}, p=${p},remainder=${sTest.slice(p + 1)}`) }
+
+            // call createWebUrl.  if it is a two=part, then will not change. if a three-part, then 
+            // will be converted to a two part
+            let snippet = sTest.slice(n + 1, p)
+            let fixedSnippet = this.createWebURL(snippet) // convert from 3-part to 2-part (if necessary)
+            // and put it back into sTest 
+            sTest = sTest.slice(0, n) + '[' + fixedSnippet + ']' + sTest.slice(p + 1)
+            // console.log('fixedSnippet',fixedSnippet)
+            
+
+            // start again
+            n = sTest.indexOf('[')
+            if (n === -1) { break }
+
+            p = sTest.indexOf(']', n + 1)
+            if (p === -1) { console.error(`Missing end marker on ${sTest}, p=${p},remainder=${sTest.slice(p + 1)}`) }
+
+
             let m = sTest.indexOf('|', n + 1)
             if (m === -1) { console.error(`Missing middle marker on ${sTest}, m=${m},remainder=${sTest.slice(m + 1)}`) }
-            let p = sTest.indexOf(']', m + 1)
-            if (p === -1) { console.error(`Missing end marker on ${sTest}, p=${p},remainder=${sTest.slice(p + 1)}`) }
 
             // console.log('part 1 ', sTest.slice(0, n))
             // console.log('part 2 ', sTest.slice(n + 1, m))
             // console.log('part 3 ', sTest.slice(m + 1, p))
             // console.log('part 4 ', sTest.slice(p + 1))
 
-            if (isKeepFirst) {
+            if (isKeepFirst) {  // keep the first part
                 sTest = sTest.slice(0, n) + sTest.slice(n + 1, m) + sTest.slice(p + 1)
-            } else {
+            } else {            // keep the second part
                 sTest = sTest.slice(0, n) + sTest.slice(m + 1, p) + sTest.slice(p + 1)
             }
         }
+
         return (sTest)
     }
 
@@ -220,7 +248,7 @@ export class LessonToITags {
             let bParams: object = {}
 
             if (match) {
-                console.log('match', match[0].toString)
+                // console.log('match', match[0].toString)
                 sTag = match[0].toString()
                 sTag = sTag.slice(1, sTag.length - 1)  // take out the < and >
 
@@ -283,7 +311,7 @@ export class LessonToITags {
         aTags.forEach((o, i) => {   // can modify aTags[i] this way
             // there may be multiple <p> tags in a speech block
 
-            console.log('preprocess', o)
+            // console.log('preprocess', o)
             if (!this.inASpeechBlock && aTags[i].tag === 'p') { // need to open our speech blocks
                 // if we aren't in a speech block, then this is the FIRST tag of a speech Icon
                 this.utteranceTag = aTags[i]
@@ -304,6 +332,7 @@ export class LessonToITags {
                 case 'break':
                 case 'drill':
                 case 'key':
+                case 'run':    
                     break
 
                 case 'module':
@@ -349,8 +378,15 @@ export class LessonToITags {
                         //TODO: 01 is hardcoded, need to change to lesson#
                         aTags[i].url = 'assets/' + '01/' + o.params['img']  // TODO - check that this image exists
                         break
-
                     }
+
+                    // maybe a video to the right
+                    if ('video' in o.params) {
+                        //TODO: 01 is hardcoded, need to change to lesson#
+                        aTags[i].url = 'assets/' + '01/' + o.params['video']  // TODO - check that this image exists
+                        break
+                    }
+
                     break
 
 
@@ -389,7 +425,7 @@ export class LessonToITags {
         // verify that tag is 'legal'
         let LCtag = newtag.toLowerCase()
         let x = validTags.find((element) => element === LCtag)
-        console.assert(x === LCtag, `LessonToHTML.iTagFactory not legal tag: `, 'illegal tag ' + newtag)
+        console.assert(x === LCtag, `LessonToHTML.iTagFactory not legal tag: `, 'illegal tag ',newtag)
 
 
         let ret: ITag = {
@@ -558,7 +594,8 @@ export class LessonToITags {
             'break',
             'drill',
             'cm',
-            'key']
+            'key',
+            'run']
 
         // <module>
         // test = '<module> 01-Beginner Javascript'

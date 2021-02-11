@@ -1,6 +1,6 @@
 <module>01-Beginner Javascript
 <lesson>00-Information about this course
-<shortdesc>This is the first lesson of the first module, and we cover some housekeeping.  You will start programming in the second lesson.
+<shortdesc>This lesson is introduction and housekeeping. You will start programming in the next lesson.
 
 <p> first line?   this is _emp_ text (underscore).   this is ^bold^ text. (caret)  this is `code` text. (backtick)   this is <key>ctrl+k</key> text  < key > ctrl+k < / key > 
 
@@ -18,9 +18,14 @@
 
 <run(src=logo.ts)>
 
-<p(video=intro.webm)>Everyone dreams of writing video games. It's a great hobby, and maybe even a lot to learn.  So we wrote this course.
+<p(video=intro.webm)>Everyone dreams of writing video games. It's a great hobby, and maybe even a career. But there is a lot to learn.
 
-<p>There are already many great courses to help you learn.  This one is a bit different.  We are going to teach you high school math and physics, except you won't notice because we are teaching you how to write video games.
+<p>There are already many great courses to help you learn.  This one is a bit different in two ways.  
+
+<break>
+<p>First, we are going to teach you high school math and physics, except you won't notice because we are teaching you how to write video games.
+<p> And second, we are going to start at the beginning, explaining how computer graphics work at the lowest hardware and software levels, and how programmers put programs together.  
+
 
 
 
@@ -29,11 +34,20 @@
 
 
 <break>
-<p>Here's the thing. Writing a serious game takes serious math and programming skills.  There's no shortcut.  
+<p>Here's the thing. Writing a serious game takes serious math and programming skills, and knowledge about how computers work.  There's no shortcut.  
 
 <p>Video games are built on math and physics. Computer graphics rely on algebra, functions, vectors, matrices, trigonometry, and more.  Making movements look realistic needs physics, and that means some calculus.
 
 <p>Game _design_ adds another layer. Making a game fun and engaging requires many of the disciplines of system engineering, such as probability, communications, and feedback.  
+
+
+
+
+
+
+
+
+
 
 
 
@@ -48,13 +62,84 @@
 
 
 
-<subtitle>JavaScript
-<p>Many 'Learn to Code' camps use drag-and-drop "toy" languages like Scratch or [GameMaker|Game Maker|https://www.yoyogames.com/gamemaker].  We believe that young programmers are capable of much more.  We find passion and energy in ^Making Great Things^, but that requires real tools and real learning.
 
-<p(img=typescript.png)>
-There are many programming languages because each is good at different things.  The language we will be working with is called [JavaScript|JavaScript|https://developer.mozilla.org/en-US/docs/Web/JavaScript]. Specifically, we will use an extended flavor of JavaScript called [TypeScript|Type Script|https://www.typescriptlang.org/].
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subtitle>Beginner Game Engines
+<p(video=wolf.webm)>Many 'Learn to Code' camps use drag-and-drop "toy" languages like [Scratch|Scratch|https://scratch.mit.edu/] or [GameMaker|Game Maker|https://www.yoyogames.com/gamemaker].  That's not entirely a bad thing, because you get to create amazing things, quickly.  
+<p>The video on the right is a homework assignment in the third week of the free course
+^Introduction to Programming and Animation with Alice^ from [Coursera | Coursera | https://www.coursera.org/learn/introtoalice], focusing on camera management across multiple scenes. It's wonderful and amazing. You won't be able to do that after three weeks here.
+
 <break>
-<p> JavaScript is particularly good for writing web-based programs and is running every web page you visit.  It is also used for connected smart devices - the "Internet of Things" (IOT) and is embedded in devices around you.
+<p>But at the end of that course, students were hitting the limits of the Alice language. They had not seen anything outside the friendly Alice environment. They had not seen a text editor or a programming language. They had no foundation to move to another game engine.
+
+<p>So we're going to start at the beginning and build a solid foundation of basic knowledge.
+
+
+
+
+
+
+
+
+<break>
+<p(mindset)> Hi, I'm your learning coach.  Don't be scared.  This course also provides a beginner environment too - those two boxes on the right.  But we are also going to help you escape out, get you set up with real tools, and show you how to write games without us.
+<p(mindset)>That means you CANNOT run this course on a tablet or Chromebook.  You need a computer that you can program on.   
+
+
+
+
+
+
+
+
+
+<subtitle>JavaScript
+
+<p(img=javascript.png)>
+There are many programming languages because each is good at different things.  The language we will be working with is called [JavaScript|JavaScript|https://developer.mozilla.org/en-US/docs/Web/JavaScript]. <break>
+<p> JavaScript is particularly good for writing web-based programs. It is running every web page you visit.  It is also used for connected smart devices - the "Internet of Things" (IOT) and is embedded in devices around you.
+<p>Javascript is the language of [immersive media|immersive media|https://immersiveweb.dev/]. As I write this in 2021, JavaScript is the target language for front-edge development of virtual reality and augmented reality.  
+
+
+
+<break>
+<p(history)>I tell stories about history.  In the very early days, web pages were all static. 
+Javascript was started in 1995 as a simple language that could run in a browser, and it is the reason that anything in the browser responds to your mouse.  But JavaScript was cobbled together in a very short time, and for the first 20 years, it was awful.  
+<p>JavaScript is probably the most hated programming language on the planet.  It invites bugs. It is hard to read, and hard to maintain. Most of the language is quite horrible. New stuff has been added to JavaScript continuously, but none of the old stuff has ever been removed. 
+
+
+<p>The good news is that most of the new stuff being added to JavaScript is quite nice. The ^ES6^ version (sometimes called ^ES2015^) provided a much-needed upgrade after 20 years, making JavaScript into an almost-modern language. Since then, yearly upgrades have addressed the worst pain-points, especially asynchronous programming.
+
+
+<break>
+<p>So we are going to focus on the nice parts of JavaScript. We'll tell you about the older stuff, because you will see old code everywhere and otherwise you won't understand what you are looking at.  
+<p(img=typescript.png)>
+And we are going to use an extended flavor of JavaScript called [TypeScript|Type Script|https://www.typescriptlang.org/].  TypeScript helps catch mistakes early through a type system, and is well supported in the modern tooling we are going to encourage you to use.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -63,12 +148,11 @@ There are many programming languages because each is good at different things.  
 
 
 <subtitle>BabylonJS
-<p(img=babylonlogo.png)>
-We are going to use the awesome 
-[BabylonJS| Babylon J S|https://www.babylonjs.com] rendering engine.  Best-in-class graphics, performance, and tools. Supports the latest WebGL, WebGPU, WebXR, WebAudio, etc.
-Check it out!
+<p(img=babylon.jpg)>
+Our goal at the end of this course is for you to be comfortable using tools like the awesome 
+[BabylonJS| Babylon J S|https://www.babylonjs.com] rendering engine.  Check it out!
 <p>Babylon is a sprawling empire, but it takes a long time to learn, even for experts with the math skills of Star Fleet Navigators. You quickly get lost in the complexity and layers of possibilities, and sometimes never actually write a game.
-<p>To understand why we wrote this course, check out this [beginner tutorial|beginner tutorial|https://doc.babylonjs.com/guidedLearning/createAGame] for creating a game on the Babylon site.  It might as well be written in Greek.
+<p>Check out this example in the [BabylonJS Playground|Babylon J S | https://playground.babylonjs.com/#609QKP#7]. (Drag your mouse to move the camera, WASD to steer.)  Every bit of the code is there, but the learning curve is steep.  Here is the author [asking for help|asking for help|https://forum.babylonjs.com/t/real-physics-enabled-racing-game/4034].
 <p>We'll get you there, but in small steps.
 
 

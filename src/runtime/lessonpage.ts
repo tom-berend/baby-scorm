@@ -38,7 +38,7 @@ export class LessonPage {
 
     }
     /** clear out any existing stuff in the document */
-    clear(){
+    clear() {
         // clear the existing lesson space
         document.getElementById('lesson').innerHTML = "";
         utterances = []
@@ -47,15 +47,23 @@ export class LessonPage {
     load(sections: ITag[], debug = false) {
 
         this.clear() // start by erasing
-        
 
+
+        let previousWasP = false        // we need to accumulate <p>'s together
+        let s: SectionP
 
         // cycle through the ITags, creating a section for each one
         sections.forEach((section) => {
-            let s
+
 
             if (debug) {
-                new SectionDebug(section)
+                new SectionDebug(section)   // don't save in 's
+            }
+
+            // close off multiple linked <p> if necessary
+            if (section.tag !== 'p' && previousWasP) {
+                s.finalAttachToDiv()
+                previousWasP = false
             }
 
 
@@ -66,19 +74,28 @@ export class LessonPage {
                     break
 
                 case 'p':
-                    s = new SectionP(section)
+                    // this is a bit trickier than the others
+                    // <p> get grouped together in a single <DIV>.  so we offer 
+                    // a method that adds a single <P> paragraph and another that closes the <DIV>
+
+                    if (!previousWasP) {    // previous was something else, so opening a new block of <p>
+                        s = new SectionP(section)
+                    }
+                    s.addSingleParagraph(section)
+                    previousWasP = true     // next time through this will be true
                     break
+
                 case 'code':
-                    s = new SectionCode(section)
+                    new SectionCode(section)
                     break
                 case 'module':
-                    s = new SectionModule(section)
+                    new SectionModule(section)
                     break
                 case 'lesson':
-                    s = new SectionLesson(section)
+                    new SectionLesson(section)
                     break
                 case 'shortdesc':
-                    s = new SectionShortDesc(section)
+                    new SectionShortDesc(section)
                     break
 
                 case 'run':
@@ -86,26 +103,51 @@ export class LessonPage {
 
                 case 'title':
                 case 'subtitle':
-                    s = new SectionTitle(section)
+                    new SectionTitle(section)
                     break
 
                 case 'drill':
-                    s = new SectionDrill(section)
+                    new SectionDrill(section)
                     break
                 default:
-                    s = new SectionMystery(section)
+                    new SectionMystery(section)
                     break
 
                 // console.error(section.tag)
             }
         })
 
-        // all sections loaded.  now attach the utterances
+        if (previousWasP)        // may need to close off the last <p>
+            s.finalAttachToDiv()
+
+
+        // clean up some of the utterances
+        // substitution list to improve voices
+        let subs = [
+            { from: 'JavaScript', to: '[Javascript|JavvaScript]' },
+            { from: '\`console.log()\`', to: '[\`console.log()\`|console dot log]' },
+        ]
+        //TODO: do the actual substitutions
+
+
+
+
+        // all sections loaded.  now clean up and attach the utterances
         utterances.forEach(utterance => {
+
+            for (let sub of subs) {     // anything in the substitution list
+                while (true) {
+                    let n = utterance.text.indexOf(sub.from)
+                    if (n === -1) { break }  // might have multiples (this may be several paragraphs)
+                    utterance.text = utterance.text.slice(0, n) + sub.to + utterance.text.slice(n + sub.from.length)
+                }
+            }
             let element = document.getElementById(utterance.id)
+            console.log('attaching to ', utterance.id,utterance.text)
             element.onclick = () => { this.onClickSay.onClickSay(utterance.text) }
-        });
-    }
+            // element.onclick = () => { alert(utterance.text) }
+        })
+ }
 
 
     moduleInfo(): moduleInfo {        //  function: type returns object 
@@ -140,7 +182,7 @@ abstract class LessonSections {
         return (prefix + ("00" + tkt).slice(-3))   // prefix + 3-digit tkt
     }
 
-    /** create a new node */
+    /** create a new node  */
     node(newElement: string, content: string | HTMLElement, newId: string = '', className: string = '', attributes: IAttribute[] = []): HTMLElement {
         let node: HTMLElement = document.createElement(newElement)
         if (className.length > 0) { node.className = className }
@@ -303,9 +345,9 @@ class SectionShortDesc extends LessonSections {
         moduleInfo.shortDesc = section.textvalue      // just same the lesson name
 
         this.attach('lesson', '', '', '', [
-            this.node('h5', "tl;dr: "+section.textvalue),
+            this.node('h5', "tl;dr: " + section.textvalue),
         ])
-  
+
     }
 }
 
@@ -320,7 +362,7 @@ class SectionMystery extends LessonSections {   // we don't know what this secti
         this.attach('lesson', '', '', '', [
 
             this.node('P', `Unknown tag - ${section.tag} with rawvalue ${section.rawvalue} </span>`,
-            '','',[{name:'style',value:'background-color:pink'}]),
+                '', '', [{ name: 'style', value: 'background-color:pink' }]),
         ])
     }
 }
@@ -419,82 +461,106 @@ class SectionCode extends LessonSections {
 class SectionP extends LessonSections {   // <p> with speaker and
     public utter: string
 
+    nodes: any[] = []          // build up the parts of the div that we need
+    originalSection: ITag
+    utterId: string
+
     constructor(section: ITag) {
         super(section)
 
-        let utterId = this.divName('utter', this.tkt)
-        let textId = this.divName('text', this.tkt)
+        // the utterId is constant across multiple <p>s
+        this.utterId = this.divName('utter', this.tkt)
 
-        this.utter = section.speechvalue
         let text = section.textvalue
 
+        this.originalSection = section // we will need it 
+        // this.addSingleParagraph(section)
+        // this.finalAttachToDiv()
+    }
 
-        // build up the parts of the div that we need
-        let nodes: any[] = []
+    // <p> get grouped together in a single <DIV>.  so we offer 
+    // a method that adds a single <P> paragraph and another that closes the <DIV>
+
+    addSingleParagraph(currentSection: ITag) {
 
         // speech icon
-        if ('SpeechIcon' in section.params) {    // first or continuation?
+        if ('SpeechIcon' in currentSection.params) {    // first or continuation?
             // nodes.push(this.node('DIV', '', '', 'prespeaker'))
-            nodes.push(this.node('IMG', '', utterId, 'speaker', [
+            this.nodes.push(this.node('IMG', '', this.utterId, 'speaker', [
                 { name: 'src', value: "../assets/images/speaker.png" }
                 // ,
                 // { name: 'onclick', value: `console.log(globalThis);onClickSay("this is a test")` },
             ]))
 
             // and save the speech in the utterances array
-            utterances.push({ id: utterId, text: this.utter })
+            utterances.push({ id: this.utterId, text: currentSection.speechvalue })
 
         } else {
             // just add the voice text to the previous utterance
             let previousUtterance = utterances.pop()
-            previousUtterance.text += ' ' + this.utter
+            previousUtterance.text += ' ' + currentSection.speechvalue
             utterances.push(previousUtterance)
         }
 
         // right side image
-        if ('img' in section.params) {
-            nodes.push(this.node('IMG', '', '', 'pimage', [
-                { name: 'src', value: section.url },
+        if ('img' in currentSection.params) {
+            this.nodes.push(this.node('IMG', '', '', 'pimage', [
+                { name: 'src', value: currentSection.url },
             ]))
-
+        }
+        // right side video
+        if ('video' in currentSection.params) {
+            this.nodes.push(this.node('video', '', '', 'vimage', [
+                { name: 'src', value: currentSection.url },
+                { name: 'width', value: "320" },
+                { name: 'height', value: "240" },
+                { name: 'type', value: "video/webm" },
+                { name: 'controls', value: "" },
+                { name: 'loop', value: "" },
+                { name: 'autoplay', value: "" },
+            ]))
         }
 
         // do we need to add background betty?  
-        if ('science' in section.params && 'SpeechIcon' in section.params) {
-            nodes.push(this.node('IMG', '', 'science', 'background', [
+        if ('science' in currentSection.params && 'SpeechIcon' in currentSection.params) {
+            this.nodes.push(this.node('IMG', '', 'science', 'background', [
                 { name: 'src', value: "../assets/images/madscience.png" },
             ]))
         }
 
         // do we need to add realworld?
-        if ('history' in section.params && 'SpeechIcon' in section.params) {
-            nodes.push(this.node('IMG', '', '', 'background', [  // same css as background
+        if ('history' in currentSection.params && 'SpeechIcon' in currentSection.params) {
+            this.nodes.push(this.node('IMG', '', '', 'background', [  // same css as background
                 { name: 'src', value: "../assets/images/history.png" },
             ]))
         }
 
         // do we need to add mindset?
-        if ('mindset' in section.params && 'SpeechIcon' in section.params) {
-            nodes.push(this.node('IMG', '', '', 'background', [  // same css as background
+        if ('mindset' in currentSection.params && 'SpeechIcon' in currentSection.params) {
+            this.nodes.push(this.node('IMG', '', '', 'background', [  // same css as background
                 { name: 'src', value: "../assets/images/anime3.png" },
             ]))
         }
 
         // finally the text
-        nodes.push(this.node('P', text, textId, ''))
+        this.nodes.push(this.node('P', currentSection.textvalue, '', ''))
+    }
 
+
+    finalAttachToDiv() {
         // finally attach, either for background-betty or for normal
-        if ('science' in section.params) {
-            this.attach('lesson', '', this.sectionName, 'science', nodes)
-        } else if ('history' in section.params) {
-            this.attach('lesson', '', this.sectionName, 'history', nodes)
-        } else if ('mindset' in section.params) {
-            this.attach('lesson', '', this.sectionName, 'mindset', nodes)
+        if ('science' in this.originalSection.params) {
+            this.attach('lesson', '', this.sectionName, 'science', this.nodes)
+        } else if ('history' in this.originalSection.params) {
+            this.attach('lesson', '', this.sectionName, 'history', this.nodes)
+        } else if ('mindset' in this.originalSection.params) {
+            this.attach('lesson', '', this.sectionName, 'mindset', this.nodes)
         } else {
-            this.attach('lesson', '', this.sectionName, '', nodes)
+            this.attach('lesson', '', this.sectionName, '', this.nodes)
         }
 
     }
+
 
     onDestroy() { }
 }

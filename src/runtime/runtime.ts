@@ -199,7 +199,7 @@ class Editor {
 
         this.initFile = window.URL.createObjectURL(data);
         const a = document.createElement("a")
-        a.download = this.suggestName
+        a.download = this.suggestName  // can only suggest the LAST segment
         a.href = this.initFile
         a.dispatchEvent(new MouseEvent("click"));
     }
