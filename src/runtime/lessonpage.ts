@@ -373,6 +373,11 @@ class SectionCode extends LessonSections {
         super(section)
         // console.log('config lines', section.params['lines'])
 
+        //TODO: <code
+        //    (lines=6) // only show n lines (indicate there are more)
+        //    (noShow)  // just a copy or run button
+        //    (noRun)   // not runnable code, no copy or run buttons
+
         this.basicLeftRight(this.divName('code', this.tkt),
             this.sectionName, this.divName("monaco", this.tkt), this.divName("world", this.tkt))  // specifies the DIV styles (not the IDs)
 
@@ -398,6 +403,13 @@ class SectionCode extends LessonSections {
         // console.log('initialco', initialCode, initialCode.charCodeAt(0))
         // console.log('about to create the editor')
         // this.editor = new EditorInstance(initialCode, tag, halfMonacoWidth, nLines)
+
+        // if we want line numbers, we just add them ourselves
+        initialCode = initialCode
+            .split('\n')
+            .map((line, num) => `${(num + 1).toString().padStart(3, ' ')}    ${line}`)  // 
+            .join('\n');
+
 
         const html = Prism.highlight(initialCode, Prism.languages.javascript, 'javascript');
         const expandHtml = `
@@ -464,6 +476,8 @@ class SectionP extends LessonSections {   // <p> with speaker and
     nodes: any[] = []          // build up the parts of the div that we need
     originalSection: ITag
     utterId: string
+
+    //TODO:  p(run)  // immediately run the code part of the section on clicking the utterance
 
     constructor(section: ITag) {
         super(section)
