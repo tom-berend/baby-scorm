@@ -1,0 +1,13 @@
+<subtitle>BabylonJS
+<p(img=babylon.jpg)>
+Our goal at the end of this course is for you to be comfortable using tools like the awesome 
+[BabylonJS| Babylon J S|https://www.babylonjs.com] rendering engine.  Check it out!
+<p>Babylon is a sprawling empire, but it takes a long time to learn, even for experts with the math skills of Star Fleet Navigators. You quickly get lost in the complexity and layers of possibilities, and sometimes never actually write a game.
+<p>Check out this example in the [BabylonJS Playground|Babylon J S | https://playground.babylonjs.com/#609QKP#7]. (Drag your mouse to move the camera, WASD to steer.)  Every bit of the code is there, but the learning curve is steep.  Here is the author [asking for help|asking for help|https://forum.babylonjs.com/t/real-physics-enabled-racing-game/4034].
+<p>We'll get you there, but in small steps.
+
+
+
+
+
+

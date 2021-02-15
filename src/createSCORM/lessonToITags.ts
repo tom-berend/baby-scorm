@@ -2,7 +2,7 @@ import path from 'path'
 import { ITag } from '../runtime/T'
 
 const validTags = ['p', 'subtitle', 'br', 'code',
-    'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'cm', 'key','run']
+    'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'key', 'run']
 
 
 export class LessonToITags {
@@ -90,7 +90,7 @@ export class LessonToITags {
 
         // first alternate voice / speech
         sTest = this.processAlternateMarkdown(sTest, true)  // keep first set
-        sTest = this.processSingleMarkdown(sTest, /_*_/, /_/, '<em>', '</em>')
+        sTest = this.processSingleMarkdown(sTest, /#*#/, /#/, '<em>', '</em>')
         sTest = this.processSingleMarkdown(sTest, /\^.*\^/, /\^/, '<b>', '</b>')
         sTest = this.processSingleMarkdown(sTest, /\`.*\`/, /\`/, '<t3d_code>', '</t3d_code>')
 
@@ -114,7 +114,7 @@ export class LessonToITags {
         // first alternate voice / speech
         sTest = this.processAlternateMarkdown(sTest, false)  // keep second set
         // then the italics (ignore \_)
-        sTest = this.processSingleMarkdown(sTest, /_*_/, /_/, '', '')
+        sTest = this.processSingleMarkdown(sTest, /#*#/, /#/, '', '')
         sTest = this.processSingleMarkdown(sTest, /\`*\`/, /\`/, '', '')
         sTest = this.processSingleMarkdown(sTest, /\^.*\^/, /\^/, '', '')
 
@@ -150,7 +150,14 @@ export class LessonToITags {
             //     console.log("sMatch2", sMatch2)
 
             let part1 = aMatch.input.slice(0, aMatch.index)
+
+            console.assert(aMatch2[0] !== null, `Matching problem at ${sTest}`)
+            console.assert(aMatch2[0].length - 1 !== null, `Matching problem at ${sTest}`)
+            console.assert(aMatch2.index + aMatch2[0].length - 1 !== null, `Matching problem at ${sTest}`)
+
             let part2 = aMatch2.input.slice(aMatch2[0].length - 1, aMatch2.index + aMatch2[0].length - 1)
+
+            console.assert(aMatch2.index + aMatch2[0].length !== null, `Matching problem at ${sTest}`)
             let part3 = aMatch2.input.slice(aMatch2.index + aMatch2[0].length - 1 + 1)
 
             sTest = part1 + openSub + part2 + closeSub + part3
@@ -162,7 +169,7 @@ export class LessonToITags {
     }
 
 
-    createWebURL(snippet:string):string{
+    createWebURL(snippet: string): string {
 
         // snippet does NOT have the open and close square brackets
 
@@ -172,8 +179,8 @@ export class LessonToITags {
         //   [ seeFoo | sayFoo | http://foo.com ] becomes
         //    [<a target="_blank" href="http://foo.com"> seeFoo</a> | sayFoo]  
 
-        let aSnippet:string[] = snippet.split('|')
-        if(aSnippet.length == 3) { // there is a URL part
+        let aSnippet: string[] = snippet.split('|')
+        if (aSnippet.length == 3) { // there is a URL part
             // we don't use _blank because we probably don't want to open multiple windows
             snippet = `<a href='${aSnippet[2]}' target='gamecode'>${aSnippet[0]}</a> | ${aSnippet[1]}`
         }
@@ -182,7 +189,7 @@ export class LessonToITags {
 
 
     /** don't call this directly, it is shared by processMarkdown() and eraseMarkdown() */
-    processAlternateMarkdown(sTest:string, isKeepFirst:boolean): string {
+    processAlternateMarkdown(sTest: string, isKeepFirst: boolean): string {
         // console.log(`function processAlternateMarkdown (${sTest}, ${isKeepFirst})`)
 
         let oldSTest = sTest
@@ -200,7 +207,7 @@ export class LessonToITags {
             // and put it back into sTest 
             sTest = sTest.slice(0, n) + '[' + fixedSnippet + ']' + sTest.slice(p + 1)
             // console.log('fixedSnippet',fixedSnippet)
-            
+
 
             // start again
             n = sTest.indexOf('[')
@@ -328,11 +335,10 @@ export class LessonToITags {
             switch (aTags[i].tag) {
 
                 case 'br':
-                case 'cm':
                 case 'break':
                 case 'drill':
                 case 'key':
-                case 'run':    
+                case 'run':
                     break
 
                 case 'module':
@@ -354,7 +360,8 @@ export class LessonToITags {
                 case 'code':
                     // make sure there is an 'lines' parameter
                     if ('lines' in o.params) {
-                        let nLines: number = o.rawvalue.split('\n').length + 1  // default to # of lines in code, plus 1
+                        let nLines: number = o.rawvalue.split('\n').length + 1  // default to # of lines in code, plus 1 
+                        nLines = Math.min(nLines,8)    // to maximum of 8 lines
                         aTags[i].params['lines'] = nLines.toString()
                     }
                     break
@@ -425,7 +432,7 @@ export class LessonToITags {
         // verify that tag is 'legal'
         let LCtag = newtag.toLowerCase()
         let x = validTags.find((element) => element === LCtag)
-        console.assert(x === LCtag, `LessonToHTML.iTagFactory not legal tag: `, 'illegal tag ',newtag)
+        console.assert(x === LCtag, `LessonToHTML.iTagFactory not legal tag: `, 'illegal tag ', newtag)
 
 
         let ret: ITag = {
@@ -523,13 +530,13 @@ export class LessonToITags {
         // processMarkdown()
 
         let rTests2 = [
-            { test: 'this _value_ is', result: 'this <em>value</em> is' },
-            { test: 'this _value_ is _great_', result: 'this <em>value</em> is <em>great</em>' },
+            { test: 'this #value# is', result: 'this <em>value</em> is' },
+            { test: 'this #value# is #great#', result: 'this <em>value</em> is <em>great</em>' },
 
             // doesn't work, don't know why, come back to this later
             // { test: 'this _value_ is *great*', result: 'this <em>value</em> is <b>great</b>' },
 
-            { test: 'this `value` is _great_', result: 'this <t3d_code>value</t3d_code> is <em>great</em>' },
+            { test: 'this `value` is #great#', result: 'this <t3d_code>value</t3d_code> is <em>great</em>' },
         ]
 
         for (let sTest of rTests2) {
@@ -539,8 +546,8 @@ export class LessonToITags {
 
         // eraseMarkdown()
         let rTests3 = [
-            { test: 'this _value_ is', result: 'this value is' },
-            { test: 'this _value_ is _great_', result: 'this value is great' },
+            { test: 'this #value# is', result: 'this value is' },
+            { test: 'this #value# is #great#', result: 'this value is great' },
             { test: '[tomato|tomawto]', result: 'tomawto' },
         ]
 

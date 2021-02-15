@@ -16,6 +16,15 @@ type utterance = {
 }
 let utterances: utterance[] = []
 
+type codeString = {
+    copyID: string   // 'copy019' or similar
+    runID: string    // 'run019' or similar
+    code: string
+}
+let codeStrings: codeString[] = []
+
+
+
 export type moduleInfo = {
     module: string,     // name of the module we are working on
     lesson: string,
@@ -29,14 +38,19 @@ export class LessonPage {
 
     onClickSay: OnClickSay
 
+
     constructor() {
         // console.log('In LessonPage')
 
         // initialize the voices
         this.onClickSay = new OnClickSay()
-
-
     }
+
+    onClickCopy(link: string) { alert('copy to editor...   ' + link) }
+    onClickRun(link: string) { alert('run in canvas...   ' + link) }
+
+
+
     /** clear out any existing stuff in the document */
     clear() {
         // clear the existing lesson space
@@ -121,20 +135,29 @@ export class LessonPage {
             s.finalAttachToDiv()
 
 
+        // generate the 'on click' events we need    
+        this.createLinks()
+
+
+        // scroll up to the top of the page
+        window.scrollTo({ top: 0 })
+    }
+
+
+    createLinks() {
+
+        // all sections loaded.  now clean up and attach the on-click events
+        // to utterances and code editors
+
+
         // clean up some of the utterances
         // substitution list to improve voices
         let subs = [
             { from: 'JavaScript', to: '[Javascript|JavvaScript]' },
             { from: '\`console.log()\`', to: '[\`console.log()\`|console dot log]' },
         ]
-        //TODO: do the actual substitutions
 
-
-
-
-        // all sections loaded.  now clean up and attach the utterances
         utterances.forEach(utterance => {
-
             for (let sub of subs) {     // anything in the substitution list
                 while (true) {
                     let n = utterance.text.indexOf(sub.from)
@@ -143,11 +166,20 @@ export class LessonPage {
                 }
             }
             let element = document.getElementById(utterance.id)
-            console.log('attaching to ', utterance.id,utterance.text)
+            // console.log('attaching to ', utterance.id,utterance.text)
             element.onclick = () => { this.onClickSay.onClickSay(utterance.text) }
             // element.onclick = () => { alert(utterance.text) }
         })
- }
+
+        codeStrings.forEach(codeStr => {
+            let copyElement = document.getElementById(codeStr.copyID)
+            copyElement.onclick = () => { this.onClickCopy(codeStr.copyID) }
+
+            let runElement = document.getElementById(codeStr.runID)
+            runElement.onclick = () => { this.onClickRun(codeStr.runID) }
+
+        })
+    } f
 
 
     moduleInfo(): moduleInfo {        //  function: type returns object 
@@ -378,8 +410,10 @@ class SectionCode extends LessonSections {
         //    (noShow)  // just a copy or run button
         //    (noRun)   // not runnable code, no copy or run buttons
 
-        this.basicLeftRight(this.divName('code', this.tkt),
-            this.sectionName, this.divName("monaco", this.tkt), this.divName("world", this.tkt))  // specifies the DIV styles (not the IDs)
+
+        // this.basicLeftRight(this.divName('code', this.tkt),
+        //     this.sectionName, this.divName("monaco", this.tkt), this.divName("world", this.tkt))  // specifies the DIV styles (not the IDs)
+
 
         // if option 'noedit', then just display code
         // if ('noedit' in section.params) {
@@ -412,29 +446,25 @@ class SectionCode extends LessonSections {
 
 
         const html = Prism.highlight(initialCode, Prism.languages.javascript, 'javascript');
-        const expandHtml = `
-        <div style='float:left;'><img style='height:32px;position:absolute;left:-20px;' src='../assets/images/copy.png' title='Copy to Editor' /></div>
-        <div class='editleft'><code>${html}</code></div>`
+        let copyID = this.divName('copy', this.tkt)  // code019 or similar
+        let runID = this.divName('run', this.tkt)  // code019 or similar
 
-        this.attach(this.sectionName, '', this.divName('nocode', this.tkt), '', [
+        // and save the speech in the utterances array
+        codeStrings.push({ copyID: copyID, runID: runID, code: initialCode })
+
+
+        let expandHtml = // start with the copy a nd run icons
+            `<div style='float:left;'>
+            <img id='${copyID}' style='height:32px;position:absolute;' src='../assets/images/copy.png' title='Copy to Editor' /><br><br>
+            <img id='${runID}' style='height:32px;position:absolute;' src='../assets/images/run.png' title='Run in Canvas' />
+         </div>`
+
+        expandHtml +=    // add in the code itself
+            `<div class='editleft'><code>${html}</code></div>`
+
+        this.attach('lesson', '', this.divName('nocode', this.tkt), '', [
             this.node('P', expandHtml, '', ''),
         ])
-
-
-        // // create a monaco editor on the left side
-        // let tag = document.getElementById(this.divName('left', this.tkt))
-        // const editor = monaco.editor.create(tag, {
-        //     value: section.rawvalue,
-        //     language: "typescript",
-        // })
-
-        // // set the width and height
-        // let stringOrTrue = section.params.get('lines')  // we know it's a string, but typescript doesn't
-        // if (typeof stringOrTrue === 'string') {
-        //     editor.layout({ width: halfMonacoWidth, height: 20 * parseFloat(stringOrTrue) })   // lines converted to pixels
-        // } else {
-        //     console.error('Never expect to get a TRUE for nLines', section)
-        // }
 
 
         // ///////////////////////////////////////////////////////////////////
@@ -529,7 +559,7 @@ class SectionP extends LessonSections {   // <p> with speaker and
                 { name: 'width', value: "320" },
                 { name: 'height', value: "240" },
                 { name: 'type', value: "video/webm" },
-                { name: 'controls', value: "" },
+                // { name: 'controls', value: "" },
                 { name: 'loop', value: "" },
                 { name: 'autoplay', value: "" },
             ]))
@@ -556,8 +586,14 @@ class SectionP extends LessonSections {   // <p> with speaker and
             ]))
         }
 
+
         // finally the text
-        this.nodes.push(this.node('P', currentSection.textvalue, '', ''))
+        // is this a bullet or a regular paragraph?
+        if ('bullet' in currentSection.params) {
+            this.nodes.push(this.node('P', currentSection.textvalue, '', 'bullet'))
+        } else {
+            this.nodes.push(this.node('P', currentSection.textvalue, '', ''))
+        }
     }
 
 

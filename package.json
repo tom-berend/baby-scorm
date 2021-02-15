@@ -8,7 +8,8 @@
         "copy": "cp src/runtime/_index.* dist* && mv dist/_index.html dist/index.html  && cp src/mod_gamecode/3djoomla.php dist && npm run css && cp -R assets dist/assets",
         "css": "less src/runtime/3d.less > dist/3d.css",
         "lint": "tslint --project '.' --fix",
-        "docs": "typedoc --out ./dist/docs ./src/runtime/*.ts"
+        "docs": "typedoc --out ./dist/docs ./src/runtime/*.ts",
+        "author": "typedoc ./src/runtime/lessonpage.ts"
     },
     "dependencies": {
         "@types/jquery": "^3.3.31",

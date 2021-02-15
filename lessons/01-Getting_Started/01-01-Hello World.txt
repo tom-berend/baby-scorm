@@ -1,0 +1,112 @@
+<module>01-Beginner Javascript
+<lesson>01-Hello World
+<shortdesc>This lesson is introduction and housekeeping. You will start programming in the next lesson.
+
+
+
+
+
+
+
+
+
+
+
+<title>Hello World
+
+<p(img=dennis.png)>There is a tradition among programmers that the FIRST program you write in any new language prints out the words “Hello World”. This dates back to the legendary programmer Dennis Ritchie, arguably the father of modern computing.
+
+<p>You will run a small JavaScript program to print “Hello World” right on this page.  That’s the magic of JavaScript. 
+
+<p>In fact, we're going to say "Hello World" in THREE different ways.
+
+
+<break>
+<p>First, we are going to a bit of software we have built into this page, called the 'Terminal', to help you.  Then we are going to print it using the debugger.  Finally, we are going to print it using the lowest level of graphics.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subtitle>Built-In Terminal
+
+
+<p>Here's a short program that will print 'Hello World' in the Canvas Window at the lower right.
+
+<code>
+let vt = new VT52()
+vt.print('Hello World')
+
+<p>The first line says [^let vt = new VT52()^ | let v t get new v t fifty two].  It tells your browser to load an object called [VT52 | v t fifty two] and save it as a variable called ['vt' | V T]. Notice that we read the equal sign as 'gets', not as 'equals'.
+
+<p>The second line say [^vt.print('hello world') | v t dot print open bracket open quote hello world close quote close bracket].  It tells your browser to feed the string 'Hello World' to a function called print that is part of the object called ['vt'| v t].
+
+<p>There's a lot going on, and we'll soon talk about objects, functions, and strings.  But for now, let's just run this program.
+
+<break>
+<p>There are two buttons beside the small program below.  One of them will #copy# the program to the 'Editor' panel on the upper right side, where you can modify it.  The second will #run# it in the 'Canvas' panel on the lower right side.
+<p> 
+
+
+
+<subtitle>
+
+
+
+<p>A JavaScript string stores a series of characters like "John Doe".
+
+A string can be any text inside double or single quotes:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>firstt you must first open up the developer’s console that is already built into your browser.
+
+<p>To open the Console on Windows, Linux, or a Chromebook, press Control+Shift+J. On a Mac, press Command+Option+J. Try it now, make sure it works.
+
+
+
+
+
+
+<break>
+<p(img=ctrlJ.png)>The image on the right is what you should see using Chrome.  It will be slightly different in Firefox and Microsoft Edge. If you are using another browser, then download Chrome from [<a href="https://www.google.com/chrome">https://www.google.com/chrome</a>|w w w dot google dot com] and try again.  If you have trouble, stop and get help.  You should not go on until you have a console open.
+
+<p>Now click on the small piece of code below [`console.log(“Hello World”)` | console dot log Hello World]. Press CTRL+ENTER to run this program, and you should see a result in the console.  Try it now.  Did you see “Hello World” typed in the console?
+
+<code>
+console.log(“Hello World”)
+
+<p>`console.log()` is a function that prints the value between the two brackets. You will use it to peek into your programs.  “Hello World” is an ordinary one-line JavaScript program, there is nothing special about it.
+
+<subtitle>Numbers
+<p>The simplest type of _value_ is _Number_  which are just numbers.
+<p>We use _Number_s for counting, and sometimes for arithmetic. We can add, subtract, multiply and divide number values and produce a new number value. In a JavaScript program, numbers are written like this:
+<pre>
+13
+9.81
+
+<p>Try running, and then modifying this little program.
+<cm>
+console.log(2 + 2)
+
+<p>Can you calculate the value of 2 + 2 + 2?  Please try each of the little programs as you proceed through this lesson.  Modify them, play with them.

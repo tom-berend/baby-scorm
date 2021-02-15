@@ -2,7 +2,7 @@
 <lesson>00-Information about this course
 <shortdesc>This lesson is introduction and housekeeping. You will start programming in the next lesson.
 
-<p> first line?   this is _emp_ text (underscore).   this is ^bold^ text. (caret)  this is `code` text. (backtick)   this is <key>ctrl+k</key> text  < key > ctrl+k < / key > 
+<p> first line?   this is #emp#_ text (underscore).   this is ^bold^ text. (caret)  this is `code` text. (backtick)   this is <key>ctrl+k</key> text  < key > ctrl+k < / key > 
 
 <break>
 
@@ -18,14 +18,29 @@
 
 <run(src=logo.ts)>
 
-<p(video=intro.webm)>Everyone dreams of writing video games. It's a great hobby, and maybe even a career. But there is a lot to learn.
+<p(video=intro.webm)>We all #consume# video games, this course is going to help you learn how to #make# one.  It's a great hobby, and maybe even a career. But there is a lot to learn.
 
-<p>There are already many great courses to help you learn.  This one is a bit different in two ways.  
+<p>There are already many great courses to help you learn how to program.  This one is a bit different in three ways.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <break>
 <p>First, we are going to teach you high school math and physics, except you won't notice because we are teaching you how to write video games.
-<p> And second, we are going to start at the beginning, explaining how computer graphics work at the lowest hardware and software levels, and how programmers put programs together.  
-
+<p> Second, we are going to start at the beginning, explaining how computer graphics work at the lowest hardware and software levels, and how programmers put programs together.  
+<p> And third, we are going to encourage you to break out of this course and write your games with professional tools in the real world
 
 
 
@@ -34,15 +49,11 @@
 
 
 <break>
-<p>Here's the thing. Writing a serious game takes serious math and programming skills, and knowledge about how computers work.  There's no shortcut.  
+<p>Here's the thing. Writing even a simple game takes serious math and programming skills, and knowledge about how computers work.  There's no shortcut.  
 
-<p>Video games are built on math and physics. Computer graphics rely on algebra, functions, vectors, matrices, trigonometry, and more.  Making movements look realistic needs physics, and that means some calculus.
+<p>Video games are built on math and physics. Computer graphics rely on algebra, functions, vectors, matrices, trigonometry, and more.  Making movements look realistic needs physics, and that means a bit of calculus.
 
-<p>Game _design_ adds another layer. Making a game fun and engaging requires many of the disciplines of system engineering, such as probability, communications, and feedback.  
-
-
-
-
+<p>Game #design# adds another layer. Making a game fun and engaging requires many of the disciplines of system engineering, such as probability, communications, information theory, and feedback.  
 
 
 
@@ -55,7 +66,78 @@
 
 
 <break>
-<p> So we wrote a programming course that teaches you math, physics, and programming.  We will cover most of the math and physics you need for grades 10 and 11. We will teach you some serious programming skills. And we will show you how to use the editors and compilers that programmers use.
+<p> So we wrote a programming course that teaches you math and physics, and of course programming.  We will cover most of the math and physics you need for grades 10 and 11. We will teach you some serious programming skills. And we will show you how to use the editors and compilers that programmers use.
+
+
+
+
+
+
+
+<subtitle>About this course
+
+<p>We are a ^Community of Learners^.  We are not a day-care or an after-school program. We learn at our own pace, following our own interests, choosing our own projects, for our own reasons.  We learn from each other and teach each other. We collaborate on projects, we follow our curiosity, and we experiment with new ideas. 
+
+
+
+<p(img=discord.jpg)>We use DISCORD as our meeting place, for getting help, sharing what we know, and showing off our awesomeness. 
+<p>Discord is an invitation-only service.  If you do not already have an account, you should join.  Then you will be able to use [this invitation link| this invitation link |https://discord.gg/jCjecSG ] to join our channel.
+
+
+
+
+
+
+
+
+
+
+
+
+<break>
+<p>If you are joining this course as part of a school course or as a cohort of learners, then you will be assigned a ^proctor^.  Their role is to ensure that you have fully learned each module before starting the next.  
+
+<p>This module has a half-dozen lessons and several exercises, when you believe you have mastered them then you will chat with your proctor on Discord, share your code, and demonstrate your mastery.  Your proctor will then admit you into the next module.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<break>
+<p>This style of learning is called a [Keller Plan | Keller Plan | https://en.wikipedia.org/wiki/Keller_Plan].  The key elements are
+<p(bullet)>Written materials.
+<p(bullet)>Self-paced instruction.
+<p(bullet)>Units of content.
+<p(bullet)>Mastery of each unit before advancing.
+<p(bullet)>Proctors.
+
+
+
+
+
+
+<break>
+<p>When you have reached the end of these lessons, you will be ready to join the worldwide community of JavaScript programmers and game developers.  You will have the skills and confidence to continue learning with them. And of course, you will have written some awesome games.
+
+
+
+<break>
+<p>Feel free to invite your real-world friends.  Everything is totally free. 
+
+
+
+
+
 
 
 
@@ -84,7 +166,7 @@
 <break>
 <p>But at the end of that course, students were hitting the limits of the Alice language. They had not seen anything outside the friendly Alice environment. They had not seen a text editor or a programming language. They had no foundation to move to another game engine.
 
-<p>So we're going to start at the beginning and build a solid foundation of basic knowledge.
+<p>So we're going to start at the beginning and build a solid foundation of basic knowledge.  It won't be fancy at first, but it will be real.
 
 
 
@@ -94,7 +176,7 @@
 
 
 <break>
-<p(mindset)> Hi, I'm your learning coach.  Don't be scared.  This course also provides a beginner environment too - those two boxes on the right.  But we are also going to help you escape out, get you set up with real tools, and show you how to write games without us.
+<p(mindset)> Hi, I'm your learning coach.  Don't be scared.  This course also provides a beginner environment - those two boxes on the right.  But we are also going to help you escape out, get you set up with real tools, and show you how to write games without us.
 <p(mindset)>That means you CANNOT run this course on a tablet or Chromebook.  You need a computer that you can program on.   
 
 
@@ -109,22 +191,30 @@
 
 <p(img=javascript.png)>
 There are many programming languages because each is good at different things.  The language we will be working with is called [JavaScript|JavaScript|https://developer.mozilla.org/en-US/docs/Web/JavaScript]. <break>
-<p> JavaScript is particularly good for writing web-based programs. It is running every web page you visit.  It is also used for connected smart devices - the "Internet of Things" (IOT) and is embedded in devices around you.
+<p> JavaScript runs in your browser, which makes it particularly good for writing web-based programs. It runs in every web page you visit, you are surrounded by Javascript.  
+
+<break>
+<p>JavaScript is also used for connected smart devices - the "Internet of Things" (IOT) and is embedded in devices around you. Many apps on your phone are written in JavaScript using a library called [Cordova | cordova | https://cordova.apache.org/].
 <p>Javascript is the language of [immersive media|immersive media|https://immersiveweb.dev/]. As I write this in 2021, JavaScript is the target language for front-edge development of virtual reality and augmented reality.  
 
 
 
 <break>
 <p(history)>I tell stories about history.  In the very early days, web pages were all static. 
-Javascript was started in 1995 as a simple language that could run in a browser, and it is the reason that anything in the browser responds to your mouse.  But JavaScript was cobbled together in a very short time, and for the first 20 years, it was awful.  
-<p>JavaScript is probably the most hated programming language on the planet.  It invites bugs. It is hard to read, and hard to maintain. Most of the language is quite horrible. New stuff has been added to JavaScript continuously, but none of the old stuff has ever been removed. 
+Javascript was started in 1995 as a simple language that could run in a browser, and it is the reason that anything in the browser responds to your mouse.  
+<p>But JavaScript was cobbled together in a very short time, and for the first 20 years, it was awful. It is only recently that modern tooling has been added to the language, but all the old stuff is still there. 
+
+<break>
+<p>JavaScript is probably the most hated programming language on the planet.  It invites bugs. It is hard to write, hard to read, and hard to maintain. Most of the language is quite horrible. New stuff has been added to JavaScript continuously, but none of the old stuff has ever been removed. 
 
 
-<p>The good news is that most of the new stuff being added to JavaScript is quite nice. The ^ES6^ version (sometimes called ^ES2015^) provided a much-needed upgrade after 20 years, making JavaScript into an almost-modern language. Since then, yearly upgrades have addressed the worst pain-points, especially asynchronous programming.
+<p>The good news is that the new stuff added to JavaScript is quite nice, and more new stuff is coming. The ^ES6^ version (sometimes called ^ES2015^) provided a much-needed upgrade after 20 years, making JavaScript into an almost-modern language. Since then, yearly upgrades have addressed the worst pain-points, especially asynchronous programming and multi-processor support. 
+
+<p>The latest release, ^ES2020^ adds big integers and [other stuff | other stuff | https://www.freecodecamp.org/news/javascript-new-features-es2020/]. 
 
 
 <break>
-<p>So we are going to focus on the nice parts of JavaScript. We'll tell you about the older stuff, because you will see old code everywhere and otherwise you won't understand what you are looking at.  
+<p>So we are going to focus on the nice parts of JavaScript. We'll tell you about the older stuff because you will see old code everywhere and otherwise you won't understand what you are looking at.  
 <p(img=typescript.png)>
 And we are going to use an extended flavor of JavaScript called [TypeScript|Type Script|https://www.typescriptlang.org/].  TypeScript helps catch mistakes early through a type system, and is well supported in the modern tooling we are going to encourage you to use.
 
@@ -147,32 +237,6 @@ And we are going to use an extended flavor of JavaScript called [TypeScript|Type
 
 
 
-<subtitle>BabylonJS
-<p(img=babylon.jpg)>
-Our goal at the end of this course is for you to be comfortable using tools like the awesome 
-[BabylonJS| Babylon J S|https://www.babylonjs.com] rendering engine.  Check it out!
-<p>Babylon is a sprawling empire, but it takes a long time to learn, even for experts with the math skills of Star Fleet Navigators. You quickly get lost in the complexity and layers of possibilities, and sometimes never actually write a game.
-<p>Check out this example in the [BabylonJS Playground|Babylon J S | https://playground.babylonjs.com/#609QKP#7]. (Drag your mouse to move the camera, WASD to steer.)  Every bit of the code is there, but the learning curve is steep.  Here is the author [asking for help|asking for help|https://forum.babylonjs.com/t/real-physics-enabled-racing-game/4034].
-<p>We'll get you there, but in small steps.
-
-
-
-
-
-
-
-<subtitle>About this course
-
-<p>We are a ^Community of Learners^.  We are not a day-care or an after-school program. We learn at our own pace, following our own interests, choosing our own projects, for our own reasons.  We learn from each other and teach each other. We collaborate on projects, we follow our curiosity, and we experiment with new ideas. Click on the DISCORD button on the right to join our channel.
-
-<p>If you are joining this course as part of a school course or as a cohort of learners, then you will be assigned a ^proctor^.  This module has a half-dozen lessons and several exercises, when you believe you have mastered them then you will chat with your proctor, share your code, and demonstrate your mastery.  Your proctor will then admit you into the next course.
-
-When you have reached the end of these lessons, you will be ready to join the worldwide community of JavaScript programmers and game developers.  You will have the skills and confidence to continue learning with them. And of course, you will have written some awesome games.
-
-
-
-<break>
-<p>Feel free to invite your real-world friends.  Everything is totally free. 
 
 
 
