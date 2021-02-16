@@ -210,11 +210,15 @@ Javascript was started in 1995 as a simple language that could run in a browser,
 
 <p>The good news is that the new stuff added to JavaScript is quite nice, and more new stuff is coming. The ^ES6^ version (sometimes called ^ES2015^) provided a much-needed upgrade after 20 years, making JavaScript into an almost-modern language. Since then, yearly upgrades have addressed the worst pain-points, especially asynchronous programming and multi-processor support. 
 
-<p>The latest release, ^ES2020^ adds big integers and [other stuff | other stuff | https://www.freecodecamp.org/news/javascript-new-features-es2020/]. 
+<break>
+<p>Improvements are continuing. ^ES2019^ provides 'Object.fromEntries()' to create an object from a dictionary, and [more | more| Object.fromEntries()].  ^ES2020^ adds big integers and [other good stuff | other good stuff | https://www.freecodecamp.org/news/javascript-new-features-es2020/]. ^ES2021^ adds a handy 'replace-all' and [more stuff| more stuff | https://medium.com/better-programming/javascript-es2021-features-with-simple-examples-ada723b55355].
+
+<p>The bad news is that different browsers do not all support the same set of features. It is as if some roads were closed to you depending on what kind of car you drove.  I was tempted to require [Firefox|fire fox|https://www.mozilla.org/en-CA/firefox/new/] for this course because it is the only browser that supports [MathML| Math m l|https://www.w3.org/Math/ ] 
 
 
 <break>
-<p>So we are going to focus on the nice parts of JavaScript. We'll tell you about the older stuff because you will see old code everywhere and otherwise you won't understand what you are looking at.  
+<p>So JavaScript isn't going to be less hated anytime soon.  But everyone is going to use it.
+<p>We are going to focus on the nice parts of JavaScript. We'll tell you about the older stuff because you will see old code everywhere and otherwise you won't understand what you are looking at.  
 <p(img=typescript.png)>
 And we are going to use an extended flavor of JavaScript called [TypeScript|Type Script|https://www.typescriptlang.org/].  TypeScript helps catch mistakes early through a type system, and is well supported in the modern tooling we are going to encourage you to use.
 
@@ -223,6 +227,13 @@ And we are going to use an extended flavor of JavaScript called [TypeScript|Type
 
 
 
+
+<title>Following the Course
+<p>Even if you are a strong reader, the voice readers are a useful learning tool. They slow you down and help you attend to the complete text.  As well, they sometimes launch graphic illustrations.
+<p>We have embedded lots of web links in this course. You must acquire far more knowledge than we can embed in this course, and you need to learn to do your own learning.  So we simply point you at reliable resources on the web.  You should at least click and see what we are pointing you at.
+
+
+<subtitle>
 
 
 

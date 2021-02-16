@@ -56,6 +56,7 @@ export class LessonPage {
         // clear the existing lesson space
         document.getElementById('lesson').innerHTML = "";
         utterances = []
+        codeStrings = []
 
     }
     load(sections: ITag[], debug = false) {
@@ -179,7 +180,7 @@ export class LessonPage {
             runElement.onclick = () => { this.onClickRun(codeStr.runID) }
 
         })
-    } f
+    } 
 
 
     moduleInfo(): moduleInfo {        //  function: type returns object 
@@ -451,6 +452,7 @@ class SectionCode extends LessonSections {
 
         // and save the speech in the utterances array
         codeStrings.push({ copyID: copyID, runID: runID, code: initialCode })
+        console.log('push codeStrings',copyID,runID,initialCode)
 
 
         let expandHtml = // start with the copy a nd run icons

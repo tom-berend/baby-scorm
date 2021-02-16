@@ -101,7 +101,7 @@ console.log(“Hello World”)
 <subtitle>Numbers
 <p>The simplest type of _value_ is _Number_  which are just numbers.
 <p>We use _Number_s for counting, and sometimes for arithmetic. We can add, subtract, multiply and divide number values and produce a new number value. In a JavaScript program, numbers are written like this:
-<pre>
+<code>
 13
 9.81
 
