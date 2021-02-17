@@ -3,6 +3,7 @@
     "description": "Development on a high school course for math and programming",
     "scripts": {
         "watch": "webpack --watch",
+        "watch2": "webpack-dev-server",
         "build": "webpack && npm run copy",
         "create": "ts-node src/createSCORM/SCORM.ts && cp -R SCORM/* dist  && cp -R assets dist",
         "copy": "cp src/runtime/_index.* dist* && mv dist/_index.html dist/index.html  && cp src/mod_gamecode/3djoomla.php dist && npm run css && cp -R assets dist/assets",
@@ -16,6 +17,7 @@
         "@types/node": "^14.14.22",
         "colors": "^1.4.0",
         "less": "^4.1.0",
+        "mathjax": "^3.1.2",
         "node-fetch": "^2.6.1",
         "oidc-client": "^1.9.1",
         "path": "^0.12.7",

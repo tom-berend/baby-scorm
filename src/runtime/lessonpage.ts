@@ -9,6 +9,9 @@ import { LessonFactory, drillMathDispatch } from './drillMath'
 import *  as Prism from 'prismjs'
 import { config } from './T'
 
+import { asciiMath, testAsciiMath } from './ASCIIMathML'
+
+
 
 type utterance = {
     id: string,   // 'utter015' or similar
@@ -42,8 +45,10 @@ export class LessonPage {
     constructor() {
         // console.log('In LessonPage')
 
+        testAsciiMath()
         // initialize the voices
         this.onClickSay = new OnClickSay()
+
     }
 
     onClickCopy(link: string) { alert('copy to editor...   ' + link) }
@@ -121,6 +126,11 @@ export class LessonPage {
                     new SectionTitle(section)
                     break
 
+                case 'asciimath':
+                    new SectionAsciiMath(section)
+                    break
+
+
                 case 'drill':
                     new SectionDrill(section)
                     break
@@ -180,7 +190,7 @@ export class LessonPage {
             runElement.onclick = () => { this.onClickRun(codeStr.runID) }
 
         })
-    } 
+    }
 
 
     moduleInfo(): moduleInfo {        //  function: type returns object 
@@ -248,6 +258,7 @@ abstract class LessonSections {
             pTag.appendChild(element)  // inside the <p></p>
         })
     }
+
 
     /** set up basic parent/left/right divs, with specific class */
     basicLeftRight(thisSectionID: string, parentClassName: string, leftClassName: string, rightClassName: string) {
@@ -452,7 +463,7 @@ class SectionCode extends LessonSections {
 
         // and save the speech in the utterances array
         codeStrings.push({ copyID: copyID, runID: runID, code: initialCode })
-        console.log('push codeStrings',copyID,runID,initialCode)
+        // console.log('push codeStrings', copyID, runID, initialCode)
 
 
         let expandHtml = // start with the copy a nd run icons
@@ -631,6 +642,25 @@ class SectionTitle extends LessonSections {   // handles titles and subtitles
         this.attach('lesson', '', '', '', [
             this.node(tag, section.textvalue),
         ])
+    }
+}
+
+
+
+class SectionAsciiMath extends LessonSections {   // converts to MathML (only for Firefox)
+
+    constructor(section: ITag) {
+        super(section)
+
+
+        let mathId = this.divName('math', this.tkt)
+        this.attach('lesson', '', mathId, '', [])  // create a <div> for the math
+
+        let pTag = document.getElementById(mathId)  // and then attach to that div
+        pTag.appendChild(        
+                asciiMath(section.textvalue)
+        )  
+   
     }
 }
 

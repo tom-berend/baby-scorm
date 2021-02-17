@@ -1,7 +1,7 @@
 import path from 'path'
 import { ITag } from '../runtime/T'
 
-const validTags = ['p', 'subtitle', 'br', 'code',
+const validTags = ['p', 'subtitle', 'br', 'code', 'asciimath',
     'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'key', 'run']
 
 
@@ -351,9 +351,11 @@ export class LessonToITags {
                     this.hasTitle = true
                     break
 
+
                 case 'shortdesc':
                 case 'title':
                 case 'subtitle':
+                case 'asciimath':    
                     aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue)
                     break
 
