@@ -1,7 +1,7 @@
 import path from 'path'
 import { ITag } from '../runtime/T'
 
-const validTags = ['p', 'subtitle', 'br', 'code', 'asciimath',
+const validTags = ['p', 'subtitle', 'section', 'br', 'code', 'asciimath', 'youtube',
     'title', 'module', 'lesson', 'shortdesc', 'break', 'drill', 'key', 'run']
 
 
@@ -56,6 +56,7 @@ export class LessonToITags {
         for (let i = 0; i < aLines.length; i++) {
             aLines[i] = aLines[i].replace(new RegExp(/\r/gm), '\n')
         }
+
 
         // convert from text lines to ITags (maybe consolidating)
         let aTags = this.inputToParagraphs(aLines)
@@ -319,6 +320,18 @@ export class LessonToITags {
             // there may be multiple <p> tags in a speech block
 
             // console.log('preprocess', o)
+            // we also close off speech block for <p(h1)> and reopen another
+            if (this.inASpeechBlock &&
+                (('h1' in aTags[i].params) ||
+                    ('h2' in aTags[i].params) ||
+                    ('h3' in aTags[i].params))
+            ) { // need to close off our prior speech block
+                // if we aren't in a speech block, then this is the FIRST tag of a speech Icon
+                this.utteranceTag = aTags[i]  // point at new tag
+                this.utterance = ''     // and start a new speech
+                aTags[i].params['SpeechIcon'] = 'true'  // push out a SpeechIcon on this tag
+                this.inASpeechBlock = true
+            }
             if (!this.inASpeechBlock && aTags[i].tag === 'p') { // need to open our speech blocks
                 // if we aren't in a speech block, then this is the FIRST tag of a speech Icon
                 this.utteranceTag = aTags[i]
@@ -353,17 +366,24 @@ export class LessonToITags {
 
 
                 case 'shortdesc':
-                case 'title':
-                case 'subtitle':
-                case 'asciimath':    
+                case 'section':         // can put bold and keys in these fields
                     aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue)
                     break
 
+                case 'title':
+                case 'subtitle':
+                case 'asciimath':
+                case 'youtube':
+                    aTags[i].textvalue = aTags[i].rawvalue  // don't try to process markdown
+                    break
+
                 case 'code':
+
                     // make sure there is an 'lines' parameter
                     if ('lines' in o.params) {
+
                         let nLines: number = o.rawvalue.split('\n').length + 1  // default to # of lines in code, plus 1 
-                        nLines = Math.min(nLines,8)    // to maximum of 8 lines
+                        nLines = Math.min(nLines, 8)    // to maximum of 8 lines
                         aTags[i].params['lines'] = nLines.toString()
                     }
                     break
@@ -375,7 +395,9 @@ export class LessonToITags {
 
 
                     aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue) // nice HTML
-                    this.utterance += ' ' + this.eraseMarkdown(aTags[i].rawvalue) // clean speech
+
+                    // add a pause to each sentence, makes it more human.
+                    this.utterance += ' ' + this.eraseMarkdown(aTags[i].rawvalue) + " . " // clean speech
                     if (this.utterance.length > 0) {
                         // only single-quotes allowed in utter
                         this.utterance = this.utterance.replace(/"/g, '\\"') // escape out double-quotes
@@ -594,6 +616,7 @@ export class LessonToITags {
         const validTags = [
             'p',
             'subtitle',
+            'section',
             'br',
             'code',
             'title',

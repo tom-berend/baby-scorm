@@ -1,6 +1,6 @@
 <module>01-Beginner Javascript
 <lesson>01-Hello World
-<shortdesc>This lesson is introduction and housekeeping. You will start programming in the next lesson.
+<shortdesc>Writing our first programs.
 
 
 
@@ -12,7 +12,7 @@
 
 
 
-<title>Hello World
+<P(h1)>Hello World
 
 <p(img=dennis.png)>There is a tradition among programmers that the FIRST program you write in any new language prints out the words “Hello World”. This dates back to the legendary programmer Dennis Ritchie, arguably the father of modern computing.
 
@@ -22,7 +22,177 @@
 
 
 <break>
-<p>First, we are going to a bit of software we have built into this page, called the 'Terminal', to help you.  Then we are going to print it using the debugger.  Finally, we are going to print it using the lowest level of graphics.
+<p>First, we are going to print 'Hello World' using the debugger built into your browser.  Then we are going to pretend we are on an old-fashioned 'Terminal'.  Finally, we are going to print it using the lowest level of graphics.
+
+
+
+
+
+
+
+
+
+
+
+<p(h2)>Using your Browser's Console
+
+
+
+
+<p>Javascript programs run in your browser, and there is an essential tool called the Console that lets you peek at what they are doing.  The first step is to open up that Console.
+
+
+<break>
+<p(img=ctrlJ.png)>To open the Console on Windows, Linux, or a Chromebook, press `Ctrl`+`Shift`+`J`. On a Mac, press `Command`+`Opt`+`J`. Try it now, make sure it works.
+
+
+
+
+
+<p>The image on the right is what you should see using Chrome.  It will be slightly different in Firefox and Microsoft Edge. If you are using another browser, then download [Chrome | Chrome | https://www.google.com/chrome] or [FireFox | Fire Fox | https://www.mozilla.org/en-CA/firefox/new/] and try again.  
+
+<break>
+<p>If your console docks at the bottom of your page instead of the right side, press on the [`⋮`| 3 dots] icon at the top right corner of the console, and change the dock settings.
+
+
+<p>If you have trouble, stop and get help.  You should not go on until you have a console open. 
+
+
+
+
+
+
+
+
+
+<break>
+<p>We are going to run the following one-line program, without explaining it until afterwards.  [ | console dot log Hello World]:
+
+
+<code>
+console.log(“Hello World”)
+
+
+<p>We have already typed it in for you. If you press the blue ^run^ button beside the code, it will run.  If you press the ^copy^ button above it, then this program will be copied to the editor box on the right side, and you can run it from there.
+
+
+<break>
+<p>Press ^run^ to run this program, and you should see a result in the console.  Try it now.  Did you see “Hello World” typed in the console?
+
+<break>
+<p>Now press ^copy^ to move the code to the editor box.  There you can change this program and run it again.  Change the words ^Hello World^, but be careful NOT to move outside the quotes or the brackets.  For example, you might change it to 
+
+<code>
+console.log("Hello Tom")
+
+
+<break>
+<p>OK, got that working?  Let's break it down.
+
+<p>`console.log()` is a call to a ^function^ that prints the value between the brackets `(` and `)` to the Console.  In this case, that value was a ^string^, which is written text between the quote marks.  
+
+
+
+
+
+
+
+<p(h1)>Primitive Types in JavaScript
+<p>There are seven primitive ^types^ in JavaScript, but only two are important for now.  They are ^string^ and ^number^. 
+<p>(Many older websites will say there are six primitives.  ^bigint^ was only added in 2020.)
+
+<p(h2)>String
+
+<p>A ^string^ is a sequence of digits or letters that start and end with quote characters. You can use single-quote, double-quote, or backticks as the quote characters, and they are not included in the string.  Here are some examples.
+<code(norun)>
+"Today is my birthday"
+'I am going for a walk.'
+`Pi is approximately 3.1415`
+"I am not a good string`
+
+<p>The important thing is that you have to use the SAME quote character for both the start and the end.  If you start with a single quote, then you have to finish with a single quote too.  Can you see why the last string is wrong?
+
+
+
+
+
+
+<subtitle>Number
+<p>^Number^s are just numbers, we use them for counting, and arithmetic. We can add, subtract, multiply and divide number values and produce a new number value. In a JavaScript program, numbers are written like this:
+<code(norun)>
+13
+9.81
+
+
+<p>Try running, and then modifying this little program.
+<code>
+console.log(2 + 2)
+
+<break>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>Can you calculate the value of 2 + 2 + 2? Try it now. (Please try each of the little programs as you proceed through this lesson.  Modify them, play with them.)
+
+
+<break>
+<p>OK, now we know how to add numbers.  It turns out that you can also add strings. Try this snippet in the program box.
+
+<code>
+// anything after two slashes is a COMMENT and is ignored
+// we often add comments to explain our program
+console.log("Hello" + "World")   // this part of the line is a COMMENT
+
+<break>
+<p>Hmmm, that didn't look right.  Can you figure out why we got 'HelloWorld', and how we might fix it to print properly?
+
+
+
+<p(h2)>Variables
+<p>OK, something new.  We are going to #assign# 'Hello World' to a ^variable^ with a name.  Think of a variable as a tentacle that reaches out and keeps a finger on the ^string^ 'Hello World'.
+
+<code>
+let greeting = 'Hello World'
+console.log(greeting)   // print the string that 'greeting' has its finger on
+
+<p>Or, slightly more complicated
+<code>
+let greeting = 'Hello'
+console.log(greeting  + ' World')   // add a string to 'greeting' before printing
+
+<p>OK, it's time to move on to another way to print 'Hello World'.
+
+
+
+
+
+
+
+
+
 
 
 
@@ -43,8 +213,13 @@
 <p>Here's a short program that will print 'Hello World' in the Canvas Window at the lower right.
 
 <code>
-let vt = new VT52()
+let app = new Baby()
+let vt = app.VT52()
 vt.print('Hello World')
+
+<p>There's a lot going on here.  Let's break it down.
+
+<p>The first line says "Bring in some kind of library called 'Baby', and p
 
 <p>The first line says [^let vt = new VT52()^ | let v t get new v t fifty two].  It tells your browser to load an object called [VT52 | v t fifty two] and save it as a variable called ['vt' | V T]. Notice that we read the equal sign as 'gets', not as 'equals'.
 
@@ -77,36 +252,3 @@ A string can be any text inside double or single quotes:
 
 
 
-
-
-<p>firstt you must first open up the developer’s console that is already built into your browser.
-
-<p>To open the Console on Windows, Linux, or a Chromebook, press Control+Shift+J. On a Mac, press Command+Option+J. Try it now, make sure it works.
-
-
-
-
-
-
-<break>
-<p(img=ctrlJ.png)>The image on the right is what you should see using Chrome.  It will be slightly different in Firefox and Microsoft Edge. If you are using another browser, then download Chrome from [<a href="https://www.google.com/chrome">https://www.google.com/chrome</a>|w w w dot google dot com] and try again.  If you have trouble, stop and get help.  You should not go on until you have a console open.
-
-<p>Now click on the small piece of code below [`console.log(“Hello World”)` | console dot log Hello World]. Press CTRL+ENTER to run this program, and you should see a result in the console.  Try it now.  Did you see “Hello World” typed in the console?
-
-<code>
-console.log(“Hello World”)
-
-<p>`console.log()` is a function that prints the value between the two brackets. You will use it to peek into your programs.  “Hello World” is an ordinary one-line JavaScript program, there is nothing special about it.
-
-<subtitle>Numbers
-<p>The simplest type of _value_ is _Number_  which are just numbers.
-<p>We use _Number_s for counting, and sometimes for arithmetic. We can add, subtract, multiply and divide number values and produce a new number value. In a JavaScript program, numbers are written like this:
-<code>
-13
-9.81
-
-<p>Try running, and then modifying this little program.
-<cm>
-console.log(2 + 2)
-
-<p>Can you calculate the value of 2 + 2 + 2?  Please try each of the little programs as you proceed through this lesson.  Modify them, play with them.

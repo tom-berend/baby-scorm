@@ -72,8 +72,23 @@ export class LessonPage {
         let previousWasP = false        // we need to accumulate <p>'s together
         let s: SectionP
 
+
+
         // cycle through the ITags, creating a section for each one
         sections.forEach((section) => {
+
+            if ('h1' in section.params || 'h2' in section.params || 'h3' in section.params) {
+                // console.log('FFOUND', section.tag)
+                if (previousWasP) {
+                    // console.log('PPROCESSED')
+                    s.finalAttachToDiv()
+                    previousWasP = false
+
+                }
+
+            }
+
+
 
 
             if (debug) {
@@ -90,8 +105,8 @@ export class LessonPage {
             switch (section.tag) {
 
                 case 'key':         // we don't process these, they are meta for the table of contents
-                case 'break':       // or in case we want to do something later
                     break
+
 
                 case 'p':
                     // this is a bit trickier than the others
@@ -118,22 +133,35 @@ export class LessonPage {
                     new SectionShortDesc(section)
                     break
 
+                case 'youtube':
+                    new SectionYouTube(section)
+                    break
+
                 case 'run':
                     break
 
                 case 'title':
                 case 'subtitle':
+                case 'section':
                     new SectionTitle(section)
+                    break
+
+                case 'break':       // or in case we want to do something later
                     break
 
                 case 'asciimath':
                     new SectionAsciiMath(section)
                     break
 
+                case 'youtube':
+                    new SectionYouTube(section)
+                    break
+
 
                 case 'drill':
                     new SectionDrill(section)
                     break
+
                 default:
                     new SectionMystery(section)
                     break
@@ -150,8 +178,8 @@ export class LessonPage {
         this.createLinks()
 
 
-        // scroll up to the top of the page
-        window.scrollTo({ top: 0 })
+        // scroll up to the top of the page - only do this in production
+        // window.scrollTo({ top: 0 })
     }
 
 
@@ -164,7 +192,7 @@ export class LessonPage {
         // clean up some of the utterances
         // substitution list to improve voices
         let subs = [
-            { from: 'JavaScript', to: '[Javascript|JavvaScript]' },
+            // { from: 'JavaScript', to: '[Javascript|JavvaScript]' },
             { from: '\`console.log()\`', to: '[\`console.log()\`|console dot log]' },
         ]
 
@@ -439,12 +467,22 @@ class SectionCode extends LessonSections {
 
         // create a monaco editor on the left side
         let initialCode = section.rawvalue
+
+
+        initialCode = initialCode.replaceAll(`“`, `"`)   // replace web quotes with proper double-quotes
+        initialCode = initialCode.replaceAll(`”`, `"`)   // replace web quotes with proper double-quotes
+        initialCode = initialCode.replaceAll(`‘`, `'`)   // replace web quotes with proper single-quotes
+        initialCode = initialCode.replaceAll(`’`, `'`)   // replace web quotes with proper single-quotes
+
+
         let tag = document.getElementById(this.divName('left', this.tkt))
         let nLines = parseFloat(section.params['lines'])  // we know it's a string, but typescript doesn't
 
         if (initialCode.charCodeAt(0) == 10) {   // leading LF?
             initialCode = initialCode.substr(1)
         }
+
+
 
         // console.log('initialco', initialCode, initialCode.charCodeAt(0))
         // console.log('about to create the editor')
@@ -466,11 +504,15 @@ class SectionCode extends LessonSections {
         // console.log('push codeStrings', copyID, runID, initialCode)
 
 
-        let expandHtml = // start with the copy a nd run icons
-            `<div style='float:left;'>
-            <img id='${copyID}' style='height:32px;position:absolute;' src='../assets/images/copy.png' title='Copy to Editor' /><br><br>
-            <img id='${runID}' style='height:32px;position:absolute;' src='../assets/images/run.png' title='Run in Canvas' />
-         </div>`
+        let expandHtml: string = ''
+
+        if (!('norun' in section.params)) {     // sometimes we don't want to run
+            expandHtml += // start with the copy a nd run icons
+                `<div style='float:left;'>
+                    <img id='${copyID}' style='height:32px;position:absolute;' src='../assets/images/copy.png' title='Copy to Editor' /><br><br>
+                    <img id='${runID}' style='height:32px;position:absolute;' src='../assets/images/run.png' title='Run in Canvas' />
+                </div>`
+        }
 
         expandHtml +=    // add in the code itself
             `<div class='editleft'><code>${html}</code></div>`
@@ -540,6 +582,7 @@ class SectionP extends LessonSections {   // <p> with speaker and
 
     addSingleParagraph(currentSection: ITag) {
 
+
         // speech icon
         if ('SpeechIcon' in currentSection.params) {    // first or continuation?
             // nodes.push(this.node('DIV', '', '', 'prespeaker'))
@@ -550,14 +593,16 @@ class SectionP extends LessonSections {   // <p> with speaker and
             ]))
 
             // and save the speech in the utterances array
-            utterances.push({ id: this.utterId, text: currentSection.speechvalue })
+            utterances.push({ id: this.utterId, text: currentSection.speechvalue + " ." })
 
         } else {
             // just add the voice text to the previous utterance
             let previousUtterance = utterances.pop()
-            previousUtterance.text += ' ' + currentSection.speechvalue
+            previousUtterance.text += '. ' + currentSection.speechvalue
             utterances.push(previousUtterance)
         }
+
+
 
         // right side image
         if ('img' in currentSection.params) {
@@ -600,12 +645,20 @@ class SectionP extends LessonSections {   // <p> with speaker and
         }
 
 
-        // finally the text
+
+
+
+        // finally the text  // <p(h1)> is equivalent to <title>, but gets a speech button
+
         // is this a bullet or a regular paragraph?
         if ('bullet' in currentSection.params) {
             this.nodes.push(this.node('P', currentSection.textvalue, '', 'bullet'))
         } else {
-            this.nodes.push(this.node('P', currentSection.textvalue, '', ''))
+            let tag = 'p'
+            if ('h1' in currentSection.params) tag = 'h1'
+            if ('h2' in currentSection.params) tag = 'h2'
+            if ('h3' in currentSection.params) tag = 'h3'
+            this.nodes.push(this.node(tag, currentSection.textvalue, '', ''))
         }
     }
 
@@ -638,6 +691,10 @@ class SectionTitle extends LessonSections {   // handles titles and subtitles
         if (section.tag === 'subtitle') {
             tag = 'h2'
         }
+        if (section.tag === 'section') {
+            tag = 'h3'
+        }
+
 
         this.attach('lesson', '', '', '', [
             this.node(tag, section.textvalue),
@@ -657,10 +714,10 @@ class SectionAsciiMath extends LessonSections {   // converts to MathML (only fo
         this.attach('lesson', '', mathId, '', [])  // create a <div> for the math
 
         let pTag = document.getElementById(mathId)  // and then attach to that div
-        pTag.appendChild(        
-                asciiMath(section.textvalue)
-        )  
-   
+        pTag.appendChild(
+            asciiMath(section.textvalue)
+        )
+
     }
 }
 
@@ -700,6 +757,68 @@ class SectionDrill extends LessonSections {   // handles math drills
         // }
     }
 }
+
+class SectionYouTube extends LessonSections {
+
+    nodes = []
+
+    constructor(section: ITag) {
+        super(section)
+
+        // < iframe  allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen > </iframe>
+
+        console.log('attaching youtube')
+
+        let youId = this.divName('youtube', this.tkt)
+
+        //https://img.youtube.com/vi/-P28LKWTzrI/0.jpg
+
+
+        //     <div style="width: 560px; height: 315px; float: none; clear: both; margin: 2px auto;">
+        //     <embed
+        //       src="https://www.youtube.com/embed/J---aiyznGQ?autohide=1&autoplay=1"
+        //       wmode="transparent"
+        //       type="video/mp4"
+        //       width="100%" height="100%"
+        //       allow="autoplay; encrypted-media; picture-in-picture"
+        //       allowfullscreen
+        //       title="Keyboard Cat"
+        //     >
+        //   </div>
+
+        this.attach('lesson', '', youId, '', [
+            this.node('embed', '', '', '', [
+                { name: "width", value: "640px" },
+                { name: "height", value: "400px" },
+                { name: "src", value: section.textvalue.trimRight() },
+                { name: "allowfullscreen", value: "true" }
+            ])
+        ])
+
+        // let aYtUrl = section.textvalue.match("[\\?&]v=([^&#]*)");
+        // let ytUrl = aYtUrl[0].substring(3)  // lose the '?v=
+
+        // this.nodes.push(this.node('IMG', '', '', 'pimage', [
+        //     { name: 'src', value: `https://img.youtube.com/vi/${ytUrl}/0.jpg` },
+        // ]))
+
+
+        // let caption = this.node('caption',section.textvalue)
+
+        // this.nodes.push(this.node('a', `href="${section.textvalue})
+
+
+        // this.attach('lesson', '', this.sectionName, '', [
+        //     this.node('IMG', '', '', 'pimage', [
+        //         { name: 'src', value: `https://img.youtube.com/vi/${ytUrl}/0.jpg` },
+        //     ]),
+        //     this.node('caption', section.textvalue)
+        // ])
+
+    }
+
+}
+
 
 class SectionDebug extends LessonSections {
     constructor(section: ITag) {
