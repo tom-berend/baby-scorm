@@ -172,20 +172,28 @@ console.log("Hello" + "World")   // this part of the line is a COMMENT
 
 
 <p(h2)>Variables
-<p>OK, something new.  We are going to #assign# 'Hello World' to a ^variable^ with a name.  Think of a variable as a tentacle that reaches out and keeps a finger on the ^string^ 'Hello World'.
+<p>OK, something new.  We are going to #assign# 'Hello World' to a ^variable^ with a name.  The name we are going to use is #greeting#. Think of a ^variable^ as a tentacle that reaches out and keeps a finger on a value ('Hello World' in this case).
 
 <code>
-let greeting = 'Hello World'
-console.log(greeting)   // print the string that 'greeting' has its finger on
+let greeting              // we 'declare' a variable named 'greeting'
+greeting = 'hello world'  // we attach a tenticle from 'greeting' to our string 'hello world'
+console.log(greeting)     // print the string that 'greeting' has its tentacle on
 
-<p>Or, slightly more complicated
+<p>We can declare the ^variable^ and assign it in one step.  But don't confuse the two steps, because you are not allowed to declare 'greeting' a second time.  This code is wrong, but we can fix
+it by removing the #let# from the second line.  Try it.
+
 <code>
-let greeting = 'Hello'
-console.log(greeting  + ' World')   // add a string to 'greeting' before printing
+let greeting = 'hello' 
+let greeting = greeting + ' world'   // cannot redeclare greeting
+console.log(greeting)
 
-<p>OK, it's time to move on to another way to print 'Hello World'.
 
 
+
+<p(h2)>Variable Names
+<p>Variable names in JavaScript must start with a letter or an underscore `_`, and can contain letters, numbers, or underscores.  Names are case-sensitive, so #Greeting# is not the same as #greeting#.
+
+<p>A good name
 
 
 
@@ -240,7 +248,6 @@ vt.print('Hello World')
 <p>A JavaScript string stores a series of characters like "John Doe".
 
 A string can be any text inside double or single quotes:
-
 
 
 
