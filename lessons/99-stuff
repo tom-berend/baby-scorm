@@ -10,4 +10,9 @@ Our goal at the end of this course is for you to be comfortable using tools like
 
 
 
+<p(h2)>[W3Schools | w 3 schools]
+<p>There are excellent free resources on the web for learning JavaScript, and we are going to point you at them rather than replicate them.  One of the best is [W3Schools | W 3 Schools|https://www.w3schools.com], which features straightforward explanations and ^Try It Yourself^ example buttons.
+<p>Please take a few minutes and work through the W3Schools page on JavaScript [operators | operators | https://www.w3schools.com/js/js_operators.asp].  Try every example, and make modifications.
+<p>^NOTE^ W3Schools uses old-fashioned `var` to declare a variable.  You should use 'let' instead.
+
 

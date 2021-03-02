@@ -16,7 +16,7 @@
 
 <p(img=dennis.png)>There is a tradition among programmers that the FIRST program you write in any new language prints out the words “Hello World”. This dates back to the legendary programmer Dennis Ritchie, arguably the father of modern computing.
 
-<p>You will run a small JavaScript program to print “Hello World” right on this page.  That’s the magic of JavaScript. 
+<p>You will run a small ^JavaScript^ program to print “Hello World” right on this page.  That’s the magic of JavaScript. 
 
 <p>In fact, we're going to say "Hello World" in THREE different ways.
 
@@ -43,7 +43,7 @@
 
 
 <break>
-<p(img=ctrlJ.png)>To open the Console on Windows, Linux, or a Chromebook, press `Ctrl`+`Shift`+`J`. On a Mac, press `Command`+`Opt`+`J`. Try it now, make sure it works.
+<p(img=ctrlJ.png)>To open the Console on Windows, Linux, or a Chromebook, press `Ctrl`+`Shift`+`J` (hold down `Ctrl` and `Shift` and then press `J`). On a Mac, press `Command`+`Opt`+`J`. Try it now, make sure it works.
 
 
 
@@ -80,10 +80,10 @@ console.log(“Hello World”)
 <p>Press ^run^ to run this program, and you should see a result in the console.  Try it now.  Did you see “Hello World” typed in the console?
 
 <break>
-<p>Now press ^copy^ to move the code to the editor box.  There you can change this program and run it again.  Change the words ^Hello World^, but be careful NOT to move outside the quotes or the brackets.  For example, you might change it to 
+<p>Now press ^copy^ to move the code to the editor box.  There you can change this program and run it again.  Change the words ^Hello World^ to ^Hello Everyone^, but be careful NOT to move outside the quotes or the brackets.  For example, you might change it to 
 
 <code>
-console.log("Hello Tom")
+console.log("Hello Everyone")
 
 
 <break>
@@ -98,8 +98,9 @@ console.log("Hello Tom")
 
 
 <p(h1)>Primitive Types in JavaScript
-<p>There are seven primitive ^types^ in JavaScript, but only two are important for now.  They are ^string^ and ^number^. 
-<p>(Many older websites will say there are six primitives.  ^bigint^ was only added in 2020.)
+<p>There are seven primitive ^types^ in JavaScript, but only two are important for now.  They are ^string^ and ^number^. (Many older websites will say there are six primitives.  ^bigint^ was only added in 2020.)
+<p>We call them `primitive` because they are the basic building blocks of our data, like data atoms.  We will build complex types out of them.
+
 
 <p(h2)>String
 
@@ -179,7 +180,23 @@ let greeting              // we 'declare' a variable named 'greeting'
 greeting = 'hello world'  // we attach a tenticle from 'greeting' to our string 'hello world'
 console.log(greeting)     // print the string that 'greeting' has its tentacle on
 
-<p>We can declare the ^variable^ and assign it in one step.  But don't confuse the two steps, because you are not allowed to declare 'greeting' a second time.  This code is wrong, but we can fix
+<break>
+<p>Read the assignment operator [`=`|gets] as ^'gets'^, not 'equals'.  We say [`greeting = 'hello world' | greeting gets hello world].
+
+
+
+
+
+
+
+
+
+
+
+
+
+<break>
+<p>We can declare the ^variable^ and assign it in one step: `let greeting = 'hello'`.  But don't confuse the two steps, because you are not allowed to declare 'greeting' a second time.  This code is wrong, but we can fix
 it by removing the #let# from the second line.  Try it.
 
 <code>
@@ -187,37 +204,91 @@ let greeting = 'hello'
 let greeting = greeting + ' world'   // cannot redeclare greeting
 console.log(greeting)
 
+<p>Good news! Our editor seems to know about JavaScript, and will quickly warn us about simple mistakes.  
 
 
+
+
+
+
+
+
+
+
+
+<p(h2)>Numbers and Arithmetic
+
+<p>The four basic math operations match the basic arithmetic you learned years ago, addition `+`, subtraction `-`, multiplication `*`, and division `/`.   
+
+<p>The exponentiation (raise to a power) operator is `**`, so five squared is `5**2`.  If you remember that raising a number to the power of .5 is the square root, then you can do roots are well.
+
+<p>And of course you can use brackets, for example `2 + 3 * 2` is 8, but `(2 + 3) * 2` is 10. Make sure you remember the ^BODMAS^ order of operations, review them [here|here|https://www.mathsisfun.com/operation-order-bodmas.html].
+
+
+
+
+
+
+<break>
+<p>Try out these statements, play around with them and make sure they make sense to you.
+<code>
+let a = 1          // console.log(a) will print 1
+let b = 2 + 3      // 5
+let c = a + b      // 6
+let d = c ** 2     // 36
+let e = d / 12     // 3
+console.log(a,b,c,d,e)
 
 <p(h2)>Variable Names
-<p>Variable names in JavaScript must start with a letter or an underscore `_`, and can contain letters, numbers, or underscores.  Names are case-sensitive, so #Greeting# is not the same as #greeting#.
-
-<p>A good name
+<p>Variable names in JavaScript must start with a letter, a dollar-sign `$`, or an underscore `_`, and can contain letters, numbers, or underscores.  Names are case-sensitive, so #Greeting# is not the same variable as #greeting#.
 
 
+<break>
+<p(science)>In this course, we are going to use [^CamelCase^|Camel case | https://wiki.c2.com/?CamelCase] for naming, and we recommend you do too. Our convention is that variable names start with lower-case, and library names start with upper-case, and then we put 'humps' in on word boundaries.  For example [`myNewVariable` | my new variable].
 
+<p>Another common naming convention is [^SnakeCase^|Snake case], for example [`my_new_variable`|my new variable].  If you work on a project with other programmers, you will want to agree on your conventions.
 
+<break>
+<p>A good name should be descriptive and help in understanding the program.  For example, we used ^greeting^ for a greeting.  But sometimes we use a simple name like ^i^ or ^j^ to represent a temporary counter, and that's descriptive too - you know it's a counter and won't be around for long.
 
+<p>Good programmers spend a lot of time thinking about the right names for their variables.
 
-
-
-
-
-
-
-
-
-
+<break>
+<p(history)>You should avoid using a single underscore or single dollar-sign as a variable name.  They are perfectly 'legal', but those two names were taken by two of the early and best-loved JavaScript libraries, [Underscore.JS | under score dot j s | https://underscorejs.org/] and [jQuery| j query | https://jquery.com/].  
+<p>[Underscore.JS |under score]  is dead, but many of the ideas it introduced have been added to JavaScript.  [jQuery |j query] is still a powerhouse, but in decline because newer frameworks have emerged.  But consider those names already 'taken', like Sting and Madonna.
 
 
 
 
 
 
-<subtitle>Built-In Terminal
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<subtitle>Our Teaching Terminal
+
+
+<p(img=vt52.jpeg)>To help present this course, we built a 'terminal' that behaves a little bit like an old-fashioned [VT-52 | v t fifty two | https://en.wikipedia.org/wiki/VT52]. 
 <p>Here's a short program that will print 'Hello World' in the Canvas Window at the lower right.
 
 <code>
@@ -227,13 +298,31 @@ vt.print('Hello World')
 
 <p>There's a lot going on here.  Let's break it down.
 
-<p>The first line says "Bring in some kind of library called 'Baby', and p
 
-<p>The first line says [^let vt = new VT52()^ | let v t get new v t fifty two].  It tells your browser to load an object called [VT52 | v t fifty two] and save it as a variable called ['vt' | V T]. Notice that we read the equal sign as 'gets', not as 'equals'.
 
-<p>The second line say [^vt.print('hello world') | v t dot print open bracket open quote hello world close quote close bracket].  It tells your browser to feed the string 'Hello World' to a function called print that is part of the object called ['vt'| v t].
 
-<p>There's a lot going on, and we'll soon talk about objects, functions, and strings.  But for now, let's just run this program.
+
+
+
+
+
+
+
+
+
+<p>The first line tells your browser "Bring in a module called `Baby`, and assign it to `app`.  Again, think of this assignment as a tentacle reaching from `app` to hold onto `Baby`.
+
+<p>The second line says [`let vt = app.VT52()` | let v t gets app dot v t fifty two].  It says to run a function in the Baby module called [VT52 | v t fifty two] and throw a tentacle from a variable called ['vt' | V T] to hold on to the result. Notice that we read the equal sign as 'gets', not as 'equals'.
+
+<p>Since this doesn't appear to do anything, an experienced programmer would assume we are just setting up something to use later. And that's exactly the case. This line 'creates' our version of the VT52 terminal and prepares it for use.
+
+<break>
+
+<p>The third line say [^vt.print('hello world') | v t dot print open bracket open quote hello world close quote close bracket].  It tells your browser to feed the string 'Hello World' to a method called print that is part of the object pointed at by ['vt'| v t].
+
+<p>That looks a lot like our other friend `console.log('hello world')`, except that console.log was already included in our toolbox.  Exactly right.
+
+<p>We are soon going to talk about how to build and use objects and methods.  But for now, let's just run this program.
 
 <break>
 <p>There are two buttons beside the small program below.  One of them will #copy# the program to the 'Editor' panel on the upper right side, where you can modify it.  The second will #run# it in the 'Canvas' panel on the lower right side.

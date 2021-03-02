@@ -10,32 +10,35 @@ interface ILesson {     // the actual meaning of values and strings
 
 
 
-interface ILessonBlock {
-    title: string
-    prerequisite: ILessonBlock | null
+// interface ILessonBlock {
+//     title: string
+//     prerequisite: ILessonBlock | null
 
-    conceptual: ILesson | null // comprehension of mathematical concepts, operations, and relations
-    procedural: ILesson | null // skill in carrying out procedures flexibly, accurately, efficiently, and appropriately
-    strategic: ILesson | null // ability to formulate, represent, and solve mathematical problems
-    adaptive: ILesson | null // capacity for logical thought, reflection, explanation, and justification
-    productive: ILesson | null // habitual inclination to see math as sensible, useful, and worthwhile, + belief in diligence and one’s own efficacy.
-}
+//     conceptual: ILesson | null // comprehension of mathematical concepts, operations, and relations
+//     procedural: ILesson | null // skill in carrying out procedures flexibly, accurately, efficiently, and appropriately
+//     strategic: ILesson | null // ability to formulate, represent, and solve mathematical problems
+//     adaptive: ILesson | null // capacity for logical thought, reflection, explanation, and justification
+//     productive: ILesson | null // habitual inclination to see math as sensible, useful, and worthwhile, + belief in diligence and one’s own efficacy.
+// }
 
 
 
-// utility function for creating ILessonBlocks
-export function LessonBlockFactory(lessonTitle: string): ILessonBlock {  // returns an ILessonBlock
-    let ILB = {
-        title: lessonTitle,
-        prerequisite: null,
-        conceptual: null,
-        procedural: null,
-        strategic: null,
-        adaptive: null,
-        productive: null,
-    }
-    return (ILB)
-}
+// // utility function for creating ILessonBlocks
+// export function LessonBlockFactory(lessonTitle: string): ILessonBlock {  // returns an ILessonBlock
+//     let ILB = {
+//         title: lessonTitle,
+//         prerequisite: null,
+//         conceptual: null,
+//         procedural: null,
+//         strategic: null,
+//         adaptive: null,
+//         productive: null,
+//     }
+//     return (ILB)
+// }
+
+
+
 // utility function for creating ILessonss
 export function LessonFactory(pvalues: number[], ptexts: string[] = []): ILesson {
     let IL = {

@@ -765,26 +765,11 @@ class SectionYouTube extends LessonSections {
     constructor(section: ITag) {
         super(section)
 
-        // < iframe  allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen > </iframe>
+        // Use the EMBED version of the URL (from the <> EMBED), NOT the share URL !!
 
-        console.log('attaching youtube')
+        console.assert(section.textvalue.includes('embed'), "USE THE EMBED <> VERSION OF THE YOUTUBE URL")
 
         let youId = this.divName('youtube', this.tkt)
-
-        //https://img.youtube.com/vi/-P28LKWTzrI/0.jpg
-
-
-        //     <div style="width: 560px; height: 315px; float: none; clear: both; margin: 2px auto;">
-        //     <embed
-        //       src="https://www.youtube.com/embed/J---aiyznGQ?autohide=1&autoplay=1"
-        //       wmode="transparent"
-        //       type="video/mp4"
-        //       width="100%" height="100%"
-        //       allow="autoplay; encrypted-media; picture-in-picture"
-        //       allowfullscreen
-        //       title="Keyboard Cat"
-        //     >
-        //   </div>
 
         this.attach('lesson', '', youId, '', [
             this.node('embed', '', '', '', [
@@ -794,26 +779,6 @@ class SectionYouTube extends LessonSections {
                 { name: "allowfullscreen", value: "true" }
             ])
         ])
-
-        // let aYtUrl = section.textvalue.match("[\\?&]v=([^&#]*)");
-        // let ytUrl = aYtUrl[0].substring(3)  // lose the '?v=
-
-        // this.nodes.push(this.node('IMG', '', '', 'pimage', [
-        //     { name: 'src', value: `https://img.youtube.com/vi/${ytUrl}/0.jpg` },
-        // ]))
-
-
-        // let caption = this.node('caption',section.textvalue)
-
-        // this.nodes.push(this.node('a', `href="${section.textvalue})
-
-
-        // this.attach('lesson', '', this.sectionName, '', [
-        //     this.node('IMG', '', '', 'pimage', [
-        //         { name: 'src', value: `https://img.youtube.com/vi/${ytUrl}/0.jpg` },
-        //     ]),
-        //     this.node('caption', section.textvalue)
-        // ])
 
     }
 

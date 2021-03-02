@@ -1,0 +1,21 @@
+<module>01-Beginner Javascript
+<lesson>02-Numbers
+<shortdesc>JavaScript's Number Type
+
+
+<Title>JavaScript's Number Type
+<p>Most programming languages have many ways to represent numbers, because there are many things we need to do with numbers.  JavaScript only has one type of number, and it's an unfortunate mess.
+
+<p>But it is all we have, so we are going to understand it.
+
+<code>
+const canvas = document.getElementById('canvas') as HTMLCanvasElement
+const ctx = canvas.getContext('2d')
+
+ctx.fillStyle = 'red';
+ctx.beginPath();
+ctx.rect(0, 0, 256,256);
+ctx.fill();
+
+
+<youtube>https://www.youtube.com/embed/SjSHVDfXHQ4
