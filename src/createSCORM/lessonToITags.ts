@@ -95,6 +95,8 @@ export class LessonToITags {
         sTest = this.processSingleMarkdown(sTest, /\^.*\^/, /\^/, '<b>', '</b>')
         sTest = this.processSingleMarkdown(sTest, /\`.*\`/, /\`/, '<t3d_code>', '</t3d_code>')
 
+        sTest = sTest.trimRight()  // take off trailing blanks
+
         // some global substitutions  // use them carefully
         sTest = sTest.replace(/^^2/g, '[<sup>2</sup>| squared ]')
 
@@ -118,6 +120,9 @@ export class LessonToITags {
         sTest = this.processSingleMarkdown(sTest, /#*#/, /#/, '', '')
         sTest = this.processSingleMarkdown(sTest, /\`*\`/, /\`/, '', '')
         sTest = this.processSingleMarkdown(sTest, /\^.*\^/, /\^/, '', '')
+
+        sTest = sTest.trimRight()  // take off trailing blanks
+
 
         // // substitution list to improve voices
         // let subs = [
@@ -183,7 +188,7 @@ export class LessonToITags {
         let aSnippet: string[] = snippet.split('|')
         if (aSnippet.length == 3) { // there is a URL part
             // we don't use _blank because we probably don't want to open multiple windows
-            snippet = `<a href='${aSnippet[2]}' target='gamecode'>${aSnippet[0]}</a> | ${aSnippet[1]}`
+            snippet = `<a href='${aSnippet[2]}' target='gamecode'>${aSnippet[0].trimRight()}</a>|${aSnippet[1]}`
         }
         return snippet
     }
@@ -199,7 +204,10 @@ export class LessonToITags {
             if (n === -1) { break }
 
             let p = sTest.indexOf(']', n + 1)
-            if (p === -1) { console.error(`Missing end marker on ${sTest}, p=${p},remainder=${sTest.slice(p + 1)}`) }
+            if (p === -1) { 
+                console.error(`Missing end marker on ${sTest}, p=${p},remainder=${sTest.slice(p + 1)}`) 
+                throw('stop')
+            }
 
             // call createWebUrl.  if it is a two=part, then will not change. if a three-part, then 
             // will be converted to a two part

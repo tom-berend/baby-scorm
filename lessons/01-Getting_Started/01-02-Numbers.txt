@@ -4,18 +4,149 @@
 
 
 <Title>JavaScript's Number Type
-<p>Most programming languages have many ways to represent numbers, because there are many things we need to do with numbers.  JavaScript only has one type of number, and it's an unfortunate mess.
+<p(img=binary.jpg)>Computers represent EVERYTHING in ones and zeros.  To a computer, there are only numbers. This chapter is about JavaScript's numbers.
 
-<p>But it is all we have, so we are going to understand it.
+
+<p>Most programming languages have many ^types^ of numbers, in different sizes and with different behaviors. The [c++ | c plus plus] language has almost 20 different [types of numbers| types of numbers| https://en.cppreference.com/w/cpp/language/types]. 
+
+<p(img=float.png)>Until recently, JavaScript only has one type of number, a double-precision 64-bit floating-point value called ^Number^.  In 2020, a second type ^Bigint^ was added, similar to Python's unlimited-precision ^Integer^, but we are going to stick to ^Number^ in this course.
+
+<p>At a minimum, we need a counting number type and a computing number type.  JavaScript's ^Number^ is used to handle both, and the browser running your program often tries to guess which you need.  But that can cause horrible bugs, and you need to understand what is happening.  
+
+<p>Let's start by looking at the two most common number types in other languages, ^Integers^ and ^Floating Point^ (^Float^) numbers.  
+
+
+
+
+
+
+
+
+
+<p(h2)>Integers
+<p>Often we need counting numbers: 0,1,2,3,4, and so on. These are called ^Integers^.  Some types of integers do not allow negative numbers, but JavaScript does.  
+
+<p>Integers are stored as bit patterns in the lower 52 bits of the 64-bit ^Number^.  In JavaScript, we can manipulate numbers between -9,007,199,254,740,991 and 9,007,199,254,740,991 (about 9 quadrillion), as long as we are careful.  
+
+<p>That's probably more than you will need for games, but not nearly enough for many applications.
+
+
+
+
+<break>
+<p>The great advantage of ^Integers^ is that they represent values EXACTLY, and can be compared EXACTLY.  Six divided by two is exactly three.   But watch out.  Because seven divided by two is exactly three, too.  Since there isn't an ^Integer^ between three and four, the ^Integer^ answer should be three.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>That doesn't happen in JavaScript, we don't have a real ^Integer^.  The computer will 'convert' our answer to a ^Float^.  In reality, every number in JavaScript is always a ^Float^, JavaScript usually gives us the answer we expect, but not always. Try the code below.
 
 <code>
-const canvas = document.getElementById('canvas') as HTMLCanvasElement
-const ctx = canvas.getContext('2d')
+console.log(6/3)   // 2
+console.log(7/3)   // 2.333333333335 
 
-ctx.fillStyle = 'red';
-ctx.beginPath();
-ctx.rect(0, 0, 256,256);
-ctx.fill();
+// this is an example of multiplying two floats
+console.log(.1 * .2)  // 0.020000000000000004
+
+<p>JavaScript's answers are almost right, the difference is off in the 13th digit. But now we have a problem because we can't safely check if two numbers are ^equal^.  We'll talk about how to work with ^Floats^ below.  Now let's talk about how to fence in our number so that it is always an exact ^Integer^.
+
+
+<break>The basic arithmetic operations on ^Number^ are addition (^+^), subtraction (^-^), multiplication (^*^), division (^/^), remainder (^%^), exponentiation(^**^), increment (^++^) and decrement(^--^).
+
+<p>Division is the dangerous one.  Assuming your numbers aren't crazy big, you can add, subtract, multiply, etc, to your heart's [content|con tent].  
+
+<p>Remainder (^%^) is the 'clock arithmetic' function.  You have probably never used it outside of classroom exercises, but it is a great tool for programmers.  Since I called it the 'clock arithmetic' function, you probably twigged that we can use it for computing clock time.  It's 11 o'clock now, what time will it be in 3 hours?
+<code>
+let now = 11
+let then = (11 + 3) % 12
+console.log("It will be ", then, "o'clock")  // it will be 2 o'clock
+
+
+
+
+<break>
+<p(img=binary1.png)>There are many ways to write an ^Integer^.  Of course, you can just write `let a = 5`.  But you can also tell the compiler that you want a specific bit pattern.  In JavaScript, the leading ^0b^ tells the compiler that you are writing a ^binary^ number.  On the right, you can see the first eight binary numbers.  
+
+
+
+
+
+
+
+
+
+
+
+<break>
+<p(history)>Humans count in ^base 10^ or 'decimal' numbers, likely because we have 10 fingers to count on.  Computers have only two fingers, zero and one, so they use ^base 2^ or [^binary numbers^ | binary numbers | https://www.mathsisfun.com/binary-number-system.html]. 
+<p>Programmers count from ^zero^.  But zero wasn't invented until [about 700 AD| about 7 hundred a d|https://en.wikipedia.org/wiki/Brahmagupta], and it took a while to catch on, so traditionalists still count from one.
+
+
+<break>
+
+<p(img=bridge.jpg)>Remember that everything in a computer represented as ones and zeros.  The 52 bits in a JavaScript ^Number^ can be manipulated as bits. 
+<p>That's really neat because you can store things that aren't numbers. Imagine storing a bridge hand (13 cards out of a deck of 52) as 13 bits out of the 52 available in a single number (all four hands would require four numbers).
+
+
+<break>
+<p(science)>There are several ways to represent negative numbers in ^integers^.  Languages with proper integers use ^2's complement^ numbers [(see here)| see here| https://www.electronics-tutorials.ws/binary/signed-binary-numbers.html]  to avoid having both positive and negative zero.  
+<p>JavaScript has both a positive and negative zero.  Luckily you don't have to worry in most cases, because they are considered equal.
+
+<break>
+
+<p>The important thing about counting with integers is that they are only 'whole' numbers. You can count 2 or 3. But you cannot count [2.5 | 2 and a half].  
+
+
+
+
+
+
+
+
+
+
+
+<p(h2)>Floating Point
+<p(img=scientific_notation.png)>
+<p>JavaScript only supports `Floating Point` numbers.  These are very versatile and can represent huge numbers, tiny numbers, fractions, and integers. If you have worked with [Scientific Notation | scientific notation | https://www.mathsisfun.com/numbers/scientific-notation.html] then you will recognize what is going on.   
+
+<p>Internally, JavaScript keeps 53 bits to represent the number and 11 bits to represent the scale of the number.  So 
+
+
+
+<break>
+
+ A Number only keeps about 17 decimal places of precision; arithmetic is subject to rounding. The largest value a Number can hold is about 1.8×10308. Numbers beyond that are replaced with the special Number constant Infinity.
+
+
+
+
+
+
+<break>
+<p>But it is all we have, so we are going to understand it.  So we are going to And we are going to do that by 
+
+
+
+
+<break>
+<p(science)>Since 2020, we have a second type of number in Javascript called `Bigint`.  
+
+
+
 
 
 <youtube>https://www.youtube.com/embed/SjSHVDfXHQ4

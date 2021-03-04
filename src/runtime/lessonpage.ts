@@ -466,7 +466,7 @@ class SectionCode extends LessonSections {
         // } else {
 
         // create a monaco editor on the left side
-        let initialCode = section.rawvalue
+        let initialCode = section.rawvalue.trimRight()
 
 
         initialCode = initialCode.replaceAll(`“`, `"`)   // replace web quotes with proper double-quotes
