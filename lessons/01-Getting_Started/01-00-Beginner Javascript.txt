@@ -1,4 +1,4 @@
-<module>01-Beginner Javascript
+<module>01-Welcome
 <lesson>00-Information about this course
 <shortdesc>This lesson is introduction and housekeeping. You will start programming in the next lesson.
 

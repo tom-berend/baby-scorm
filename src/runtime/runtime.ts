@@ -232,7 +232,7 @@ class Editor {
         this.lessonPage.load(iTags, this.isDebug)
 
         let moduleInfo = this.lessonPage.moduleInfo()
-        console.log('moduleInfo', moduleInfo)
+        // console.log('moduleInfo', moduleInfo)
         this.suggestName =
             moduleInfo.module.substr(0, 3) +
             moduleInfo.lesson.substr(0, 3) +

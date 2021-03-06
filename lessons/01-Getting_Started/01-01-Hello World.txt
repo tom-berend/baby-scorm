@@ -218,19 +218,10 @@ console.log(greeting)
 
 <p(h2)>Numbers and Arithmetic
 
-<p>The four basic math operations in JavaScript match the basic arithmetic you learned years ago, addition `+`, subtraction `-`, multiplication `*`, and division `/`.   
+<p>The four basic math operations match the basic arithmetic you learned years ago, addition `+`, subtraction `-`, multiplication `*`, and division `/`.   
 
-<p>There are a few more.  The exponentiation (raise to a power) operator is `**`, so five squared is `5**2`.  Of course, you could just multiply 5 * 5.  But you can also do roots if you remember that raising a number to the power of .5 is the square root.  
+<p>The exponentiation (raise to a power) operator is `**`, so five squared is `5**2`.  If you remember that raising a number to the power of .5 is the square root, then you can do roots are well.
 
-<break>
-<p>The remainder operator (`%`) returns the remainder left over when a number is divided by another number. It always takes the sign of the dividend.
-<code>
-console.log(4 % 2)  // 0.   Because 2 goes evenly into 4, leaving no remainder  
-console.log(13 % 5) // 3.   Because 5*2 is 10, leaving a remainder of 3
-
-<p>There is an ^increment^ operator (`++`) that adds 1 to a number, and a `decrement` that subtracts 1.
-
-<break>
 <p>And of course you can use brackets, for example `2 + 3 * 2` is 8, but `(2 + 3) * 2` is 10. Make sure you remember the ^BODMAS^ order of operations, review them [here|here|https://www.mathsisfun.com/operation-order-bodmas.html].
 
 
@@ -246,8 +237,7 @@ let b = 2 + 3      // 5
 let c = a + b      // 6
 let d = c ** 2     // 36
 let e = d / 12     // 3
-let f = d++        // 4
-console.log(a,b,c,d,e,f)
+console.log(a,b,c,d,e)
 
 <p(h2)>Variable Names
 <p>Variable names in JavaScript must start with a letter, a dollar-sign `$`, or an underscore `_`, and can contain letters, numbers, or underscores.  Names are case-sensitive, so #Greeting# is not the same variable as #greeting#.

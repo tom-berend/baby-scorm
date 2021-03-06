@@ -53,18 +53,21 @@ export class LessonToITags {
         // }
 
         // replace ALL CRLF with ordinary newline \n
-        for (let i = 0; i < aLines.length; i++) {
-            aLines[i] = aLines[i].replace(new RegExp(/\r/gm), '\n')
-        }
-
+        // for (let i = 0; i < aLines.length; i++) {
+        //     aLines[i] = aLines[i].replace(new RegExp(/\r/gm), '\n')
+        // }
 
         // convert from text lines to ITags (maybe consolidating)
         let aTags = this.inputToParagraphs(aLines)
 
-        //////////// show aTags for debugging
+        // //////////// show aTags for debugging
         // for (let i = 0; i < 5; i++) {
         //     console.log('aTag', i, aTags)
         // }
+
+
+        aTags = this.stripAndHideInnerTags(aTags)
+
 
 
         // preprocess tag array in place - this works because call-by-reference
@@ -98,7 +101,7 @@ export class LessonToITags {
         sTest = sTest.trimRight()  // take off trailing blanks
 
         // some global substitutions  // use them carefully
-        sTest = sTest.replace(/^^2/g, '[<sup>2</sup>| squared ]')
+        // sTest = sTest.replace(/^^2/g, '[<sup>2</sup>| squared ]')
 
         // first alternate voice / speech
         //    sTest = this.processAlternateMarkdown(sTest, true)  // keep first set
@@ -204,9 +207,9 @@ export class LessonToITags {
             if (n === -1) { break }
 
             let p = sTest.indexOf(']', n + 1)
-            if (p === -1) { 
-                console.error(`Missing end marker on ${sTest}, p=${p},remainder=${sTest.slice(p + 1)}`) 
-                throw('stop')
+            if (p === -1) {
+                console.error(`Missing end marker on ${sTest}, p=${p},remainder=${sTest.slice(p + 1)}`)
+                throw ('stop')
             }
 
             // call createWebUrl.  if it is a two=part, then will not change. if a three-part, then 
@@ -249,6 +252,7 @@ export class LessonToITags {
     // ///////////////////////////////////////
     // ///////////////////////////////////////
 
+    /** find tag-type and parameters  */
     inputToParagraphs(aLines: string[]): ITag[] {
         // console.log('we have # lines ', aLines)
 
@@ -256,6 +260,8 @@ export class LessonToITags {
 
         for (let sLine of aLines) {   // weirdly, aLines is an Object of type Array.  JavaSscrpt types are awful.
             // console.log('sline ', sLine)
+
+            /** match is from the first < at the start of line to the  next > */
             let match = sLine.match(new RegExp(/^<([a-z]|[A-Z]|[0-9]|\_|\(|\.|\=|\,|\))*>/)) // matchs <p>  and <h1>, etc
 
             let sTag = ''
@@ -296,9 +302,14 @@ export class LessonToITags {
                 aTags.push(this.iTagFactory(sTag, bParams, sRemain))
 
             } else {
+
+                // many reasons we might be here
+                // we allow a BLANK line without a tag
+                // we allow follow lines in code
+
+
                 // here for continuation lines (without tags)
                 // so patch the PREVIOUS aTag
-
                 // just test that the first character isn't a '<'
                 console.assert(sLine.slice(0, 1) !== '<', 'Looks like a bad tag:  ' + sLine)
 
@@ -317,9 +328,52 @@ export class LessonToITags {
         return (aTags)
     }
 
-    // ///////////////////////////////////////
-    // ////////// parse the tag for voice/text, markdown, implicit params, etc
+    /** convert internal HTML tags (not general, specific tags in specific ways) 
+     * DO NOT TRY TAG-WITHIN-TAG, this is not a recursive DOM-style parser
+    */
+    stripAndHideInnerTags(aTags: ITag[]): ITag[] {
+        let infiniteLoopGuard = 1000
 
+        // test every tag in the document, we bring in the whole file and traverse it
+        aTags.forEach((o, i) => {   // can modify aTags[i] this way
+
+            // console.log('testing o.rawvalue',o.rawvalue)
+
+            // process these specific tags
+            let tags = ['a', 'b']
+            tags.forEach((tag: string) => {
+                let regex = `<\s*${tag}[^>]*>(.*?)<\s*\/\s*${tag}>`
+                let matches: any[]
+
+                // process multiple tags on a single line
+                while (matches = o.rawvalue.match(new RegExp(regex))) {
+
+                    // IMPORTANT - must REMOVE the tag, or infinite loop
+                    if (infiniteLoopGuard-- < 0) {
+                        console.error(`stripAndHide: infinite loop testing tag '${tag}' against ${o.rawvalue}`)
+                        break
+                    }
+
+                    
+                    // o.rawvalue = before<a ref="someone">something</a>after 
+                    // match[0] = "<a ref="someone">something</a>" 
+                    // match[1] = "something"
+
+
+
+                    console.log('matches', matches)
+
+                }
+            })
+
+
+        })
+
+        return aTags
+    }
+
+    // ///////////////////////////////////////
+    /** parse the tag for voice/text, markdown, implicit params, etc */
     preProcessTagArray(aTags: ITag[]): void {
 
         // TODO move this into a separate compile step, and make it more powerful
@@ -474,6 +528,7 @@ export class LessonToITags {
             textvalue: "",
             speechvalue: "",
             url: "",
+            innerTags: []
         }
         return (ret)
     }
@@ -515,6 +570,7 @@ export class LessonToITags {
         console.assert(aTags.length === 1, 'Expected array of one object')
         console.assert(aTags[0].tag === 'p', 'Expected tag to be "<p>" and got "' + aTags[0].tag + '"')
         console.assert(aTags[0].rawvalue === 'testParagraph', `Expected string to be 'testParagraph' and got '${aTags[0].textvalue}'`)
+
 
         aLines = ['<p>testParagraph', ' and more']
         aTags = this.inputToParagraphs(aLines)

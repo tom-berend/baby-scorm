@@ -27,6 +27,7 @@ export interface ITag {
     textvalue: string,
     speechvalue: string,
     url: string,
+    innerTags: string[]  // array of internal tags <span>, <ml>, and some others
 }
 
 
