@@ -94,7 +94,9 @@ export class LessonToITags {
 
         // first alternate voice / speech
         sTest = this.processAlternateMarkdown(sTest, true)  // keep first set
-        sTest = this.processSingleMarkdown(sTest, /#*#/, /#/, '<em>', '</em>')
+        sTest = this.processSingleMarkdown(sTest, / #.*#/, /[^\\]#/, ' <em>', '</em>')  // allow # with escape \#
+        sTest = this.processSingleMarkdown(sTest, /\\#/, /#/, '#', '')  
+
         sTest = this.processSingleMarkdown(sTest, /\^.*\^/, /\^/, '<b>', '</b>')
         sTest = this.processSingleMarkdown(sTest, /\`.*\`/, /\`/, '<t3d_code>', '</t3d_code>')
 

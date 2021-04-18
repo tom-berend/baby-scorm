@@ -4,22 +4,7 @@
 
 
 <Title>JavaScript's Number Type
-<p(img=binary.jpg)>To a computer, there are only numbers. This chapter is about JavaScript's numbers.
-
-<p>A ^value^ is the representation of some data entity that can be manipulated by a program, for example a [3D|3 d] model of a car.
-
-
-<p>The simplest ^type^ of ^value^ is ^number^ which is just numbers.
-
-
-
-
-
-
-
-
-
-
+<p(img=binary.jpg)>To a computer, there are only numbers. We have already played a bit with ^strings^, this chapter is about JavaScript's numbers.
 
 
 

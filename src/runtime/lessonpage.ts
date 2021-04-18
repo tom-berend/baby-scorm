@@ -509,15 +509,15 @@ class SectionCode extends LessonSections {
         if (!('norun' in section.params)) {     // sometimes we don't want to run
             expandHtml += // start with the copy a nd run icons
                 `<div style='float:left;'>
-                    <img id='${copyID}' style='height:32px;position:absolute;' src='../assets/images/copy.png' title='Copy to Editor' /><br><br>
-                    <img id='${runID}' style='height:32px;position:absolute;' src='../assets/images/run.png' title='Run in Canvas' />
+                    <img id='${copyID}' style='height:24px;position:absolute;' src='../assets/images/copy.png' title='Copy to Editor' />
+                    <img id='${runID}' style='height:24px;position:absolute;top: 32px;left:-2px;' src='../assets/images/run.png' title='Run in Canvas' />
                 </div>`
         }
 
         expandHtml +=    // add in the code itself
             `<div class='editleft'><code>${html}</code></div>`
 
-        this.attach('lesson', '', this.divName('nocode', this.tkt), '', [
+        this.attach('lesson', '', this.divName('code', this.tkt), 'code', [
             this.node('P', expandHtml, '', ''),
         ])
 

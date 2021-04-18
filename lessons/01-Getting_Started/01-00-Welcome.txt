@@ -1,0 +1,250 @@
+<module>01-Welcome
+<lesson>00-Information about this course
+<shortdesc>This lesson is introduction and housekeeping. You will start programming in the next lesson.
+
+<p> first line?   this is #emp#_ text (underscore).   this is ^bold^ text. (caret)  this is `code` text. (backtick)   this is <key>ctrl+k</key> text  < key > ctrl+k < / key > 
+
+<break>
+
+<p>sum_(i=1)^n i^3=((n(n+1))/2)^2
+
+
+<asciimath>sum_(i=1)^n i^3=((n(n+1))/2)^2
+
+
+
+
+
+
+<title>Welcome to GameCode
+
+<run(src=logo.ts)>
+
+<p(video=intro.webm)>We all #play# video games. This course is going to help you learn how they are made.  We are going to dive into programming and computer graphics, and write some small games.  It's amazing fun, and programming is a great hobby, maybe even a career. But there is a lot to learn.
+
+<p>There are already many great courses to help you learn how to program.  This one is a bit different in three ways.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p(h2)>Programming and Math
+<p>First, we are going to teach you a ton of high school math and physics, except you won't notice because we are teaching you how to create computer graphics.
+<p> Second, we are going to start at the beginning, explaining how computers create the images you see at the lowest hardware and software levels, and how programmers control them.  
+<p> And third, we are going to encourage you to break out of this course and write your games with professional tools in the real world
+
+
+
+<break>
+<p(science)>
+<p(img=comp_math.png)>Math and computing are very different disciplines. Math provides a set of tools, sometimes describes as #what is# knowledge. Computation approaches problem solving with  #how to# knowledge.  This course will try to help you learn both together.
+<p>Here's a simple example. In Math, a [square root|square root|https://www.mathsisfun.com/square-root.html] of a number #x# is a number #y# such that #y<sup>2</sup> = x#.  That's completely true, but not very helpful.
+<p>In Computation, we might offer a test for square roots: if you square #y# and get #x#, then #y# is the square root of #x#.  Or we might offer a [method|method|https://en.wikipedia.org/wiki/Newton%27s_method] to calculate the square root.
+
+
+
+
+<break>
+<p>Here's the thing. Writing even a simple game or animation takes serious math and programming skills, and knowledge about how computers work.  There are great libraries that try to hide the complexity, but you have to understand what they are doing for you.  
+
+<p>Video games are built on math and physics. Computer graphics rely on algebra, functions, vectors, matrices, trigonometry, and more.  Making movements look realistic needs physics, and that means a bit of calculus.
+
+<p>Game #design# adds another layer. Making a game fun and engaging requires many of the disciplines of system engineering, such as probability, communications, information theory, and feedback.  
+
+
+
+
+
+
+
+
+
+
+
+<break>
+<p> So we wrote a programming course that teaches you computer programming, math and physics.  We will cover a lot of the math and physics you need for grades 10 and 11. We will teach you some serious programming skills. And we will show you how to use the editors and compilers that programmers use.
+
+<p>Our hope is that when you have reached the end of these lessons, you will be ready to join the worldwide community of JavaScript programmers and game developers.  You will have the skills and confidence to continue learning with them. And of course, you will have written some awesome games.
+
+
+
+
+
+
+
+
+
+
+<p(h2)>We Meet on Discord
+<p>We are a ^Community of Learners^.  We are not a day-care or an after-school program. We learn at our own pace, following our own interests, choosing our own projects, for our own reasons.  We learn from each other and teach each other. We collaborate on projects, we follow our curiosity, and we experiment with new ideas. 
+
+
+
+<p(img=discord.jpg)>We use ^DISCORD^ as our meeting place, for getting help, sharing what we know, and showing off our awesomeness. 
+<p>Discord is an invitation-only service.  If you do not already have an account, you should join.  Then you will be able to use [this invitation link| this invitation link |https://discord.gg/jCjecSG ] to join our channel.
+
+
+
+
+
+
+
+
+
+
+
+
+<p(h2)>You have a Proctor
+<p>If you are joining this course as part of a school course or as a cohort of learners, then you will be assigned a ^proctor^.  Their role is to monitor your progress, and ensure that you have fully learned each module before starting the next.  
+
+<p>This module you are now starting has a half-dozen lessons and several exercises. When you believe you have mastered them, you will chat with your proctor on Discord, share your code, and demonstrate your mastery.  Your proctor will then admit you into the next module.
+
+
+
+<break>
+<p>This style of learning is called a [Keller Plan | Keller Plan | https://en.wikipedia.org/wiki/Keller_Plan].  The key elements are
+<p(bullet)>Written materials.
+<p(bullet)>Self-paced instruction.
+<p(bullet)>Units of content.
+<p(bullet)>Mastery of each unit before advancing.
+<p(bullet)>Proctors.
+
+
+<p(h2)>Click on the Voice Reader
+<p>Even if you are a strong reader, voice readers are a useful learning tool. They slow you down and help you attend to the complete text.  As well, in this course they sometimes launch graphic illustrations.
+<p>We have also embedded lots of web links in this course. You must acquire far more knowledge than we can possibly include, and you need to learn to do your own learning.  So we continually point you at reliable resources on the web.  You should at least click and see what we are pointing you at.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p(h1)>Why We use JavaScript
+<p(video=wolf.webm)>Many 'Learn to Code' camps use drag-and-drop "toy" languages like [Scratch|Scratch|https://scratch.mit.edu/] or [GameMaker|Game Maker|https://www.yoyogames.com/gamemaker].  That's not entirely a bad thing, because you get to create amazing things, quickly.  
+
+<p>The video on the right is a homework assignment in the third week of the free course ^Introduction to Programming and Animation with Alice^ from [Coursera | Coursera | https://www.coursera.org/learn/introtoalice]. It focuses on camera management across multiple story-telling scenes. 
+
+<p>I took that Alice course with some teenagers, it was wonderful and amazing. You won't be able to do anything like that after three weeks here.
+
+
+
+
+
+
+
+
+
+
+
+
+
+<break>
+<p>But at the end of the Alice course, those students were hitting the limits of the Alice language. They had not seen anything outside the friendly Alice environment. They had not seen a real text editor or a real programming language. They had no foundation to move to another game engine.
+
+<p>So we're going to start at the beginning and build a solid foundation of basic knowledge.  It won't be fancy at first, but it will be real.
+
+
+
+
+
+
+
+
+<break>
+<p(mindset)> Hi, I'm your learning coach.  Don't be scared.  This course also provides a beginner programming environment - those two boxes on the right.  But we are also going to help you escape out, get you set up with real tools, and show you how to write games without us.
+<p(mindset)>That means you CANNOT run this course on a tablet or Chromebook.  You need a computer that you can program on.   
+
+
+
+
+
+
+
+
+
+
+
+<p(h1)>About JavaScript
+<p(img=javascript.png)>There are many programming languages because each is good at different things.  The language we will be working with is called [JavaScript|JavaScript|https://developer.mozilla.org/en-US/docs/Web/JavaScript]. It is particularly good for embedding software into a document.
+
+<p>JavaScript programs are included in almost every web page you visit, and they are run by your browser. If you want to write a web-based game, JavaScript is your first choice.
+
+<break>
+<p>JavaScript is also used for connected smart devices - the "Internet of Things" (IOT) and is embedded in devices around you. Many apps on your phone are written in JavaScript using a library called [Cordova | cordova | https://cordova.apache.org/]. You are surrounded by JavaScript.
+
+<p>Javascript is the language of [immersive media|immersive media|https://immersiveweb.dev/]. As I write this in 2021, JavaScript is the target language for front-edge development of virtual reality and augmented reality.  It is one of the most common programming languages, and will not go away soon.
+
+
+
+
+
+
+<break>
+<p(science)>I talk about technology. There is a small subset of JavaScript called [asm.js | a s m dot j s | HTTP://asm.js] designed to boost performance for small carefully-written chunks of code. Programmers quickly started using it to port other computer languages to run in the browser, since it was easier to write faster code in specialized languages.  
+<p>Asm.js was superseded by [Webassembly | web assembly | https://webassembly.org], which is better suited for porting other languages. So now there are many languages that can run in a browser, but they require complex compile steps. JavaScript remains the simplest and most common language for the Web.
+
+
+
+
+
+
+<break>
+<p(h2)>People Hate JavaScript
+<p>JavaScript is probably the most hated programming language on the planet.  It invites bugs. It is hard to write, hard to read, and hard to maintain. In 1995, Javascript was cobbled together in just 10 days, as a simple scripting language that could run in a browser.  It was awful.
+
+<p>And for the next 20 years, it remained awful.  Then starting in 2015, there were a series of upgrades that both improved the language and made it possible to add modern toolings. There have been upgrades every year since then.
+
+
+
+<break>
+<p>The good news is that the new stuff added to JavaScript is quite nice, and more new stuff is coming. The 2015 upgrade to the ^ES6^ version (sometimes called ^ES2015^) was huge, and made JavaScript into an almost-modern language. Since then, yearly upgrades have addressed the worst pain-points, especially asynchronous programming, multi-processor support, and iteration methods.  We'll visit all of that. 
+
+<break>
+<p>The bad news is that all the old stuff is still there. To ensure that existing websites don't stop running, nothing is ever removed from the language.
+
+
+<p>More bad news is that different browsers do not all support the same set of features. It is as if some roads were closed to you depending on what kind of car you drove. 
+
+
+<break>
+<p>So JavaScript isn't going to be less hated anytime soon.  But everyone is going to use it.
+<p>We are going to focus on the ^nice^ parts of JavaScript. We'll tell you about the older stuff because you will see old code everywhere and otherwise you won't understand what you are looking at.  
+<p(img=typescript.png)>
+
+<p(h2)>TypeScript
+<p>We are going to use an extended flavor of JavaScript called [TypeScript|Type Script|https://www.typescriptlang.org/]. TypeScript is a newer, cleaner flavor of JavaScript. It originally was just a way of adding static types to JavaScript, but it became much more.
+
+<p>^Types^ describe the shape of things in your program.  One of the ways that programming languages are classified is whether they ^static^ or ^dynamic^ types, that is how your things are allowed to change shape.  ALL programming languages have ^types^, the issue is whether you have to tell your computer exactly what kind of ^type^ you want (and then stick to it), or let your computer guess which shape you intended to use.  
+
+<p>JavaScript is infamous for having a very loose ^dynamic^ type system.  A large percentage of 'bugs' in JavaScript happen because programmers weren't clear about what they wanted.  
+
+<p>TypeScript is a superset of JavaScript that lets you add explicit descriptions of the shapes IF YOU WANT TO. A language with explicit types helps catch mistakes early, and your programs are much more likely to be correct.  But they make you do more work, and sometimes prevent you from writing good code that doesn't follow the type rules.
+
+
+<break>
+<p>OK, enough introduction. Let's get to work.  Proceed to the next lesson, and we'll write a few programs together.
+
+
+
+
+
+
