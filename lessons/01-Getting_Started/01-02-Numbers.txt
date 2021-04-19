@@ -30,7 +30,7 @@ console.log('my answer is ',2 + 2)
 <p>Can you calculate the value of 2 + 2 + 2?  Please try each of the little programs as you proceed through this lesson.  Modify them, play with them.
 
 
-<subtitle>Arithmetic
+<p(h2)>Arithmetic
 
 <p>JavaScript arithmetic is exactly what you learned in school, except that we use [`*`|star] for multiplication instead of 'x'.  You can add with [`+`|plus], subtract with [`-`|minus], and multiply and divide with [`*`|star] and  [`/`|slash] .  We call these  ^operators^, and we are going to learn about a dozen operators today.
 
@@ -138,11 +138,11 @@ console.log(2.5 - (2.5 % 1))
 <p>The third line is worth looking at again.   In the inner bracket we create a NEW value that is the fraction part of the number (like we did in the second line), and then we subtract it from the original number [`(2.5 – 2)`|two point five minus 2] to get the whole part.
 
 
-<subtitle>Bindings
+<p(h2)>Bindings
 
 <p>We now know how to do simple operations that produce new values from old values.  Sometimes we want to catch and hold the new values,  JavaScript provides a thing called a _binding_, which is simply a name that refers to something.
 
-<cm>
+<code>
 let myBinding = 2.5
 console.log(myBinding)
 
@@ -152,7 +152,7 @@ console.log(myBinding)
 
 <p>['let myBinding = 2.5'|let my binding equal two point five] creates a binding called [`myBinding`|my binding] and uses it to grab hold of a number value.  We can now use [`myBinding`|my binding] to point at our value.  Here's the _mod_ example again.
 
-<cm>
+<code>
 let myBinding = 2.5
 let fractionPart = myBinding % 1
 let wholePart = myBinding - fractionPart
@@ -166,7 +166,7 @@ console.log(wholePart)
 
 <p>If we can handle any number, it would be nice to ask the user what number he wants.  Here's another function called [`prompt()`|prompt] that shows a little dialog box asking you to type something, and passes back it back to your program.
 
-<cm>
+<code>
 let myBinding = prompt("Enter a number")
 
 let fractionPart = myBinding % 1
@@ -176,11 +176,11 @@ console.log(wholePart)
 <p>Now we can find the whole part or fraction part of ANY number.
 
 
-<subtitle>Pointing To a New Value
+<p(h2)>Pointing To a New Value
 
 <p>But the best trick with bindings is that [`myBinding`|my binding] doesn't always have to hold the same value forever  We can disconnect a binding and point it to a new value.   Here's a program that creates a binding and then modifies it (twice).
 
-<cm>
+<code>
 let myBinding = 5 * 5			// 25
 console.log(myBinding)
 // 25
@@ -195,9 +195,7 @@ console.log(myBinding)
 
 <p>We created a binding [`myBinding`|my binding] in the first expression, and then used it in the second expression.  But then we assigned the value of the second expression back to [`myBinding`|my binding].  We changed the value of [`myBinding`|my binding].  And then we did it again.
 
-<p>We only used the keyword _let_ once at the top, when we wanted to CREATE this binding.  Then we re-used it. If you used _let_ to bind [`myBinding`|my binding] again, JavaScript would complain that [`myBinding`|my binding] already exists.  Try it.
-
-<img>images/octopus.png
+<p(img=octopus.png)>We only used the keyword _let_ once at the top, when we wanted to CREATE this binding.  Then we re-used it. If you used _let_ to bind [`myBinding`|my binding] again, JavaScript would complain that [`myBinding`|my binding] already exists.  Try it.
 
 <p>THIS IS IMPORTANT:  Imagine bindings as tentacles, rather than boxes. They do not _contain_ values; they _grasp_ them. Two bindings can refer to the same value. When you need to remember something, you grow a tentacle to hold on to it or you reattach one of your existing tentacles to it.
 
@@ -209,7 +207,7 @@ console.log(myBinding)
 
 <p>Let's look at another example. You have been lending Luigi money. To remember the number of dollars that Luigi still owes you, you create a binding. And then when he pays back $35, you give this binding a new value:
 
-<cm>
+<code>
 let luigisDebt = 140;                // Luigi owe you $140
 luigisDebt = luigisDebt - 35;        // he paid back $35
 console.log("Luigi still owes you " + luigisDebt);   // show how much he still owes
@@ -218,16 +216,16 @@ console.log("Luigi still owes you " + luigisDebt);   // show how much he still o
 
 <p>You can “add” strings together using the [_+_|plus] operator, although that isn’t really addition.  Of course, there is no subtraction or multiplication, but maybe we can think of an interesting game that does math on strings.
 
-<cm>
+<code>
 console.log(“hello” + “ “ + “world.”)
 
 
 
-<subtitle>Converting to a Number
+<p(h2)>Converting to a Number
 
 <p>[`Prompt()`|Prompt] sends your program a _value_ with _type_ of _String_.  We will look at Strings soon, but the point here is that the type isn't a _Number_.  That can cause strange behavior.  Here's a program that adds a number to itself. Try it.
 
-<cm>
+<code>
 let someValue = prompt('Give me a Number')
 console.log('Number plus Number is ' + someValue + someValue)
 
@@ -235,7 +233,7 @@ console.log('Number plus Number is ' + someValue + someValue)
 
 <p>Luckily there are functions in JavaScript to help us.  The function `Number()` converts almost anything to a _Number_. So maybe if we try this...  (watch out, `Number()` has a Capital N)
 
-<cm>
+<code>
 let someValue = prompt('Give me a Number')
 someValue = Number(someValue)
 console.log('Number plus Number is ' + someValue + someValue)
@@ -246,7 +244,7 @@ console.log('Number plus Number is ' + someValue + someValue)
 
 <p>Another way to fix this is to put brackets into the `console.log()` line, so that JavaScript does the addition of the two numbers first. Here’s what that would look like.
 
-<cm>
+<code>
 let someValue = prompt('Give me a Number')
 someValue = Number(someValue)
 console.log('Number plus Number is ' + (someValue + someValue))
@@ -254,20 +252,16 @@ console.log('Number plus Number is ' + (someValue + someValue))
 <p>It works, but..?  Putting brackets didn't work when we tried it a minute ago?  That's because [`someValue`|some value] was a string when we tried to add with it.  Here we have converted someValue to a number, and we use the brackets to add the two numbers before JavaScript converts the result back to a string.  Are you clear about this?
 
 
-<subtitle>Using the Code Editor
-<img>images/context.png
-
-<p>We are coming to the Challenge Problem.  You have probably noticed that there isn’t a toolbar at the top of the code editor. There is no obvious way to save your document.  Never fear, the editor in the Challenge Problem (with the blue border)  will save every time you hit [CTRL+ENTER|Control plus enter] to run it.  So you don’t have to worry about finishing right away, you can close your browser and come back. 
+<p(h2)>Using the Code Editor
+<p(img=context.png)>We are coming to the Challenge Problem.  You have probably noticed that there isn’t a toolbar at the top of the code editor. There is no obvious way to save your document.  Never fear, the editor in the Challenge Problem (with the blue border)  will save every time you hit [CTRL+ENTER|Control plus enter] to run it.  So you don’t have to worry about finishing right away, you can close your browser and come back. 
 
 <p>Here is useful tip. You can highlight text and then right-click.  A menu pops up on your screen (called a ‘context menu’), and you can use that menu to cut, copy, and paste. The context menu also shows you the short-cut keys. Such as [CTRL+C|control plus c] for copy.
 
-<subtitle>Using SLACK
-<img>images/slack.png
-
-<p>Click on the SLACK button on the right to join our channel.  You will have to sign up the first time, but it is free.  SLACK lets you chat with other programmers as a group or even one-to-one with voice and video.  We use it for to share ideas, collaborate, and help each other.s
+<p(h2)>Using SLACK
+<p(img=slack.png)>Click on the SLACK button on the right to join our channel.  You will have to sign up the first time, but it is free.  SLACK lets you chat with other programmers as a group or even one-to-one with voice and video.  We use it for to share ideas, collaborate, and help each other.s
 
 
-<subtitle>Challenge Problem
+<p(h2)>Challenge Problem
 
 <p>This is the end of this lesson.  There is a challenge problem at the end of each lesson, and here is the first one. 
 
@@ -281,7 +275,7 @@ Our goal is for you to fully understand how to solve this problem in JavaScript,
 
 <p>In Ontario, we charge a sales tax of 13%, which is added at checkout.  Here's a calculator that will ask you for the price of an item, and tell you how much you have to pay at the checkout. Try it out with a few values.  Try it with a few values.
 
-<cm>
+<code>
 let purchase = prompt("How much is your item?")
 purchase = Number(purchase)     // convert to a Number
 
@@ -295,7 +289,7 @@ console.log("You must pay " + total)
 
 <p>There are hundreds of useful functions in JavaScript, and one of them will chop your number to the nearest whole part. It's called [`Math.floor()`|math dot floor] and it does something similar to what we did with the mod function. Here's an example. 
 
-<cm>
+<code>
 let value = 34.5
 console.log(Math.floor(value))
 
@@ -305,7 +299,7 @@ console.log(Math.floor(value))
 
 <p>Try it and follow the outputs.  It is important that you understand the technique.
 
-<cm>
+<code>
 let purchase = prompt("How much is your item?")
 purchase = Number(purchase)     // convert to a Number
 
@@ -324,7 +318,7 @@ console.log(“We divide again to get the right value “+total)
 
 <p>We could have calculated the clean total in one step.  The program below does exactly the same calculations as the one above, but it’s a bit harder to explain. Can you see how it does the same calculations?
 
-<cm>
+<code>
 let purchase = prompt("How much is your item?")
 purchase = Number(purchase)     // convert to a Number
 
@@ -338,7 +332,7 @@ console.log("You must pay " + total)
 <p>So here’s the challenge.  Using [`Math.floor()`|math dot floor], change the program below so that we calculate a new value [_willPay_|will pay] for `purchase` that is exactly what the customer will have to pay after rounding.  It's OK if [willPay|will pay] has fewer than two digits (we can fix later that with another function), but it should not have more.
 
 
-<cm(proctor)>
+<code>
 let purchase = prompt("How much is your item?")
 let taxRate = .13  // 13 percent
 
@@ -374,10 +368,10 @@ console.log("You will pay " + willPay)
 
 
 
-<subtitle>Conditions 
+<p(h2)>Conditions 
 
 <p>JavaScript has a _Boolean_ type, which has just two possible values: _true_ and _false_. We write the keywords  _true_ and _false_ (without quotes).  Remember to open the JavaScript console with [CTRL+SHIFT+J|control plus shift j] before you try this code.
-<cm>
+<code>
 console.log(true)
 console.log(false)
 
@@ -385,7 +379,7 @@ console.log(false)
 
 <p>A useful condition is whether one number is bigger than another. The [`>`|greater than] and [`<`|less than] operators are the traditional symbols for "greater than" and "less than".  Asking whether a value "is greater than" another value will produce  _true_ or _false_.
 
-<cm>
+<code>
 let mysteryValue = 3            // ok, not much of a mystery
 console.log(mysteryValue > 2)   // three is GREATER THAN two
 // true
@@ -394,21 +388,21 @@ console.log(mysteryValue < 2)	// three is LESS THAN two
 
 <p>We  use the [_==_|] (‘Equals’) operator to decide whether two values are equal.
 <p>'Equals' uses TWO equal signs.  Remember that the 'get' operator was ONE equal sign.  Can you see the difference between the 'gets' and 'equals' below?Run this program, and then fix it.
-<cm>
+<code>
 let weCanCount = ( 2 + 2 == 5 )	// weCanCount will point to a ‘Boolean’ type
 console.log( "It is " + weCanCount + " that we can count." )
 // run this, and then fix it
 
 
 <p>Just to be clear, comparison operators produce a new _value_ with _Boolean_ _type_ from values of other types, just as arithmetic operators did with _Numbers_,   All the stuff we did with bindings is exactly the same  In the following code, the brackets are just for clarity.  
-<cm>
+<code>
 let ourAnswer  = ( 2 + 2	 )			// creates a Number value
 let weCanCount = ( 2 + 2 == 5 )		// creates a Boolean value
 console.log(ourAnswer, weCanCount)
 
 <p>Other comparison operators are [`>=`|] (greater than or equal to), [`<=`|] (less than or equal to), [`==`|] (equal to), and [`!=`|] (not equal to).
 
-<cm>
+<code>
 console.log(10 == 5 + 5)		// equal to ?
 // true
 console.log(10 <= 5 + 5)		// less than or equal to ?
@@ -416,14 +410,13 @@ console.log(10 <= 5 + 5)		// less than or equal to ?
 console.log(10 >= 5 + 5)		// greater than or equal to ?
 // true
 <p>Now that we know about conditions, we can use them to steer our programs.
-<subtitle>if (condition) {statements}
+<p(h2)>if (condition) {statements}
 
-<img>images/if.jpg
-<p>The `if` statement evaluates the condition in brackets, and then executes a block of statement "wrapped" in  _curly braces_ ([`{`|open curly] and [`}`|close curly]) if that condition is true.
+<p(img=if.jpg)>The `if` statement evaluates the condition in brackets, and then executes a block of statement "wrapped" in  _curly braces_ ([`{`|open curly] and [`}`|close curly]) if that condition is true.
 
 <p>Run this program, see what it does, then change the condition to `2 + 2 = 5` and see what happens.
 
-<cm>
+<code>
 if(2 + 2 == 4){     // check whether this is true
 	  console.log("Right. ");
 	  console.log("This computer can count.")
@@ -431,7 +424,7 @@ if(2 + 2 == 4){     // check whether this is true
 console.log("This is the statement AFTER the 'if'.")
 
 <p>If the condition was _true_, we executed the code in the curly braces, otherwise we skipped over that code.  Optionally we can add an _else_ after the closing curly and put another block in curly braces to execute if the _condition_ is false.  Try this, and then change the condition to something false.
-<cm>
+<code>
 if(2 + 2 == 4){     // check whether this is true
 	  console.log("Right. ");
 	  console.log("This computer can count.")
@@ -444,14 +437,14 @@ console.log("This is the statement AFTER the 'if'.")
 
 
 
-<subtitle>Curly Braces {}
+<p(h2)>Curly Braces {}
 <p>This is a quick detour here to talk about the _curly braces_ ([`{`|open curly] and [`}`|close curly]).
 
 <p>A _statement_ can be a single statement, or a _block_ of many statements  "wrapped" in _curly braces_.  This is a really important idea.   Whatever is in the curly brackets is just a SINGLE statement, even if it is a thousand pages of code.  
 
 <p>Run this little program, and then take out the curly braces and run it again.  Something weird happened.
 
-<cm>
+<code>
 console.log(“statement 1”)
 if (2+2 == 4){
 	console.log(“statement 2”)
@@ -466,7 +459,7 @@ console.log(“statement 4”)
 <br>
 <p>Let's write a program to help us practice our math. Try this program with both a right and a wrong answer.
 
-<cm>
+<code>
 let answer = Number(prompt("What is 5 + 5 ?"))
 if(answer == 10){
      console.log("Right.");
@@ -476,7 +469,7 @@ if(answer == 10){
 
 <p>We can chain _if_ statements together.  Let's make our program a little bit smarter and give the user a second try.
 
-<cm>
+<code>
 let answer = Number(prompt("What is 5 + 5 ?"))
 if(answer == 10){
      console.log("Right.");
@@ -489,13 +482,13 @@ if(answer == 10){
      }
 }
 
-<subtitle>Logical operators
+<p(h2)>Logical operators
 
 <p>There are three operations that operate directly on _Boolean_ values, - _&&_, _||_, and _!_ which we say as 'and', 'or', and 'not'.  They can be used to "reason" about Booleans.  It's really easy, you build up complicated expressions exactly as you do in English.
 
 <p>We write _AND_ as  `&&` .  It returns  _true_ only if both the values given to it are _true_.  "I like baseball _AND_ ice cream".
 
-<cm>
+<code>
 console.log(true && false)
 // false
 console.log(true && true)
@@ -503,7 +496,7 @@ console.log(true && true)
 
 We write _OR_ as  `||` (find the symbol on your keyboard with a little gap that like looks like  ╏).  It returns  _true_  if either the values given to it are _true_.  "I like baseball _OR_ doing my taxes".
 
-<cm>
+<code>
 console.log(true || true)
 // true
 console.log(false || true)
@@ -513,7 +506,7 @@ console.log(false || false)
 
 <p>The 'not' operator is written with an exclamation mark (`!`). It simply flips the value given to it. `!true` produces `false` and `!false` gives `true`.  "I do _NOT_ like doing my taxes".
 
-<cm>
+<code>
 console.log( ! false )
 // true
 console.log( ! true )
@@ -523,12 +516,12 @@ console.log( ! true )
 <p>JavaScript has rules of precedence for these operators, just like the 'multiplication before addition' rule.   Usually JavaScript can guess what you want, but you should add brackets when there is any doubt.
 
 
-<subtitle>Binding Scope
+<p(h2)>Binding Scope
 <p>There’s one other important think to know about _curly braces_.  If you define a binding OUTSIDE a code block, then it is visible INSIDE that code block (as you expect.  But bindings from inside a code block are NOT visible outside it.
 
 <p>When you are an expert programmer, you will think this is a great idea.  But for now it is a trap that catchs beginners again and again.
 
-<cm>
+<code>
 let first = “First is visible ...”
 console.log (first + “outside”) 
 if(true){
@@ -541,7 +534,7 @@ console.log (second + “outside”)  // error here…
 
 <p>And if you accidentally create a new binding inside the code block with the same same, both bindings will exist and you won’t be sure which one you have. Look at the last line of this code, and see whether it does what you expect when you run it.
 
-<cm>
+<code>
 let first = “First is visible ...”
 console.log (first + “outside”) 
 if(true){

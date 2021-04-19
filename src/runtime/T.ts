@@ -22,7 +22,7 @@ export const config = {
 
 export interface ITag {
     tag: string,   // always lowercase
-    params: object,
+    params: {[key: string]: any},
     rawvalue: string,
     textvalue: string,
     speechvalue: string,

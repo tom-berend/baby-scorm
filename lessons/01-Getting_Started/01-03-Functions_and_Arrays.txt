@@ -137,7 +137,7 @@ console.log(circleArea(3))  // area of circle with radius 3
 
 <p(h1)>Arrays
 
-<p>An ^array^ is a list of things.  We create an array with square brackets `\[` and `\]`. Here's a list of my favorite fruits.
+<p>An ^array^ is a list of things.  We create an array with square brackets &#91; and &#92;. Here's a list of my favorite fruits.
 
 <code(norun)>
 ['apple','orange','blueberry']

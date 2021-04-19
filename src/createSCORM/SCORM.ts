@@ -49,7 +49,6 @@ class CreateSCORM {
         // generate each lesson within the SCO
         this.processLessons(path.join(__dirname, '../../lessons'))
 
-
         // don't need this anymore, we are building in dist
         // copy the runtime files 
         // this.copyRunTime()
@@ -107,10 +106,13 @@ class CreateSCORM {
 
             // should be the same length as our planned lessons
             console.assert(this.mathLessons.length == list.length, colors.bold.bgRed.yellow('The planned lessons (this.mathLessons) does not match the /lessons directory'))
-            for (var i = 0; i < list.length; i++) {
 
-                // make sure this lesson is in our manifest
-                console.assert(this.mathLessons.includes(list[i]), colors.bold.bgRed.yellow(`'${list[i]} is not in our list of planned lessons (this.mathlessons)'`))
+            for (var i = 0; i < list.length; i++) {
+                console.log(colors.bold.blue(`DIRECTORY ${lessonDirectory}\\${list[i]}`))    // show that we are processing this lesson
+
+                // make sure this lesson is in our manifest (starting at 4th char, so 01-xxx becomes xxx)
+                let list_ = list[i].substring(3).replace(/_/g, " ") // replace '_' with ' '
+                console.assert(this.mathLessons.includes(list_), colors.bold.bgRed.yellow(`'${list[i]} is not in our list of planned lessons (this.mathlessons)'`))
 
                 // this isn't right yet, it's just a copy instead of exploding
 
@@ -129,7 +131,6 @@ class CreateSCORM {
         } else {
             console.error(colors.bold.bgRed.yellow(`could not find lesson directory '${lessonDirectory}'`))
         }
-
     }
 
     // don't need this anymore, we are building in dist
@@ -160,6 +161,8 @@ class CreateSCORM {
 
                 // but we don't COPY the lesson txt, we copy it as an array of ITags in a JSON file, 
                 //  fs.copyFileSync(src, dest)
+
+                console.log(colors.bold.blue(`LESSON ${src}`))    // show that we are processing this lesson
 
                 let lessonTxt = fs.readFileSync(src,'utf8')//, (err) => {if (err) console.error(colors.bold.bgRed.yellow(`Error reading lesson file  ${err}`))})
                 let lessonTags: ITag[]  = this.lessonToItags.parse(path.join(this.SCORMDirectory,'..\assets'),lessonTxt)
