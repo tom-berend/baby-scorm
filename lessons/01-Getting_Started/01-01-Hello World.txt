@@ -1,28 +1,27 @@
 <module>01-Beginner Javascript
 <lesson>01-Hello World
-<shortdesc>Writing our first programs.
 
-<p>
-
-
-
+<p> d
+<break>
+<p>p
 
 
 
 
+
+
+<shortdesc>In this lesson, we will write our first programs.
 
 
 <P(h1)>Hello World
 
 <p(img=dennis.png)>There is a tradition among programmers that the FIRST program you write in any new language prints out the words “Hello World”. This dates back to the legendary programmer Dennis Ritchie, arguably the father of modern computing.
 
-<p>You will run a small ^JavaScript^ program to print “Hello World” right on this page.  That’s the magic of JavaScript. 
-
-<p>In fact, we're going to say "Hello World" in THREE different ways.
+<p>You will run a small ^JavaScript^ program to print “Hello World”. In fact, we're going to say "Hello World" in THREE different ways.
 
 
 <break>
-<p>First, we are going to print 'Hello World' using the debugger built into your browser.  Then we are going to pretend we are on an old-fashioned 'Terminal'.  Finally, we are going to print it using a very low-level graphics engine in your browser.
+<p>First, we are going to print 'Hello World' using the debugger built into your browser.  Then we are going to pretend we are on an old-fashioned 'Green Terminal'.  Then we are going to print it using a very low-level graphics engine in your browser.  
 
 
 
@@ -44,8 +43,9 @@
 
 <break>
 <p(img=ctrlJ.png)>To open the Console on Windows or Linux, press [`Ctrl`|control] +`Shift`+`J`. 
-<p>(hold down [`Ctrl`|control] and `Shift` and then press `J`). 
-<p>On a Mac, press `Command`+[`Opt`|option]+`J`. Try it now, make sure it works.
+<p>More precisely, hold down [`Ctrl`|control] and `Shift` and #then# press `J`, not all at once.  You probably knew that. On a Mac, press `Command`+[`Opt`|option]+`J`. 
+
+<p>Try it now, make sure it works.
 
 
 
@@ -59,7 +59,7 @@
 
 <p>If you have trouble, stop and get help.  You should not go on until you have a console open.
 
-<p>Once the console is open, you can hide it again with [`Ctrl`|control] +`Shift`+`J`.
+<p>Once the console is open, you can hide it again with [`Ctrl`|control] +`Shift`+`J`.  Try it now. Now show it again.
 
 
 
@@ -83,16 +83,22 @@ console.log(“Hello World”)
 <p>We have already typed it in for you. Press the blue 'running man' on the left to ^run^ this program, and you should see a result in the console.  Try it now.  Did you see “Hello World” typed in the console?
 
 <break>
-<p>Now press ^copy^ to move the code to the editor box.  There you can change this program and run it again.  Change the words ^"Hello World"^ to ^"Hello Everyone"^, but be careful NOT to move outside the quotes or the brackets.  For example, you might change it to 
+<p>Now press ^copy^ (above the blue man) to move the code to the editor box.  There you can change this program and run it again.  Change the words ^"Hello World"^ to ^"Hello Everyone"^, but be careful NOT to move outside the quotes or the brackets.  For example, you might change it to 
 
 <code>
 console.log("Hello Everyone")
 
 
 <break>
+<p>If you mess up the code and it stops working, you can reload the editor with the copy command again. 
 <p>OK, got that working?  Let's break it down.
 
-<p>`console.log()` is a call to a ^function^ that prints the value between the brackets `(` and `)` to the Console.  In this case, that value was a ^string^, which is written text between the quote marks. 
+<break>
+<p>[^console.log()^|console log] is a call to the `log()` ^method^ of the `console` ^object^ that prints values between the brackets [^(^|open] and [^)^|close] to the ^Console^.  
+
+<p>In this case, the value was a single ^string^ value, which is the written text between the #quote# marks. 
+
+<p>That sounds like a foreign language because we haven't introduced objects, methods, or strings yet. We have to start somewhere.
 
 <p>OK, what's a ^string^?
 
@@ -106,7 +112,7 @@ console.log("Hello Everyone")
 
 <p(h1)>Strings
 
-<p>A ^string^ is a sequence of digits or letters that represent text. They start and end with #quote# characters. You can use single-quote, double-quote, or backticks as the quote characters, and they are not included in the string.  Here are some examples.
+<p>A ^string^ is a sequence of digits or letters that represent text. They start and end with #quote# characters. You can use single-quote, double-quote, or backticks as the #quote# characters, and they are not included in the string.  Here are some examples.
 
 <code(norun)>
 "Today is my birthday"
@@ -140,22 +146,28 @@ console.log("Hello Everyone")
 <code(norun)>
 'So many things that I don't know yet'
 
-<p>One way we can fix this is by using double-quotes instead, but then we run into problems with strings that contain double quotes.  
+<p>One way we can fix this is by using double-quotes instead, but then we often run into problems with strings that contain double quotes.  Still, it works most of the time.
 
 <code(norun)>
 "So many things that I don't know yet"
+
 
 <p>JavaScript's trick for these problem quotes is to put a backslash [`\`|] in front of the problem quote, like this.
 <code(norun)>
 'One fewer thing that I don\'t know yet'
  
 
-<p>If it has occurred to you to ask, then yes, you must put a backslash in front of a real backslash that you want in your string.  Run the following program.
+<p>If it has occurred to you to ask, then yes, you must put a backslash in front of a real backslash that you want in your string.  Run the following program.  It's got several errors in it, which a programmer would call 'bugs'. Can you fix it and make it work?
 
 <code>
-console.log('Now I know how to add a \\ to my string because a single \ doesn't work.')
+console.log('Now I know how to add a single backslash \\ to my string to 'escape' a quote that doesn't work.')
 
 <p>There's a lot more to ^strings^, and we'll circle back. Let's move on for now.
+
+
+
+
+
 
 <break>
 <p(mindset)>Sometimes we move very quickly over a concept. But we are using a popular language, and the Internet is full of wonderful resources for learning how to program it.  One of the better websites is [W3Schools.com|W 3 Schools dot com|https://www.w3schools.com/]
@@ -177,11 +189,11 @@ console.log('Now I know how to add a \\ to my string because a single \ doesn't 
 <break>
 <p>Sometimes we want the computer to 'remember' things, so that we can reuse or process them.  To hold things, we use a ^binding^.
 
-<p>A ^binding^ points at a variable.  Think of it as a tentacle that reaches out and keeps a touch on that variable.  Before we use a ^binding^, we must declare it with the `let` statement.
+<p>A ^binding^ points at a chunk of data (which we will call a 'thing').  Think of it as a tentacle that reaches out and keeps a touch on that thing.  Before we use a ^binding^, we must declare it with the `let` statement.
 
 <code>
 let greeting          // declare a binding
-greeting = 'hello'    // reach that binding out and touch string 'hello'
+greeting = 'hello'    // reach that binding out and grab onto string 'hello'
 
 <p>We say [`greeting = 'hello'`|greeting gets hello] instead of equals.  #Gets# dates back to earlier languages where the string 'hello' would be slammed into a memory area called 'greeting'.  It's not completely accurate, but you should use #gets# instead of #equals#. (you will see why in a minute).
 
@@ -193,7 +205,7 @@ let greeting = 'hello'
 let greeting = greeting + ' world'   // cannot redeclare greeting
 console.log(greeting)
 
-<p>Good news! Our editor seems to know about JavaScript, and will quickly warn us about simple mistakes.  Do you see why #equals# is totally wrong?  
+<p>Good news! Our editor seems to know about JavaScript, and will quickly warn us about simple mistakes.  Do you see why #equals# is wrong and we should say #gets#?  
 
 
 
@@ -207,7 +219,7 @@ console.log(greeting)
 
 <p(h2)>Numbers and Arithmetic
 
-<p>The four basic math operations match the basic arithmetic you learned years ago, addition `+`, subtraction `-`, multiplication `*`, and division `/`.   You can raise a number to a power with `**`
+<p>You learned the four basic math operations years ago, and they are the same for programming: addition `+`, subtraction `-`, multiplication `*`, and division `/`.   You can raise a number to a power with `**`
 
 
 
@@ -231,19 +243,30 @@ console.log(a,b,c,d,e)
 <p>We'll come back to numbers in the next lesson.
 
 
-<p(h2)>Variable Names
-<p>Variable names in JavaScript must start with a letter, a dollar-sign `$`, or an underscore `_`, and can contain letters, numbers, or underscores.  Names are case-sensitive, so #Greeting# is not the same variable as #greeting#.
+<p(h2)>Binding Names
+<p>Binding names in JavaScript must start with a letter, a dollar-sign `$`, or an underscore `_`, and can contain letters, numbers, or underscores.  Names are case-sensitive, so #Greeting# is not the same binding as #greeting#.
+
+<p>Bindings are usually called #variables# for historical reasons, because in many computer languages the name was a shorthand for the memory location where a thing was stored, and the content of that memory location was 'variable'.  If you see the word 'variable in relation to JavaScript, we mean a binding.
+
+
+
+
+
 
 
 <break>
 <p(science)>In this course, we are going to use [^CamelCase^|Camel case | https://wiki.c2.com/?CamelCase] for naming, and we recommend you do too. Our convention is that variable names start with lower-case, and library names start with upper-case, and then we put 'humps' in on word boundaries.  For example [`myNewVariable` | my new variable].
 
-<p>Another common naming convention is [^SnakeCase^|Snake case], for example [`my_new_variable`|my new variable].  If you work on a project with other programmers, you will want to agree with them on your conventions.
+<p>Another common naming convention is [^SnakeCase^|Snake case], for example [`my_new_variable`|my new variable].  Both work fine, and there are many others.  Pick the one you like.  If you work on a project with other programmers, you will want to agree with them on your conventions.
 
 <break>
 <p>A good name should be descriptive and help in understanding the program.  For example, we used ^greeting^ for a greeting.  But sometimes we use a simple name like ^i^ or ^j^ to represent a temporary counter, and that's descriptive too - you know it's a counter and won't be around for long.
 
-<p>Good programmers spend a lot of time thinking about the right names for their variables.
+<p>Good programmers spend a lot of time thinking about the right names for their variables.  
+
+
+
+
 
 <break>
 <p(history)>You should avoid using a single underscore or single dollar-sign as a variable name.  They are perfectly 'legal', but those two names were taken by two of the early and best-loved JavaScript libraries, [Underscore.JS | under score dot j s | https://underscorejs.org/] and [jQuery| j query | https://jquery.com/].  
@@ -268,8 +291,29 @@ console.log(a,b,c,d,e)
 
 
 
+<p(h1)>A Library To Print Stuff
 
+<p>[`console.log()`|console log] is super convenient for debugging code, but it's not a nice way to write a program.  This course is built on a library called #Baby# that was specifically written for writing a graphics-and-math course.  #Baby# was built on top of the awesome [BabylonJS|Babylon J S|https://www.babylonjs.com/] rendering engine, hence the name.
 
+<p>To include #Baby# in your program, you ask for a `new Baby()`, and assign it to binding called `app` like this.
+
+<code(norun)>
+let app = new Baby()
+
+<p(img=vt52.jpg)>The #Baby# library includes a bit of code to emulate an old-fashioned computer terminal called the [VT52|v t fifty-two|http://www.columbia.edu/cu/computinghistory/vt52.html], including the slow character-by-character output.  
+
+<p>When we want to fire the VT52 up, we use our `app` binding for #Baby#, and use it to call `app.VT52()`.  Of course we want a binding so we can use the VT52, which we call `vt`.
+
+<code(norun)>
+let app = new Baby()
+let vt = app.VT52()
+
+<p>Now we can manipulate the #VT52#. for example calling the `print()` method.  The first thing we do is...   Try it.
+
+<code>
+let app = new Baby()
+let vt = app.VT52()
+vt.print('hello world')
 
 
 
@@ -298,7 +342,7 @@ console.log(a,b,c,d,e)
 let app = new Baby()
 let vt = app.VT52()
 
-let name = globalThis.prompt('what is your name')
+let name = prompt('what is your name')
 if(name == 'tom'){
    vt.print('Tom is a great guy')
 }
@@ -428,7 +472,7 @@ if(name == 'Tom'){     // check whether this is true
 <p>We don't really want to change the program every time we run it.  Here's a simple way to ask the user for input.
 
 <code>
-let name = globalThis.prompt('What is your name?')
+let name = prompt('What is your name?')
 
 if(name == 'Tom'){     // check whether this is true
 	  console.log(name + " is a terrific guy")
@@ -447,7 +491,7 @@ if(name == 'Tom'){     // check whether this is true
 
 
 
-<p>The function `globalThis.prompt()` has an optional string that will be presented when it prompts you for input.  It collects whatever the user types, and returns it.  Notice the capital-T in `globalThis()`.
+<p>The function `prompt()` has an optional string that will be presented when it prompts you for input.  It collects whatever the user types, and returns it. 
 
 <p>Line 1 of the program declares the value `name`, calls a function that will return a string, and then touches a tentacle from `name` to the returned string.  Don't skip any of these steps when you think about your program.
 
@@ -455,7 +499,7 @@ if(name == 'Tom'){     // check whether this is true
 
 
 <break>
-<p(mindset)>We seem to be using functions with really strange names, like [`console.log()`|console dot log] and [`globalThis.prompt()`|global this dot prompt]. Don't be frightened.  The editor will help us remember names and get them right.
+<p(mindset)>We seem to be using functions with really strange names, like [`console.log()`|console dot log] and `prompt()`. Don't be frightened.  The editor will help us remember names and get them right.
 
 <p>Every community has its own jargon, a secret "insider" language.  and you simply have to learn it to join.
 
@@ -484,7 +528,7 @@ if(name == 'Tom'){     // check whether this is true
 
 <code>
 while(true){
-	let name = globalThis.prompt('What is your name?')
+	let name = prompt('What is your name?')
 	if(name == 'Tom'){     // check whether this is true
 		console.log(name + " is a terrific guy")
 	}else{
@@ -504,7 +548,7 @@ console.log("The game is over")
 <code>
 
 while(true){
-    let name = globalThis.prompt('What is your name?')
+    let name = prompt('What is your name?')
     if(name == 'Tom'){     // check whether this is true
         console.log(name + " is a terrific guy")
         break
@@ -522,7 +566,7 @@ console.log("The game is over")
 let name = ''
 
 while(name !== 'Tom){
-    name = globalThis.prompt('What is your name?')
+    name = prompt('What is your name?')
     if(name == 'Tom'){     // check whether this is true
         console.log(name + " is a terrific guy")
     }else{

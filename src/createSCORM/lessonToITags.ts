@@ -157,7 +157,7 @@ export class LessonToITags {
             if (aMatch.index == undefined) { break }  // all done
             if (aMatch.input == undefined) { break }  // all done
 
-            aMatch2 = sTest.slice(aMatch.index + 1).match(closeRegex) ?? []
+            aMatch2 = sTest.slice(aMatch.index + 1).match(closeRegex) 
             if (!aMatch2) {
                 console.error(`Found open tag for ${openSub}, missing close tag on '${sTest} at ${sTest.slice(aMatch.index)}'`)
             }
@@ -441,6 +441,9 @@ export class LessonToITags {
 
 
                 case 'shortdesc':
+                    aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue)
+                    break
+
                 case 'section':         // can put bold and keys in these fields
                     aTags[i].textvalue = this.processMarkdown(aTags[i].rawvalue)
                     break

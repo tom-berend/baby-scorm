@@ -5,7 +5,6 @@
         "moduleResolution": "node",
         "target": "esNext",
         "outDir": "dist",
-        "strict": true,
         "lib": [
             "dom",
             "dom.iterable",

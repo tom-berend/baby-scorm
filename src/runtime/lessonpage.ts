@@ -411,13 +411,16 @@ class SectionLesson extends LessonSections {
         moduleInfo.lesson = section.textvalue      // just same the lesson name
     }
 }
+
+
 class SectionShortDesc extends LessonSections {
     constructor(section: ITag) {
         super(section)
         moduleInfo.shortDesc = section.textvalue      // just same the lesson name
 
         this.attach('lesson', '', '', '', [
-            this.node('h5', "tl;dr: " + section.textvalue),
+            this.node('P', `SUMMARY - ${section.textvalue}`,
+                '', '', [{ name: 'style', value: 'background-color:lightsalmon' }]),
         ])
 
     }
