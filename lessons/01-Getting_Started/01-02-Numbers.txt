@@ -3,8 +3,12 @@
 <shortdesc>JavaScript's Number Type
 
 
-<Title>JavaScript's Number Type
-<p(img=binary.jpg)>To a computer, there are only numbers. We have already played a bit with ^strings^, this chapter is about JavaScript's numbers.
+
+
+
+
+<Title>JavaScript Numbers
+<p(img=binary.jpg)>In the last lesson we played a bit with ^strings^, this chapter is about JavaScript's ^numbers^.
 
 
 
@@ -30,7 +34,41 @@ console.log('my answer is ',2 + 2)
 <p>Can you calculate the value of 2 + 2 + 2?  Please try each of the little programs as you proceed through this lesson.  Modify them, play with them.
 
 
+
+
 <p(h2)>Arithmetic
+
+
+
+<p>JavaScript arithmetic is exactly like what you learned in school, except we use [`*`|multiply] for multiplication instead of `x`.
+
+<p>The four basic math operations are: [`+`|plus] for addition, [`-`|minus] for subtraction , [`*`| times] for multiplication , and [`/`|divide] for division .   
+
+<p>And of course you can use brackets, for example [`2 + 3 * 2`|2 plus 3 times 2] is 8, but [`(2 + 3) * 2`|open bracket 2 plus 3 close bracket times 2]] is 10. 
+
+<p>Use [`**`|exponent] for both powers and roots.   [`3<sup>2</sup>`|3 squared] is [`3**2`|3 exponent 2] and if you remember that the square root of 3 is [`3<sup>.5</sup>`|3 raised to point 5] then use   
+[`3**.5`|3 exponent point 5] for square root.
+
+
+
+
+
+<break>
+<p>Try out these statements, play around with them and make sure they make sense to you.
+<code>
+let a = 1          // 1
+let b = 2 + 3      // 5
+let c = a + b      // 6
+let d = c ** 2     // 36
+let e = d / 12     // 3
+console.log(a,b,c,d,e)
+
+<p>We'll come back to numbers in the next lesson.
+
+
+
+
+
 
 <p>JavaScript arithmetic is exactly what you learned in school, except that we use [`*`|star] for multiplication instead of 'x'.  You can add with [`+`|plus], subtract with [`-`|minus], and multiply and divide with [`*`|star] and  [`/`|slash] .  We call these  ^operators^, and we are going to learn about a dozen operators today.
 
@@ -73,10 +111,16 @@ console.log( (100 + 4) * 11 )
 <p>Don't worry too much about this.  When in doubt, just add brackets.  And remember that you need brackets for `console.log()`.
 
 
-<break>
-<p(mindset)>Keep arithmetic order of operations straight with the mnemonic  [BEDMAS|BEDMAS|https://www.mathsisfun.com/operation-order-pemdas.html] (<i>Brackets, Exponents, Divide, Multiply, Add, Subtract</i>).  If you need a refresher, follow the link to .
 
-<p>In the [US |U S] it is called #PEMDAS#, in the UK it is #BODMAS#.
+
+
+
+<break>
+<p(mindset,img=bodmas.png)>Keep arithmetic order of operations straight with the mnemonic  [BODMAS|BODMAS|https://www.mathsisfun.com/operation-order-bodmas.html] (<i>Brackets, Orders, Divide or Multiply, Add or Subtract</i>).  If you need a refresher, follow the link.
+
+<p>In the [US |U S] it is called [PEMDAS|pemdas|https://www.mathsisfun.com/operation-order-pemdas.html] (<i>Parentheses, Exponents, Multiply or Divide, Add or Subtract</i>).
+
+<p>Javascript actually has 21 different [levels of precedence|levels of precedence|https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence], and no one can remember them all.  Brackets `(` and `)` are at the very top, and use them freely.  
 <break>
 
 

@@ -38,6 +38,7 @@ class CreateSCORM {
 
         this.lessonToItags = new LessonToITags()   // only need to instance it once
 
+        // we build a directory called SCORM
         this.SCORMDirectory = path.join(__dirname, '../../SCORM')
 
         // remove the old directory if it exists
@@ -53,10 +54,7 @@ class CreateSCORM {
         // copy the runtime files 
         // this.copyRunTime()
 
-        // this is the hard part.  it's not just generating the SCORM XML,
-        // but we CREATE the JSON that dynamically builds the HTML, figure
-        // out which assets go into each folder, and create the lesson.JSON that
-        // lets us navigate between the lessons
+        // generate the SCORM XML, which also lets us navigate between the lessons
         this.generateManifest()
 
         // copy the four .xsd files into it  (they are already in the manifest header)
@@ -212,7 +210,6 @@ class CreateSCORM {
         // let list = fs.readdirSync(path.join(this.SCORMDirectory, 'dist'))
         // list.forEach((runtimeFile) => {
         //         xml += `<file href="dist/${runtimeFile}" />\n`      // add to our xml file
-        //     })
 
         // now add all the files in the other baskets
         this.SCOLessons.forEach(lesson => {

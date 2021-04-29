@@ -1,0 +1,44 @@
+{
+  "name": "scorm-api-adapter",
+  "version": "0.4.1",
+  "description": "Simple SCORM API Adapter Implementation.",
+  "main": "src/scormAdapter.js",
+  "scripts": {
+    "compile": "webpack --mode production --config webpack/dist.js",
+    "compile-test": "webpack --mode development --config webpack/test.js --watch",
+    "test-on-browser": "serve -p 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arisjulio/scorm-api-adapter.git"
+  },
+  "keywords": [
+    "SCORM",
+    "API",
+    "Adapter"
+  ],
+  "author": {
+    "name": "Aris Julio",
+    "email": "aj.julio@hotmail.com",
+    "url": "https://arisjulio.github.io/"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/arisjulio/scorm-api-adapter/issues"
+  },
+  "homepage": "https://github.com/arisjulio/scorm-api-adapter#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.8.4",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.4",
+    "babel-loader": "^8.0.6",
+    "serve": "^11.3.2",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "jquery": "^3.5.0",
+    "js-base64": "^2.5.2"
+  }
+}

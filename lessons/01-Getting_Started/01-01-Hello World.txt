@@ -10,7 +10,7 @@
 
 
 
-<shortdesc>In this lesson, we will write our first programs.
+<shortdesc>In this lesson, we will write our first program, a silly game called 'Doo-Doo Head'.
 
 
 <P(h1)>Hello World
@@ -98,7 +98,7 @@ console.log("Hello Everyone")
 
 <p>In this case, the value was a single ^string^ value, which is the written text between the #quote# marks. 
 
-<p>That sounds like a foreign language because we haven't introduced objects, methods, or strings yet. We have to start somewhere.
+<p>That sounds like a foreign language because we haven't introduced objects, methods, or strings yet. Well, we have to start somewhere.
 
 <p>OK, what's a ^string^?
 
@@ -122,6 +122,10 @@ console.log("Hello Everyone")
 
 <p>The important thing is that you have to use the #same# quote character for both the start and the end.  If you start with a single quote, then you have to finish with a single quote too.  Can you see why the last string is wrong?
 
+<p>Programmer's editors use colors to highlight different things.  This course uses a red tone to show strings, which is also the default for Visual Studio and VS Code.  Once you notice the colors, it's pretty easy to see strings.
+
+
+<break>
 <p>You can put almost anything into a string, but you must be careful trying to put the type of quote that you start or end the string with.  Here's a string that starts with a single-quote and runs into trouble.
 
 
@@ -186,7 +190,6 @@ console.log('Now I know how to add a single backslash \\ to my string to 'escape
 
 
 
-<break>
 <p>Sometimes we want the computer to 'remember' things, so that we can reuse or process them.  To hold things, we use a ^binding^.
 
 <p>A ^binding^ points at a chunk of data (which we will call a 'thing').  Think of it as a tentacle that reaches out and keeps a touch on that thing.  Before we use a ^binding^, we must declare it with the `let` statement.
@@ -201,8 +204,6 @@ greeting = 'hello'    // reach that binding out and grab onto string 'hello'
 it by removing the #let# from the second line.  Copy it into the editor and make it work.
 
 <code>
-let greeting = 'hello' 
-let greeting = greeting + ' world'   // cannot redeclare greeting
 console.log(greeting)
 
 <p>Good news! Our editor seems to know about JavaScript, and will quickly warn us about simple mistakes.  Do you see why #equals# is wrong and we should say #gets#?  
@@ -216,35 +217,8 @@ console.log(greeting)
 
 
 
-
-<p(h2)>Numbers and Arithmetic
-
-<p>You learned the four basic math operations years ago, and they are the same for programming: addition `+`, subtraction `-`, multiplication `*`, and division `/`.   You can raise a number to a power with `**`
-
-
-
-<p>And of course you can use brackets, for example `2 + 3 * 2` is 8, but `(2 + 3) * 2` is 10. Make sure you remember the ^BODMAS^ order of operations, review them [here|here|https://www.mathsisfun.com/operation-order-bodmas.html].
-
-
-
-
-
-
-<break>
-<p>Try out these statements, play around with them and make sure they make sense to you.
-<code>
-let a = 1          // 1
-let b = 2 + 3      // 5
-let c = a + b      // 6
-let d = c ** 2     // 36
-let e = d / 12     // 3
-console.log(a,b,c,d,e)
-
-<p>We'll come back to numbers in the next lesson.
-
-
-<p(h2)>Binding Names
-<p>Binding names in JavaScript must start with a letter, a dollar-sign `$`, or an underscore `_`, and can contain letters, numbers, or underscores.  Names are case-sensitive, so #Greeting# is not the same binding as #greeting#.
+<p(h2)>Names for Bindings
+<p>In JavaScript, names for binding must start with a letter, a dollar-sign `$`, or an underscore `_`, and can contain letters, numbers, or underscores.  Names are case-sensitive, so #Greeting# is not the same binding as #greeting#.
 
 <p>Bindings are usually called #variables# for historical reasons, because in many computer languages the name was a shorthand for the memory location where a thing was stored, and the content of that memory location was 'variable'.  If you see the word 'variable in relation to JavaScript, we mean a binding.
 
@@ -262,6 +236,7 @@ console.log(a,b,c,d,e)
 <break>
 <p>A good name should be descriptive and help in understanding the program.  For example, we used ^greeting^ for a greeting.  But sometimes we use a simple name like ^i^ or ^j^ to represent a temporary counter, and that's descriptive too - you know it's a counter and won't be around for long.
 
+
 <p>Good programmers spend a lot of time thinking about the right names for their variables.  
 
 
@@ -270,6 +245,7 @@ console.log(a,b,c,d,e)
 
 <break>
 <p(history)>You should avoid using a single underscore or single dollar-sign as a variable name.  They are perfectly 'legal', but those two names were taken by two of the early and best-loved JavaScript libraries, [Underscore.JS | under score dot j s | https://underscorejs.org/] and [jQuery| j query | https://jquery.com/].  
+
 <p>[Underscore.JS |under score]  is dead, but many of the ideas it introduced have been added to JavaScript.  [jQuery |j query] is still a powerhouse, but in decline because newer frameworks have emerged.  Consider those names already 'taken', like Sting and Madonna.
 
 
@@ -300,9 +276,9 @@ console.log(a,b,c,d,e)
 <code(norun)>
 let app = new Baby()
 
-<p(img=vt52.jpg)>The #Baby# library includes a bit of code to emulate an old-fashioned computer terminal called the [VT52|v t fifty-two|http://www.columbia.edu/cu/computinghistory/vt52.html], including the slow character-by-character output.  
+<p(img=vt52.jpg)>The #Baby# library includes a bit of code to emulate an old-fashioned computer terminal called the [<b>VT52</b>|v t fifty-two|http://www.columbia.edu/cu/computinghistory/vt52.html], including the slow character-by-character output.  
 
-<p>When we want to fire the VT52 up, we use our `app` binding for #Baby#, and use it to call `app.VT52()`.  Of course we want a binding so we can use the VT52, which we call `vt`.
+<p>When we want to fire the #VT52# up, we use our `app` binding for #Baby#, and use it to call `app.VT52()`.  Of course we want a binding so we can 'keep hold of' and use the VT52, which we call `vt`.
 
 <code(norun)>
 let app = new Baby()
@@ -330,6 +306,20 @@ vt.print('hello world')
 
 
 <p>There are two important control statements in JavaScript:  `if()` and `while()`. Let's take a look.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <p(h2)>`if (condition) {statements}`
@@ -379,14 +369,19 @@ if(name == 'tom'){
 
 
 <break>
-<p>Back to `if()`.  Run this program, and check the output.  Then change the 'Tom' in line 1 to something else (perhaps 'Jane') and run it again.
+<p>Back to `if()`.  Run this program, and check the output.  Then change the 'Tom' in line 4 to something else (perhaps 'Jane') and run it again.
+
+<p>[BTW | by the way] notice that we can mix `console.log()` and `vt.print()`.  Programmers like to use the #console# as a debugging tool. 
 
 <code>
+let app = new Baby()
+let vt = app.VT52()
+
 let name = 'Tom'
 
 if(name == 'Tom')     // check whether this is true
 	  console.log("name is equal to 'Tom'");
-	  console.log("Tom is a terrific guy")
+	  vt.print("Tom is a terrific guy")
 
 <p>It seems that everyone agrees that "Tom is a terrific guy".  But go back to the program and press `Ctrl` + `Shift` + `I` to reformat the text.  Can you see what happened?
 
@@ -413,11 +408,14 @@ if(name == 'Tom')     // check whether this is true
 <p>Here's the same program again, but with [curly braces `{` and `}`|curly braces] around the statements that should be in the `if()` block.  Try it now.  And try the `ctrl`+`shift`+`I` again.
 
 <code>
+let app = new Baby()
+let vt = app.VT52()
+
 let name = 'Tom'
 
 if(name == 'Tom'){     // check whether this is true
 	  console.log("name is equal to 'Tom'");
-	  console.log("Tom is a terrific guy")
+	  vt.print("Tom is a terrific guy")
 }
 
 <p>Do you understand why "Tom is a terrific guy" was not part of the `if()` earlier but is now?  If you are not sure, then go back and read this section again.
@@ -436,15 +434,18 @@ if(name == 'Tom'){     // check whether this is true
 <p>When you have code that executes when your condition is true, then you may also have different code for when the condition is false. This 'false' path is represented by the second arrow in the diagram.
 
 <break>
-<p>Try this out.  Don't forget to re-format it.  Then change line 1 to use YOUR name, and try again.
+<p>Try this out.  Don't forget to re-format it.  Then change line 4 to use YOUR name, and try again.
 
 <code>
+let app = new Baby()
+let vt = app.VT52()
+
 let name = 'Tom'
 
 if(name == 'Tom'){     // check whether this is true
-	  console.log(name + " is a terrific guy")
+	  vt.print(name + " is a terrific guy")
 }else{
-	  console.log(name + " is a Doo-doo Head"
+	  vt.print(name + " is a Doo-doo Head"
 }
 
 
@@ -472,12 +473,15 @@ if(name == 'Tom'){     // check whether this is true
 <p>We don't really want to change the program every time we run it.  Here's a simple way to ask the user for input.
 
 <code>
+let app = new Baby()
+let vt = app.VT52()
+
 let name = prompt('What is your name?')
 
 if(name == 'Tom'){     // check whether this is true
-	  console.log(name + " is a terrific guy")
+	  vt.print(name + " is a terrific guy")
 }else{
-	  console.log(name + " is a Doo-doo Head")
+	  vt.print(name + " is a Doo-doo Head")
 }
 
 
@@ -498,8 +502,24 @@ if(name == 'Tom'){     // check whether this is true
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <break>
-<p(mindset)>We seem to be using functions with really strange names, like [`console.log()`|console dot log] and `prompt()`. Don't be frightened.  The editor will help us remember names and get them right.
+<p(mindset)>We seem to be introducing lots of functions with strange names, like [`console.log()`|console dot log] and `prompt()`. Don't be frightened.  The editor will help us remember names and get them right.
 
 <p>Every community has its own jargon, a secret "insider" language.  and you simply have to learn it to join.
 
@@ -527,15 +547,18 @@ if(name == 'Tom'){     // check whether this is true
 <p>Here's an example of a loop. The value ^true^ always evaluates to true, so a ^while(true)^ loop is intentionally an infinite loop.   Try it.  (Remember that #Tom# has a capital-T).
 
 <code>
+let app = new Baby()
+let vt = app.VT52()
+
 while(true){
 	let name = prompt('What is your name?')
 	if(name == 'Tom'){     // check whether this is true
-		console.log(name + " is a terrific guy")
+		vt.print(name + " is a terrific guy")
 	}else{
-		console.log(name + " is a Doo-doo Head")
+		vt.print(name + " is a Doo-doo Head")
 	}
 }
-console.log("The game is over")
+vt.print("The game is over")
 
 <p>Hey, isn't that an #awesome# game.  Well, it's not entirely bad for our first day.
 
@@ -546,14 +569,16 @@ console.log("The game is over")
 
 
 <code>
+let app = new Baby()
+let vt = app.VT52()
 
 while(true){
     let name = prompt('What is your name?')
     if(name == 'Tom'){     // check whether this is true
-        console.log(name + " is a terrific guy")
+        vt.print(name + " is a terrific guy")
         break
     }else{
-        console.log(name + " is a Doo-doo Head")
+        vt.print(name + " is a Doo-doo Head")
     }
 }
 console.log("The game is over")
@@ -563,6 +588,9 @@ console.log("The game is over")
 
 
 <code>
+let app = new Baby()
+let vt = app.VT52()
+
 let name = ''
 
 while(name !== 'Tom){
